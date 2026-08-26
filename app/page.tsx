@@ -54,17 +54,19 @@ export default function Home() {
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Fetch courses on mount and clean descriptions to show only Akwa Ibom State University
+  // Fetch courses on mount and format description to include Nigerian Peoples and Culture (NPC) & Akwa Ibom State University
   useEffect(() => {
     fetch("https://learning-made-easy-backend.onrender.com/api/courses")
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.courses) {
-          const cleanedCourses = data.courses.map((course: any) => ({
+          const formattedCourses = data.courses.map((course: any) => ({
             ...course,
-            description: "Akwa Ibom State University"
+            description: course.course_code === "GST112" 
+              ? "Nigerian Peoples and Culture (NPC)\nAkwa Ibom State University" 
+              : "Akwa Ibom State University"
           }));
-          setCourses(cleanedCourses);
+          setCourses(formattedCourses);
         }
       })
       .catch((err) => console.error("Failed to load courses", err));
