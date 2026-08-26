@@ -44,7 +44,7 @@ export default function Home() {
 
   // Reviews State
   const [reviews, setReviews] = useState<Review[]>([
-    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Akwa Ibom State University Learning Portal helped me ace my past questions without stress. The platform is super smooth!" },
+    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Learning Made Easy helped me ace my past questions without stress. The platform is super smooth!" },
     { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one place." },
     { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" },
     { name: "Miriam Bello", department: "Mass Communication", comment: "Having structured general and departmental courses made studying for exams so much easier." },
@@ -163,8 +163,8 @@ export default function Home() {
       {/* Navbar */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "rgba(15, 23, 42, 0.95)", backdropFilter: "blur(10px)", borderBottom: "1px solid #1e293b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>AKSU</span>
-          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Akwa Ibom State University</span>
+          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>LME</span>
+          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Learning Made Easy</span>
         </div>
         <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "500", flexWrap: "wrap" }}>
           <a href="#home" style={{ color: "#f8fafc", textDecoration: "none" }}>Home</a>
@@ -185,14 +185,14 @@ export default function Home() {
             ◆ Akwa Ibom State University
           </span>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: "900", marginTop: "20px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.15" }}>
-            Achieve A's in All Your Courses With Verified <span style={{ color: "#3b82f6" }}>Past Questions & Answers</span>
+            Master Your Courses & Exams <span style={{ color: "#3b82f6" }}>Without Stress</span>
           </h1>
           <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "16px", lineHeight: "1.7", maxWidth: "720px", marginInline: "auto" }}>
-            The official Akwa Ibom State University student portal providing structured general courses, faculty requirements, departmental notes, and comprehensive past questions with verified answers, backed by an AI study planner.
+            Learning Made Easy (LME) provides structured general courses, faculty requirements, departmental notes, and comprehensive past questions with verified answers for Akwa Ibom State University, backed by an intelligent AI study planner.
           </p>
           <div style={{ marginTop: "30px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#courses" style={{ background: "#1e293b", color: "#ffffff", border: "1px solid #334155", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "0.9rem" }}>
-              Explore Materials & PQAs
+              Explore Materials
             </a>
             <button onClick={() => setShowPricingModal(true)} style={{ background: "#3b82f6", color: "#ffffff", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 15px rgba(59, 130, 246, 0.4)" }}>
               Get Access Now →
@@ -202,18 +202,18 @@ export default function Home() {
 
         {/* Detailed Academic About Section */}
         <div id="about" style={{ background: "#1e293b", border: "1px solid #334155", padding: "30px 20px", borderRadius: "20px", marginBottom: "50px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", color: "#ffffff", marginBottom: "12px" }}>Structured for Excellence at Akwa Ibom State University</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", color: "#ffffff", marginBottom: "12px" }}>Why Choose Learning Made Easy (LME)?</h2>
           <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.8", marginBottom: "20px" }}>
-            We provide structured resources covering general studies (GST), faculty core requirements, and specialized departmental courses for Akwa Ibom State University students. Beyond just reading notes, you get full access to verified past questions, step-by-step answers, and automated AI study schedules tailored to your exams.
+            Navigating university coursework at Akwa Ibom State University can often feel overwhelming due to scattered lecture notes and unclear curriculum guidelines. LME bridges this gap by centralizing general courses, faculty core requirements, departmental notes, and verified past questions into one streamlined portal.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginTop: "20px" }}>
             <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
-              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>📚 Complete PQAs & Notes</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Access comprehensive lecture notes bundled together with accurate past questions and explained answers.</p>
+              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>🎯 Focused Curriculum Review</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our course guides align strictly with Akwa Ibom State University standards, ensuring you focus on core topics that matter.</p>
             </div>
             <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
-              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>🤖 AI Study Schedule Generator</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Let our intelligent AI analyze your syllabus and build a custom, step-by-step study timetable to guarantee A's.</p>
+              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>💡 Smart AI Integration</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our upcoming Gemini AI study room breaks down complex theories, solves past questions step-by-step, and builds study schedules.</p>
             </div>
           </div>
         </div>
@@ -221,23 +221,23 @@ export default function Home() {
         {/* HOW IT WORKS SECTION */}
         <div id="how-it-works" style={{ marginBottom: "50px" }}>
           <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px", textAlign: "center" }}>How It Works</h3>
-          <p style={{ color: "#94a3b8", fontSize: "0.95rem", textAlign: "center", marginBottom: "30px" }}>Achieve top grades in 3 simple steps.</p>
+          <p style={{ color: "#94a3b8", fontSize: "0.95rem", textAlign: "center", marginBottom: "30px" }}>Get started in three simple steps.</p>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
               <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>1</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Select Your Courses</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Browse structured general, faculty, and departmental courses with past questions.</p>
+              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Find Your Course</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Browse our library of updated departmental materials, general courses, and past questions.</p>
             </div>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
               <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>2</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Get AI Study Schedule</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Receive a customized AI timetable and instant explanations for complex topics.</p>
+              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Choose a Plan</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Select the 7-day fast pass (₦500) or our highly recommended Full Semester Pass (₦1,000).</p>
             </div>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
               <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>3</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Ace Your Exams</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Download notes & PQAs securely and walk into your exam hall fully prepared.</p>
+              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Unlock & Study</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Receive your secure access code via email to download notes and use the AI study planner.</p>
             </div>
           </div>
         </div>
@@ -245,13 +245,13 @@ export default function Home() {
         {/* DYNAMIC COURSE MATERIALS SECTION */}
         <div id="courses" style={{ marginBottom: "50px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff", margin: 0 }}>Available Course Materials & PQAs</h3>
-            <span style={{ fontSize: "0.75rem", background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontWeight: "700" }}>Updated for Semester</span>
+            <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff", margin: 0 }}>Available Course Materials</h3>
+            <span style={{ fontSize: "0.75rem", background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontWeight: "700" }}>Akwa Ibom State University</span>
           </div>
           
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {courses.length === 0 ? (
-              <p style={{ color: "#94a3b8", textAlign: "center", padding: "20px" }}>Loading course materials and past questions from backend...</p>
+              <p style={{ color: "#94a3b8", textAlign: "center", padding: "20px" }}>Loading course materials from backend...</p>
             ) : (
               courses.map((course) => (
                 <div key={course.id} style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px 20px", borderRadius: "14px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
@@ -261,7 +261,7 @@ export default function Home() {
                     <p style={{ margin: 0, fontSize: "0.8rem", color: "#94a3b8", whiteSpace: "pre-line" }}>{course.description}</p>
                   </div>
                   <button onClick={() => setShowPricingModal(true)} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "9px 16px", borderRadius: "8px", fontSize: "0.85rem", fontWeight: "700", cursor: "pointer", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)" }}>
-                    Unlock PQAs 🔒
+                    Get Access 🔒
                   </button>
                 </div>
               ))
@@ -273,7 +273,7 @@ export default function Home() {
         <div id="reviews" style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "6px" }}>Trusted by Students Across Campus</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from Akwa Ibom State University students achieving A's.</p>
+            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from Akwa Ibom State University students who use Learning Made Easy.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
@@ -312,16 +312,16 @@ export default function Home() {
           <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "20px", textAlign: "center" }}>Frequently Asked Questions</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>Do you provide past questions and answers (PQAs)?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Yes! We provide complete lecture materials paired with fully verified past questions and step-by-step answers for Akwa Ibom State University general, faculty, and departmental courses.</p>
+              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>How long does manual verification take?</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Because payments are currently verified manually, it typically takes a few hours. Once confirmed, your unique access code will be sent to the email address you provided.</p>
             </div>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>How does the AI study schedule work?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Our AI examines your AKSU course materials and exam deadlines to create a personalized, day-by-day study timetable that ensures you cover everything without burning out.</p>
+              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>Can I download the materials to my phone or laptop?</h4>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Yes! Once you verify your access code on the platform, you will unlock direct download links for all PDFs related to your selected Akwa Ibom State University course.</p>
             </div>
             <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
               <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>What does the B1000 Semester Pass include?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>For just ₦1,000, you get full, uninterrupted semester access to all AKSU general and departmental notes, past questions & answers, and the AI study room.</p>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>The B1000 plan is our best value. For just ₦1,000, you get uninterrupted access to your course materials and the AI study room for the entire semester (valid through October 31, 2026).</p>
             </div>
           </div>
         </div>
@@ -334,9 +334,9 @@ export default function Home() {
               <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#94a3b8", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "800" }}>AKSU ACCESS & PRICING</span>
-                <h3 style={{ fontSize: "1.4rem", fontWeight: "800", marginTop: "8px", color: "#ffffff" }}>Unlock AI Study Room, PQAs & Notes</h3>
-                <p style={{ color: "#94a3b8", fontSize: "0.8rem", marginTop: "4px" }}>Choose a plan, transfer to the account below, and submit your transaction details.</p>
+                <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "800" }}>LME ACCESS & PRICING</span>
+                <h3 style={{ fontSize: "1.4rem", fontWeight: "800", marginTop: "8px", color: "#ffffff" }}>Unlock AI Study Room & Materials</h3>
+                <p style={{ color: "#94a3b8", fontSize: "0.8rem", marginTop: "4px" }}>Choose a plan, make your transfer, and submit your details to get your access code.</p>
               </div>
 
               {/* Pricing Cards */}
@@ -401,17 +401,17 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "24px", marginBottom: "25px" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>AKSU</span>
-                <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Akwa Ibom State University</span>
+                <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>LME</span>
+                <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Learning Made Easy</span>
               </div>
-              <p style={{ fontSize: "0.8rem", lineHeight: "1.5", margin: 0 }}>Empowering Akwa Ibom State University students with structured general, faculty, and departmental courses, verified past questions & answers, and AI study schedules.</p>
+              <p style={{ fontSize: "0.8rem", lineHeight: "1.5", margin: 0 }}>Empowering Akwa Ibom State University students with structured course resources, verified past questions, and intelligent study tools.</p>
             </div>
 
             <div>
               <h5 style={{ color: "#ffffff", fontSize: "0.9rem", marginBottom: "10px", marginTop: 0 }}>Quick Links</h5>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.8rem" }}>
                 <li><a href="#how-it-works" style={{ color: "#94a3b8", textDecoration: "none" }}>How It Works</a></li>
-                <li><a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Course Materials & PQAs</a></li>
+                <li><a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Course Materials</a></li>
                 <li><a href="#reviews" style={{ color: "#94a3b8", textDecoration: "none" }}>Student Reviews</a></li>
                 <li><a href="#faq" style={{ color: "#94a3b8", textDecoration: "none" }}>FAQ</a></li>
               </ul>
@@ -425,7 +425,7 @@ export default function Home() {
           </div>
 
           <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", paddingTop: "16px", color: "#64748b", fontSize: "0.75rem" }}>
-            &copy; 2026 Akwa Ibom State University Learning Portal. All rights reserved.
+            &copy; 2026 Learning Made Easy (LME) - Akwa Ibom State University. All rights reserved.
           </div>
         </footer>
 
