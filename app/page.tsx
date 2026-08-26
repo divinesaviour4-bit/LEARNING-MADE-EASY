@@ -36,13 +36,19 @@ export default function Home() {
   // Toggle Pricing Modal
   const [showPricingModal, setShowPricingModal] = useState(false);
 
+  // Show More Testimonials Toggle State
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
   // Courses State
   const [courses, setCourses] = useState<CourseMaterial[]>([]);
 
   // Reviews State
   const [reviews, setReviews] = useState<Review[]>([
     { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Made Easy helped me ace my past questions without stress. The platform is super smooth!" },
-    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one place." }
+    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one place." },
+    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" },
+    { name: "Miriam Bello", department: "Mass Communication", comment: "Having structured general and departmental courses made studying for exams so much easier." },
+    { name: "Emmanuel Effiong", department: "Mechanical Engineering", comment: "The verified past questions and step-by-step answers gave me the confidence I needed to score A's." }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
@@ -147,6 +153,9 @@ export default function Home() {
     setReviewerComment("");
     alert("Thank you! Your review has been posted successfully.");
   };
+
+  // Determine how many reviews to display (First 3 by default, or all if toggled)
+  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
@@ -267,13 +276,20 @@ export default function Home() {
             <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from students achieving A's using Campus Learning Made Easy.</p>
           </div>
           
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "24px" }}>
-            {reviews.map((rev, index) => (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+            {displayedReviews.map((rev, index) => (
               <div key={index} style={{ background: "#1e293b", border: "1px solid #334155", padding: "20px", borderRadius: "16px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <p style={{ color: "#f8fafc", fontSize: "0.9rem", fontStyle: "italic", margin: "0 0 12px 0", lineHeight: "1.6" }}>"{rev.comment}"</p>
                 <p style={{ color: "#60a5fa", fontSize: "0.85rem", fontWeight: "700", margin: 0 }}>— {rev.name} <span style={{ color: "#94a3b8", fontWeight: "normal" }}>({rev.department})</span></p>
               </div>
             ))}
+          </div>
+
+          {/* See More Testimonials Toggle Button */}
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <button onClick={() => setShowAllReviews(!showAllReviews)} style={{ background: "transparent", border: "1px solid #334155", color: "#60a5fa", padding: "10px 20px", borderRadius: "10px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}>
+              {showAllReviews ? "Show Less Testimonials ▲" : "See More Testimonials ▼"}
+            </button>
           </div>
 
           <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "20px", borderRadius: "16px" }}>
@@ -403,7 +419,7 @@ export default function Home() {
 
             <div>
               <h5 style={{ color: "#ffffff", fontSize: "0.9rem", marginBottom: "10px", marginTop: 0 }}>Official Support</h5>
-              <p style={{ fontSize: "0.8rem", margin: "0 0 6px 0" }}>Need help with verification or tokens? Reach out to us:</p>
+              <p style={{ fontSize: "0.80rem", margin: "0 0 6px 0" }}>Need help with verification or tokens? Reach out to us:</p>
               <p style={{ fontSize: "0.85rem", color: "#60a5fa", fontWeight: "700", margin: 0 }}>newsglobal038@gmail.com</p>
             </div>
           </div>
