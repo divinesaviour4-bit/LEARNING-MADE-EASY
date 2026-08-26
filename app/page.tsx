@@ -54,7 +54,7 @@ export default function Home() {
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Fetch courses on mount and format description to include Nigerian Peoples and Culture (NPC) & Akwa Ibom State University
+  // Fetch courses on mount and explicitly display NPC meaning + Akwa Ibom State University
   useEffect(() => {
     fetch("https://learning-made-easy-backend.onrender.com/api/courses")
       .then((res) => res.json())
