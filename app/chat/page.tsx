@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Message {
   sender: "user" | "ai";
@@ -13,6 +13,54 @@ export default function ChatRoom() {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  // Access Verification States
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState("");
+  const [accessCode, setAccessCode] = useState("");
+  const [verifyLoading, setVerifyLoading] = useState(false);
+
+  // Check session storage on load
+  useEffect(() => {
+    const verified = sessionStorage.getItem("clme_verified_student");
+    if (verified) {
+      setIsUnlocked(true);
+    }
+  }, []);
+
+  // Handle Access Token Verification
+  const handleAccessVerify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!verifyEmail || !accessCode) {
+      alert("Please enter both your email and access code.");
+      return;
+    }
+
+    setVerifyLoading(true);
+    try {
+      const res = await fetch("https://learning-made-easy-backend.onrender.com/api/access/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: verifyEmail,
+          access_code: accessCode
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsUnlocked(true);
+        sessionStorage.setItem("clme_verified_student", "true");
+        alert(data.message || "Access granted to AI Study Room!");
+      } else {
+        alert(data.message || "Invalid credentials, payment not verified, or access expired.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Verification failed. Please check your credentials.");
+    } finally {
+      setVerifyLoading(false);
+    }
+  };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +72,6 @@ export default function ChatRoom() {
     setLoading(true);
 
     try {
-      // Connect to your backend AI study endpoint
       const res = await fetch("https://learning-made-easy-backend.onrender.com/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,7 +86,6 @@ export default function ChatRoom() {
       }
     } catch (err) {
       console.error(err);
-      // Fallback response for testing UI before backend endpoint is live
       setMessages((prev) => [
         ...prev, 
         { sender: "ai", text: `Here is a structured study insight regarding your request: "${userMessage}". Keep pushing for those A's!` }
@@ -55,15 +101,28 @@ export default function ChatRoom() {
       {/* Navbar */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "rgba(15, 23, 42, 0.95)", backdropFilter: "blur(10px)", borderBottom: "1px solid #1e293b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>AI</span>
-          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>AKSU AI Study Room</span>
+          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>CLME</span>
+          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Campus Learning AI Study Room</span>
         </div>
-        <a href="/" style={{ backgroundColor: "#1e293b", color: "#60a5fa", border: "1px solid #334155", padding: "8px 14px", borderRadius: "8px", fontSize: "0.8rem", fontWeight: "700", textDecoration: "none" }}>
-          ← Back to Home
-        </a>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+          {isUnlocked && (
+            <button 
+              onClick={() => {
+                setIsUnlocked(false);
+                sessionStorage.removeItem("clme_verified_student");
+              }} 
+              style={{ backgroundColor: "#7c2d12", color: "#ffffff", border: "none", padding: "6px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "700", cursor: "pointer" }}
+            >
+              Lock Session 🔒
+            </button>
+          )}
+          <a href="/" style={{ backgroundColor: "#1e293b", color: "#60a5fa", border: "1px solid #334155", padding: "8px 14px", borderRadius: "8px", fontSize: "0.8rem", fontWeight: "700", textDecoration: "none" }}>
+            ← Home
+          </a>
+        </div>
       </nav>
 
-      {/* Chat Container */}
+      {/* Main Container */}
       <div style={{ maxWidth: "800px", width: "100%", margin: "0 auto", padding: "20px 16px", flex: 1, display: "flex", flexDirection: "column", boxSizing: "border-box" }}>
         
         <div style={{ textAlign: "center", marginBottom: "20px" }}>
@@ -73,36 +132,76 @@ export default function ChatRoom() {
           <h2 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff", marginTop: "10px" }}>Your Personal Examination Tutor</h2>
         </div>
 
-        {/* Messages Box */}
-        <div style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", borderRadius: "16px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
-          {messages.map((msg, index) => (
-            <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#3b82f6" : "#0f172a", color: "#ffffff", padding: "12px 16px", borderRadius: "12px", border: msg.sender === "ai" ? "1px solid #334155" : "none", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
-              <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#93c5fd" : "#60a5fa", marginBottom: "4px" }}>
-                {msg.sender === "user" ? "You" : "AKSU AI Tutor"}
-              </strong>
-              {msg.text}
+        {!isUnlocked ? (
+          /* Locked State - Enter Access Code */
+          <div style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", borderRadius: "16px", padding: "30px 20px", maxWidth: "450px", margin: "20px auto", width: "100%", textAlign: "center", boxSizing: "border-box", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+            <span style={{ fontSize: "2.5rem" }}>🔒</span>
+            <h3 style={{ color: "#ffffff", fontSize: "1.2rem", margin: "10px 0 6px 0" }}>Enter Access Code to Unlock</h3>
+            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "20px", lineHeight: "1.5" }}>
+              Please enter your verified email address and access code to access the Campus Learning AI Study Room.
+            </p>
+            <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "10px", textAlign: "left" }}>
+              <input 
+                type="email" 
+                value={verifyEmail} 
+                onChange={(e) => setVerifyEmail(e.target.value)} 
+                required 
+                placeholder="Your Email Address" 
+                style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+              />
+              <input 
+                type="text" 
+                value={accessCode} 
+                onChange={(e) => setAccessCode(e.target.value)} 
+                required 
+                placeholder="Access Code (e.g. GST112-H9LTY)" 
+                style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+              />
+              <button 
+                type="submit" 
+                disabled={verifyLoading} 
+                style={{ background: "#3b82f6", color: "#ffffff", padding: "10px", borderRadius: "8px", fontWeight: "700", border: "none", cursor: "pointer", fontSize: "0.85rem", width: "100%", marginTop: "6px", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)" }}
+              >
+                {verifyLoading ? "Verifying Token..." : "Verify & Enter Study Room ⚡"}
+              </button>
+            </form>
+            <div style={{ marginTop: "16px", fontSize: "0.8rem", color: "#94a3b8" }}>
+              Don't have an access code yet? <a href="/#pricing" style={{ color: "#60a5fa", textDecoration: "none", fontWeight: "bold" }}>Get a Pass here →</a>
             </div>
-          ))}
-          {loading && (
-            <div style={{ alignSelf: "flex-start", background: "#0f172a", border: "1px solid #334155", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontSize: "0.85rem" }}>
-              AI is analyzing course materials and generating your response...
+          </div>
+        ) : (
+          /* Unlocked Chat Interface */
+          <>
+            <div style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", borderRadius: "16px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
+              {messages.map((msg, index) => (
+                <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#3b82f6" : "#0f172a", color: "#ffffff", padding: "12px 16px", borderRadius: "12px", border: msg.sender === "ai" ? "1px solid #334155" : "none", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
+                  <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#93c5fd" : "#60a5fa", marginBottom: "4px" }}>
+                    {msg.sender === "user" ? "You" : "Campus Learning AI Tutor"}
+                  </strong>
+                  {msg.text}
+                </div>
+              ))}
+              {loading && (
+                <div style={{ alignSelf: "flex-start", background: "#0f172a", border: "1px solid #334155", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontSize: "0.85rem" }}>
+                  AI is analyzing course materials and generating your response...
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Input Form */}
-        <form onSubmit={handleSendMessage} style={{ display: "flex", gap: "10px" }}>
-          <input 
-            type="text" 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
-            placeholder="Ask a question or request a study schedule..." 
-            style={{ flex: 1, padding: "12px 16px", borderRadius: "12px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
-          />
-          <button type="submit" disabled={loading} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "12px", fontWeight: "700", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)" }}>
-            {loading ? "Thinking..." : "Send 🚀"}
-          </button>
-        </form>
+            <form onSubmit={handleSendMessage} style={{ display: "flex", gap: "10px" }}>
+              <input 
+                type="text" 
+                value={input} 
+                onChange={(e) => setInput(e.target.value)} 
+                placeholder="Ask a question or request a study schedule..." 
+                style={{ flex: 1, padding: "12px 16px", borderRadius: "12px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
+              />
+              <button type="submit" disabled={loading} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "12px", fontWeight: "700", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)" }}>
+                {loading ? "Thinking..." : "Send 🚀"}
+              </button>
+            </form>
+          </>
+        )}
 
       </div>
     </div>
