@@ -279,7 +279,7 @@ export default function Home() {
         <div id="reviews" style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "6px" }}>Trusted by Students Across Campus</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from Akwa Ibom State University students who use Learning Made Easy.</p>
+            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from Akwa Ibom State University students who use Campus Learning Made Easy.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
@@ -408,7 +408,7 @@ export default function Home() {
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
                 <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>LME</span>
-                <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Learning Made Easy</span>
+                <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Made Easy</span>
               </div>
               <p style={{ fontSize: "0.8rem", lineHeight: "1.5", margin: 0 }}>Empowering Akwa Ibom State University students with structured course resources, verified past questions, and intelligent study tools.</p>
             </div>
@@ -431,7 +431,7 @@ export default function Home() {
           </div>
 
           <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", paddingTop: "16px", color: "#64748b", fontSize: "0.75rem" }}>
-            &copy; 2026 Learning Made Easy (LME) - Akwa Ibom State University. All rights reserved.
+            &copy; 2026 Campus Learning Made Easy. All rights reserved.
           </div>
         </footer>
 
