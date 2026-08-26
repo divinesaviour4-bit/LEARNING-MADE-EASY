@@ -44,7 +44,7 @@ export default function Home() {
 
   // Reviews State
   const [reviews, setReviews] = useState<Review[]>([
-    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Learning Made Easy helped me ace my past questions without stress. The platform is super smooth!" },
+    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Made Easy helped me ace my past questions without stress. The platform is super smooth!" },
     { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one place." },
     { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" },
     { name: "Miriam Bello", department: "Mass Communication", comment: "Having structured general and departmental courses made studying for exams so much easier." },
@@ -54,7 +54,7 @@ export default function Home() {
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Fetch courses on mount and explicitly display NPC meaning + Akwa Ibom State University
+  // Fetch courses on mount
   useEffect(() => {
     fetch("https://learning-made-easy-backend.onrender.com/api/courses")
       .then((res) => res.json())
@@ -160,23 +160,23 @@ export default function Home() {
     alert("Thank you! Your review has been posted successfully.");
   };
 
-  // Determine how many reviews to display (First 3 by default, or all if toggled)
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
       
-      {/* Navbar */}
+      {/* Navbar with Campus Learning Made Easy */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "rgba(15, 23, 42, 0.95)", backdropFilter: "blur(10px)", borderBottom: "1px solid #1e293b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>LME</span>
-          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Learning Made Easy</span>
+          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>CLME</span>
+          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Campus Learning Made Easy</span>
         </div>
         <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "500", flexWrap: "wrap" }}>
           <a href="#home" style={{ color: "#f8fafc", textDecoration: "none" }}>Home</a>
           <a href="#about" style={{ color: "#94a3b8", textDecoration: "none" }}>About</a>
           <a href="#how-it-works" style={{ color: "#94a3b8", textDecoration: "none" }}>How It Works</a>
           <a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Courses</a>
+          <a href="/chat" style={{ color: "#60a5fa", textDecoration: "none", fontWeight: "700" }}>AI Study Room ✨</a>
           <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#3b82f6", color: "#ffffff", padding: "8px 14px", borderRadius: "8px", fontWeight: "bold", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)" }}>
             Unlock Access ⚡
           </button>
@@ -194,23 +194,23 @@ export default function Home() {
             Master Your Courses & Exams <span style={{ color: "#3b82f6" }}>Without Stress</span>
           </h1>
           <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "16px", lineHeight: "1.7", maxWidth: "720px", marginInline: "auto" }}>
-            Learning Made Easy (LME) provides structured general courses, faculty requirements, departmental notes, and comprehensive past questions with verified answers for Akwa Ibom State University, backed by an intelligent AI study planner.
+            Campus Learning Made Easy (CLME) provides structured general courses, faculty requirements, departmental notes, and comprehensive past questions with verified answers for Akwa Ibom State University, backed by an intelligent AI study planner.
           </p>
           <div style={{ marginTop: "30px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="/chat" style={{ background: "#3b82f6", color: "#ffffff", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "0.9rem", boxShadow: "0 4px 15px rgba(59, 130, 246, 0.4)" }}>
+              Open AI Study Room 🤖
+            </a>
             <a href="#courses" style={{ background: "#1e293b", color: "#ffffff", border: "1px solid #334155", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "0.9rem" }}>
               Explore Materials
             </a>
-            <button onClick={() => setShowPricingModal(true)} style={{ background: "#3b82f6", color: "#ffffff", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 15px rgba(59, 130, 246, 0.4)" }}>
-              Get Access Now →
-            </button>
           </div>
         </div>
 
         {/* Detailed Academic About Section */}
         <div id="about" style={{ background: "#1e293b", border: "1px solid #334155", padding: "30px 20px", borderRadius: "20px", marginBottom: "50px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", color: "#ffffff", marginBottom: "12px" }}>Why Choose Learning Made Easy (LME)?</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", color: "#ffffff", marginBottom: "12px" }}>Why Choose Campus Learning Made Easy?</h2>
           <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.8", marginBottom: "20px" }}>
-            Navigating university coursework at Akwa Ibom State University can often feel overwhelming due to scattered lecture notes and unclear curriculum guidelines. LME bridges this gap by centralizing general courses, faculty core requirements, departmental notes, and verified past questions into one streamlined portal.
+            Navigating university coursework at Akwa Ibom State University can often feel overwhelming due to scattered lecture notes and unclear curriculum guidelines. Campus Learning Made Easy bridges this gap by centralizing general courses, faculty core requirements, departmental notes, and verified past questions into one streamlined portal.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginTop: "20px" }}>
             <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
@@ -219,7 +219,7 @@ export default function Home() {
             </div>
             <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
               <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>💡 Smart AI Integration</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our upcoming Gemini AI study room breaks down complex theories, solves past questions step-by-step, and builds study schedules.</p>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our Gemini AI study room breaks down complex theories, solves past questions step-by-step, and builds study schedules.</p>
             </div>
           </div>
         </div>
@@ -340,7 +340,7 @@ export default function Home() {
               <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#94a3b8", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "800" }}>LME ACCESS & PRICING</span>
+                <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "800" }}>CLME ACCESS & PRICING</span>
                 <h3 style={{ fontSize: "1.4rem", fontWeight: "800", marginTop: "8px", color: "#ffffff" }}>Unlock AI Study Room & Materials</h3>
                 <p style={{ color: "#94a3b8", fontSize: "0.8rem", marginTop: "4px" }}>Choose a plan, make your transfer, and submit your details to get your access code.</p>
               </div>
@@ -407,7 +407,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "24px", marginBottom: "25px" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>LME</span>
+                <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>CLME</span>
                 <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Made Easy</span>
               </div>
               <p style={{ fontSize: "0.8rem", lineHeight: "1.5", margin: 0 }}>Empowering Akwa Ibom State University students with structured course resources, verified past questions, and intelligent study tools.</p>
@@ -420,6 +420,7 @@ export default function Home() {
                 <li><a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Course Materials</a></li>
                 <li><a href="#reviews" style={{ color: "#94a3b8", textDecoration: "none" }}>Student Reviews</a></li>
                 <li><a href="#faq" style={{ color: "#94a3b8", textDecoration: "none" }}>FAQ</a></li>
+                <li><a href="/chat" style={{ color: "#60a5fa", textDecoration: "none" }}>AI Study Room</a></li>
               </ul>
             </div>
 
