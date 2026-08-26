@@ -54,13 +54,17 @@ export default function Home() {
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Fetch courses on mount
+  // Fetch courses on mount and clean descriptions to show only Akwa Ibom State University
   useEffect(() => {
     fetch("https://learning-made-easy-backend.onrender.com/api/courses")
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.courses) {
-          setCourses(data.courses);
+          const cleanedCourses = data.courses.map((course: any) => ({
+            ...course,
+            description: "Akwa Ibom State University"
+          }));
+          setCourses(cleanedCourses);
         }
       })
       .catch((err) => console.error("Failed to load courses", err));
@@ -182,7 +186,7 @@ export default function Home() {
         {/* Hero Section */}
         <div id="home" style={{ textAlign: "center", marginBottom: "50px", paddingTop: "10px" }}>
           <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "6px 14px", borderRadius: "20px", fontSize: "0.7rem", fontWeight: "700", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block" }}>
-            ◆ Akwa Ibom State University
+            ◆ Achieve A's in All Your Courses
           </span>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: "900", marginTop: "20px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.15" }}>
             Master Your Courses & Exams <span style={{ color: "#3b82f6" }}>Without Stress</span>
