@@ -2,26 +2,216 @@
 
 import { useState, useEffect } from "react";
 
-interface CourseMaterial {
-  id: number;
-  course_name: string;
-  course_code: string;
-  description: string;
-  materials: any[];
-}
+// Master institutional data parsed from national directories
+const INSTITUTION_DATA = {
+  universities: {
+    federal: [
+      "Abubakar Tafawa Balewa University, Bauchi", "Ahmadu Bello University, Zaria", "Bayero University, Kano", 
+      "Federal University Gashua, Yobe", "Federal University of Petroleum Resources, Effurun", "Federal University of Technology, Akure", 
+      "Federal University of Technology, Minna", "Federal University of Technology, Owerri", "Federal University, Dutse, Jigawa State", 
+      "Federal University, Dutsin-Ma, Katsina", "Federal University, Kashere, Gombe State", "Federal University, Lafia, Nasarawa State", 
+      "Federal University, Lokoja, Kogi State", "Alex Ekwueme University, Ndufu-Alike, Ebonyi State", "Federal University, Otuoke, Bayelsa", 
+      "Federal University, Oye-Ekiti, Ekiti State", "Federal University, Wukari, Taraba State", "Federal University, Birnin Kebbi", 
+      "Federal University, Gusau, Zamfara", "Michael Okpara University of Agricultural Umudike", "Modibbo Adama University of Technology, Yola", 
+      "National Open University of Nigeria, Abuja", "Nigeria Police Academy, Wudil", "Nigerian Defence Academy, Kaduna", 
+      "Nnamdi Azikiwe University, Awka", "Obafemi Awolowo University, Ile-Ife", "University of Abuja, Gwagwalada", 
+      "Federal University of Agriculture, Abeokuta", "Joseph Sarwuan Tarka University, Makurdi", "University of Benin", 
+      "University of Calabar", "University of Ibadan", "University of Ilorin", "University of Jos", "University of Lagos", 
+      "University of Maiduguri", "University of Nigeria, Nsukka", "University of Port-Harcourt", "University of Uyo", 
+      "Usumanu Danfodiyo University", "Nigerian Maritime University, Okerenkoko", "Air Force Institute of Technology, Kaduna", 
+      "Nigerian Army University, Biu", "Federal University of Health Sciences, Otukpo", "Federal University of Agriculture, Zuru", 
+      "Federal University of Technology, Babura", "Federal University of Technology, Ikot Abasi", "Federal University of Health Sciences, Azare", 
+      "Federal University of Health Sciences, Ila Orangun", "David Nweze Umahi Federal University of Medical Sciences, Uburu", 
+      "Admiralty University, Ibusa", "Federal University of Transportation, Daura", "African Aviation and Aerospace University", 
+      "National University of Science and Technology, Abuja", "Federal University of Agriculture, Bassam-Biri", 
+      "Federal University of Health Sciences, Kwale", "Federal University of Health Sciences, Katsina", "Federal University of Agriculture, Mubi", 
+      "Federal University of Education, Zaria", "Alvan Ikoku Federal University of Education, Owerri", "Yusuf Maitama Sule Federal University of Education, Kano", 
+      "Adeyemi Federal University of Education, Ondo", "Federal University of Allied Health Sciences, Enugu", "Federal University of Medicine and Medical Sciences, Abeokuta", 
+      "Federal University of Education, Pankshin", "Federal University of Education, Kontagora", "University of Maritime Studies, Oron", 
+      "Federal University of Environment and Technology, Tai Town, Ogoniland", "Federal University of Applied Sciences, Kachia", 
+      "Tai Solarin Federal University of Education, Ijagun, Ijebu Ode", "Federal University of Agriculture and Developmental Studies, Iragbuji", 
+      "Federal University of Technology and Environmental Studies, Iyin-Ekiti", "Federal University of Agriculture and Technology, Okeho", 
+      "Federal University of Health Science and Technology, Tsafe", "Federal University of Agriculture and Technology, Obio-Akpa", 
+      "Federal University of Science and Technology, Epe", "Federal University of Science and Technology, Kabo, Kano"
+    ],
+    state: [
+      "Rivers State University", "Ambrose Alli University, Ekpoma", "Abia State University, Uturu", "Ektsu State University", 
+      "Enugu State University of Science and Technology, Enugu", "Olabisi Onabanjo University, Ago Iwoye", "Lagos State University, Ojo", 
+      "Ladoke Akintola University of Technology, Ogbomoso", "Rev. Fr. Moses Orshio Adasu University, Makurdi", "Delta State University, Abraka", 
+      "Imo State University, Owerri", "Adekunle Ajasin University, Akungba", "Prince Abubakar Audu University, Anyigba", 
+      "Chukwuemeka Odumegwu Ojukwu University, Uli", "Ebonyi State University, Abakaliki", "Aliko Dangote University of Science & Technology, Wudil", 
+      "Niger Delta University, Yenagoa", "Adamawa State University, Mubi", "Nasarawa State University, Keffi", "University of Cross River State, Calabar", 
+      "Gombe State University, Gombe", "Kaduna State University, Kaduna", "Ibrahim Badamasi Babangida University, Lapai", "Plateau State University, Bokkos", 
+      "Yobe State University, Damaturu", "Kebbi State University of Science and Technology, Aliero", "Umar Musa Yar'Adua University, Katsina", 
+      "Osun State University, Osogbo", "Olusegun Agagu University of Science & Technology, Okitipupa", "Taraba State University, Jalingo", 
+      "Kwara State University, Ilorin", "Sokoto State University", "Akwa Ibom State University, Ikot Akpaden", "Ignatius Ajuru University of Education, Rumuolumeni", 
+      "Bauchi State University, Gadau", "Northwest University, Kano", "First Technical University, Ibadan", "Sule Lamido University, Kafin Hausa", 
+      "University of Medical Sciences, Ondo City", "Edo State University, Iyamho", "Kingsley Ozumba Mbadiwe University, Ogboko", 
+      "University of Africa, Toru Orua", "Kashim Ibrahim University, Maiduguri", "Moshood Abiola University of Science and Technology, Abeokuta", 
+      "Zamfara State University", "Bayelsa Medical University", "University of Agriculture and Environmental Sciences, Umuagwo", 
+      "Confluence University of Science and Technology, Osara", "Bamidele Olumilua University of Science and Technology, Ikere", 
+      "University of Delta, Agbor", "Delta University of Science and Technology, Ozoro", "Dennis Osadebe University, Asaba", 
+      "Lagos State University of Education, Ijanikin", "Lagos State University of Science and Technology, Ikorodu", "Shehu Shagari University of Education, Sokoto", 
+      "State University of Medical and Applied Sciences, Igbo-Eno", "University of Ilesa", "Emanuel Alayande University of Education, Oyo", 
+      "Kogi State University, Kabba", "AbdulKadir Kure University, Minna", "Kwara State University of Education, Ilorin", 
+      "Abdulsalam Abubakar University of Agriculture and Climate Action, Mokwa", "Ebonyi State University of ICT, Science and Technology, Oferekpe", 
+      "Cross River University of Education and Entrepreneurship, Akampa", "Benue State University of Agriculture Science and Technology, Ihugh", 
+      "University of Aeronautics and Aerospace Engineering, Ezza", "University of Innovation, Science and Technology, Omuma", 
+      "Taraba State University of Tropical Agriculture, Science, Technology and Climate Action, Gembu", "Jigawa State University of Medical and Allied Health Sciences, Majia"
+    ],
+    private: [
+      "Babcock University, Ilishan-Remo", "Igbinedion University, Okada", "Madonna University, Okija", "Bowen University, Iwo", 
+      "Benson Idahosa University, Benin City", "Covenant University, Ota", "Pan-Atlantic University, Lagos", "American University of Nigeria, Yola", 
+      "Ajayi Crowther University, Ibadan", "Al-Hikmah University, Ilorin", "Al-Qalam University, Katsina", "Bells University of Technology, Otta", 
+      "Bingham University, New Karu", "Caritas University, Enugu", "Crawford University, Igbesa", "Crescent University", "Kwararafa University, Wukari", 
+      "Lead City University, Ibadan", "Novena University, Ogume", "Redeemer's University, Ede", "Renaissance University, Enugu", 
+      "University of Mkar, Mkar", "Joseph Ayo Babalola University, Ikeji-Arakeji", "Achievers University, Owo", "Caleb University, Lagos", 
+      "Fountain University, Oshogbo", "African University of Science and Technology, Abuja", "Obong University, Obong Ntak", "Salem University, Lokoja", 
+      "Tansian University, Umunya", "Veritas University, Abuja", "Wesley University, Ondo", "Western Delta University, Oghara", 
+      "Afe Babalola University, Ado-Ekiti", "Godfrey Okoye University, Ugwuomu-Nike", "Nile University of Nigeria, Abuja", "Oduduwa University, Ipetumodu", 
+      "Paul University, Awka", "Rhema University, Obeama-Asa", "Wellspring University, Evbuobanosa", "Adeleke University, Ede", "Baze University", 
+      "Landmark University, Omu-Aran", "Glorious Vision University, Ogwa", "Elizade University, Ilara-Mokin", "Evangel University, Akaeze", 
+      "Gregory University, Uturu", "McPherson University, Seriki Sotayo, Ajebo", "Southwestern University, Oku Owa", "Augustine University", 
+      "Chrisland University", "Edwin Clark University, Kaigbodo", "Hallmark University, Ijebi Itele", "Hezekiah University, Umudi", 
+      "Kings University, Ode Omu", "Michael & Cecilia Ibru University", "Mountain Top University", "Ritman University, Ikot Ekpene", 
+      "Summit University, Offa", "Christopher University, Mowe", "Kola Daisi University, Ibadan", "Anchor University, Ayobo", 
+      "Dominican University, Ibadan", "Legacy University, Okija", "Arthur Javis University, Akpoyubo", "Ojaja University, Eiyenkorin", 
+      "Coal City University, Enugu", "Clifford University, Owerrinta", "Spiritan University, Nneochi", "Precious Cornerstone University, Oyo", 
+      "PAMO University of Medical Sciences, Port Harcourt", "Atiba University, Oyo", "Eko University of Medical and Health Sciences, Ijanikin", 
+      "Skyline University, Kano", "Greenfield University, Kaduna", "Dominion University, Ibadan", "Trinity University, Ogun State", 
+      "Westland University, Iwo", "Topfaith University, Mkpatak", "Thomas Adewumi University, Oko-Irese", "Maranatha University, Lagos", 
+      "Ave Maria University, Piyanko", "Al-Istiqama University, Sumaila", "Mudiame University, Irrua", "Havilla University, Nde-Ikom", 
+      "Claretian University of Nigeria, Nekede", "Karl-Kumm University, Vom", "James Hope University, Lagos", "Maryam Abacha American University of Nigeria, Kano", 
+      "Capital City University, Kano", "Ahman Pategi University, Kwara", "University of Offa, Kwara", "Mewar International University, Masaka", 
+      "Edusoko University, Bida", "Philomath University, Kuje", "Anan University, Kwall", "North Eastern University, Gombe", 
+      "Al-Ansar University, Maiduguri", "Margaret Lawrence University, Umunede", "Khalifa Isiyaku Rabiu University, Kano", 
+      "Sports University, Idumuje, Ugboko", "Baba Ahmed University, Kano", "Saisa University of Medical Sciences and Technology, Sokoto", 
+      "Nigerian British University, Asa", "Peter University, Achina-Onneh", "Newgate University, Minna", "European University of Nigeria, Duboyi", 
+      "NorthWest University, Sokoto", "Rayhaan University, Kebbi", "Muhammad Kamalud University, Kwara", "Sam Maris University, Ondo", 
+      "Aletheia University, Ago-Iwoye", "Lux Mundi University, Umuahia", "Maduka University, Ekwegbe", "PeaceLand University, Enugu", 
+      "Amadeus University, Amizi", "Vision University, Ikogbo", "Azman University, Kano", "Huda University, Gusau", 
+      "Franco British International University, Kaduna", "Canadian University of Nigeria, Abuja", "Gerar University of Medical Science, Imope-Ijebu", 
+      "British Canadian University, Obufu", "Hensard University, Toru-Orua", "Amaj University, Kwali", "Phoenix University, Agwada", 
+      "Wigwe University, Isiokpo", "Hillside University of Science and Technology, Okemisi", "University on the Niger, Umunya", 
+      "Elrazi Medical University Yargaya University, Kano", "Venite University, Iloro-Ekiti", "Shanahan University, Onitsha", 
+      "The Duke Medical University, Calabar", "Mercy Medical University, Iwo", "Cosmopolitan University, Abuja", "Miva Open University, Abuja", 
+      "Iconic Open University, Sokoto", "West Midlands Open University, Ibadan", "Al-Muhibbah Open University, Abuja", "El-Amin University, Minna", 
+      "College of Petroleum and Energy Studies, Kaduna", "Jewel University, Gombe", "Prime University, Kuje", "Nigerian University of Technology and Management, Apapa", 
+      "Al-Bayan University, Ankpa", "Lighthouse University, Evbobanosa", "African University of Economics, Abuja", "New City University, Ayetoro", 
+      "University of Fortune, Igbotako", "Eranova University, Abuja", "Minaret University, Ikirun", "Abdulrasaq Abubakar Toyin University, Oke-Ogba", 
+      "Southern Atlantic University, Uyo", "Lens University, Ilemona", "Monarch University, Iyesi-Ota", "Tonine Iredia University of Communication, Benin City", 
+      "Isaac Balami University of Aeronautics and Management, Lagos", "Kevin Eze University, Mgbowo", "Tazkiyah University, Kaduna", 
+      "Leadership University, Abuja", "Jimoh Babalola University, Ilorin", "Bridget University, Mbaise", "Greenland University, Jalingo", 
+      "JEFAP University, Suleja", "Azione Verde University, Amaigbo", "Unique Open University, Ojo", "American Open University, Abeokuta", 
+      "Millenium Crest University, Ikare Akoko", "Abdulfattah Durojaiye University, Abeokuta", "Euston University, Abakaliki", "Adeche Momoh University, Igarra", 
+      "Sani Bello University, Kontagora", "Godday Erewa University, Sapele", "Owolabi University, Oke Ila Orangun", "Regnum Medical University, Anthony", 
+      "City University, Abuja", "Transatlantic University of Medicine and Health Sciences, Umuchukwu", "Maria Assumpta University, Owerri", 
+      "High Flyers University, Ikere-Ekiti", "Ummah University of Nigeria, Abuja", "Pearl University, Calabar", "Omega University, Kaduna"
+    ]
+  },
+  polytechnics: {
+    federal: [
+      "Akanu Ibiam Federal Polytechnic, Unwana", "Auchi Polytechnic, Auchi", "Federal Polytechnic, Ado-Ekiti", "Federal Polytechnic, Bauchi", 
+      "Federal Polytechnic, Bida", "Federal Polytechnic, Damaturu", "Federal Polytechnic, Ede", "Federal Polytechnic, Idah", 
+      "Federal Polytechnic, Ilaro", "Federal Polytechnic, Kaura Namoda", "Federal Polytechnic, Mubi", "Federal Polytechnic, Nasarawa", 
+      "Federal Polytechnic, Nekede", "Federal Polytechnic, Offa", "Federal Polytechnic, Oko", "Federal Polytechnic, Ukana", 
+      "Federal Polytechnic, Bali", "Federal Polytechnic, Ile-Oluji", "Federal Polytechnic, Daura", "Federal Polytechnic, Kaltungo", 
+      "Hussaini Adamu Federal Polytechnic, Kazaure", "Kaduna Polytechnic", "Yaba College of Technology", "Federal Polytechnic, Ekowe", 
+      "Federal Polytechnic, Monguno", "Federal Polytechnic, Ugep", "Federal Polytechnic, Keffi", "Federal Polytechnic, Maiduguri"
+    ],
+    state: [
+      "Abdu Gusau Polytechnic, Talata Mafara", "Abia State Polytechnic, Aba", "Abraham Adesanya Polytechnic, Ijebu-Igbo", 
+      "Abubakar Tatari Ali Polytechnic, Bauchi", "Adamawa State Polytechnic, Yola", "Akwa Ibom State Polytechnic, Ikot Osurua", 
+      "Anambra State Polytechnic, Mgbakwu", "Bayelsa State Polytechnic, Elebele", "Benue State Polytechnic, Ugbokolo", 
+      "Binyaminu Usman Polytechnic, Hadejia", "Delta State Polytechnic, Ogwashi-Uku", "Delta State Polytechnic, Otefe-Oghara", 
+      "Delta State Polytechnic, Ozoro", "Edo State Polytechnic, Usen", "Gateway Polytechnic, Saapade", "Hassan Usman Katsina Polytechnic", 
+      "Imo State Polytechnic, Umuagwo", "Institute of Management and Technology, Enugu", "Institute of Technology and Management, Ugep", 
+      "Kano State Polytechnic", "Kogi State Polytechnic", "Kwara State Polytechnic", "Lagos State Polytechnic", "Niger State Polytechnic, Zungeru", 
+      "Osun State Polytechnic, Iree", "Osun State College of Technology, Esa-Oke", "Plateau State Polytechnic, Barkin Ladi", 
+      "Polytechnic Ibadan", "Rufus Giwa Polytechnic, Owo", "Sokoto State Polytechnic", "Umaru Ali Shinkafi Polytechnic, Sokoto"
+    ],
+    private: [
+      "Ajayi Polytechnic", "Al-Hikma Polytechnic", "Allover Central Polytechnic", "Ashi Polytechnic", "Best Solution Polytechnic", 
+      "Crown Polytechnic", "Dorben Polytechnic", "Fidei Polytechnic", "Global Polytechnic", "Grace Polytechnic", "Heritage Polytechnic", 
+      "Ibadan City Polytechnic", "Igbajo Polytechnic", "Interlink Polytechnic", "Marist Polytechnic", "Ronik Polytechnic", "Citi Polytechnic", 
+      "Lens Polytechnic", "Valley View Polytechnic", "Temple Gate Polytechnic"
+    ]
+  },
+  colleges_of_education: {
+    federal: [
+      "FCT College of Education, Zuba", "Federal College of Education (FCE), Gwoza", "Federal College of Education (Special), Oyo", 
+      "Federal College of Education (Technical), Isu, Ebonyi State", "Federal College of Education (Technical), Umunze", 
+      "Federal College of Education (Technical), Potiskum", "Federal College of Education (Technical), Yauri", 
+      "Federal College of Education (Technical), Akoka", "Federal College of Education (Technical), Asaba", 
+      "Federal College of Education (Technical), Bichi", "Federal College of Education (Technical), Gombe", 
+      "Federal College of Education (Technical), Gusau", "Federal College of Education (Technical), Omoku", 
+      "Federal College of Education, Bauchi", "Federal College of Education, Edo", "Federal College of Education, Ilawe-Ekiti", 
+      "Federal College of Education, Ofeme-Ohuhu", "Federal College of Education, Osun", "Federal College of Education, Sokoto", 
+      "Federal College of Education, Abeokuta", "Federal College of Education, Eha-Amufu", "Federal College of Education, Ididep", 
+      "Federal College of Education, Katsina", "Federal College of Education, Obudu", "Federal College of Education, Odugbo, Benue State", 
+      "Federal College of Education, Okene", "Federal College of Education, Yola", "Federal College of Education (Technical), Keana"
+    ],
+    state: [
+      "A.D. Rufa'i College of Education, Legal and General Studies, Bauchi", "Adamu Augie College of Education, Argungu", 
+      "Adamu Tafawa Balewa College of Education, Kangere", "Akwa Ibom State College of Education, Afahansit", "Aminu Sale College of Education, Azare", 
+      "Benjamin Uwajumogu State College of Education, Ihitte Uboma", "College of Education (Technical), Dass", "College of Education, Akwanga", 
+      "College of Education and Legal Studies, Nguru", "College of Education, Ilorin", "College of Education, Oju", "College of Education, Oro", 
+      "College of Education, Arochukwu, Abia", "College of Education, Billiri", "College of Education, Gindiri", "College of Education, Hong", 
+      "College of Education, Ikere-Ekiti", "College of Education, Ila-Orangun, Osun State", "College of Education, Katsina-Ala", 
+      "College of Education, Waka Biu", "College of Education, Warri", "College of Education, Zing", "Cross River State College of Education, Akampa", 
+      "Delta State College of Education, Mosogar", "Ebonyi State College of Education (Technical), Ikwo", "Edo State College of Education, Igueben", 
+      "Enugu State College of Education (Technical), Enugu", "Gombe State College of Education, Nafada", "Isa Kaita College of Education, Dutsin-Ma", 
+      "Isaac Jasper Boro College of Education, Sagbama", "Jigawa State College of Education and Legal Studies, Ringim", "Jigawa State College of Education, Gumel", 
+      "Kaduna State College of Education, Gidan-Waya, Kafanchan", "Kano State College of Education and Preliminary Studies", "Kashim Ibrahim College of Education", 
+      "Kogi State College of Education, Ankpa", "Kogi State College of Education, Kabba", "Kwara State College of Education (Technical), Lafiagi", 
+      "Niger State College of Education, Minna", "Nwafor Orizu College of Education, Nsugbe", "Oyo State College of Education, Lanlate", 
+      "Sa'adatu Rimi College of Education, Kumbotso, Kano", "Shehu Shagari College of Education, Sokoto", "Sikiru Adetona College of Education, Science and Technology, Omu-Ajose", 
+      "Umar Ibn Ibrahim El-Kanemi College of Education, Science and Technology, Bama", "Umar Suleiman College of Education, Gashua", 
+      "Yusuf Bala Usman College of Education and Legal Studies, Daura", "Yusuf Maitama Sule College of Education and Legal Studies, Ghari", "Zamfara State College of Education, Maru"
+    ],
+    private: [
+      "Abdullahi Maikano College of Education, Wase", "Adamu Garkuwa College of Education, Toro", "Adesina College of Education, Share", 
+      "Adigrace College of Education", "African Thinkers Community of Inquiry College of Education", "Ahlus-Suffah College of Education", 
+      "Ansar-Ud-Deen College of Education, Isolo", "Corona College of Education, Lekki", "ECWA College of Education, Igbaja", 
+      "St. Augustine College of Education, Akoka, Lagos", "Top-Most College of Education, Ipaja-Agbado", "Yewa Central College of Education"
+    ]
+  }
+};
 
-interface Review {
-  name: string;
-  department: string;
-  comment: string;
-}
+const SAMPLE_FACULTIES = [
+  "Engineering & Technology",
+  "Sciences & Computing",
+  "Medical & Health Sciences",
+  "Management & Social Sciences",
+  "Arts & Humanities",
+  "Education & Vocational Studies"
+];
+
+const SAMPLE_DEPARTMENTS: { [key: string]: string[] } = {
+  "Engineering & Technology": ["Electrical & Electronics Engineering", "Mechanical Engineering", "Civil Engineering", "Computer Engineering"],
+  "Sciences & Computing": ["Computer Science", "Cyber Security", "Software Engineering", "Microbiology", "Biochemistry", "Industrial Chemistry"],
+  "Medical & Health Sciences": ["Medicine and Surgery", "Nursing Science", "Medical Laboratory Science", "Pharmacy", "Anatomy"],
+  "Management & Social Sciences": ["Accounting", "Banking and Finance", "Business Administration", "Economics", "Mass Communication", "Political Science"],
+  "Arts & Humanities": ["English and Literary Studies", "History and International Studies", "Linguistics", "Philosophy"],
+  "Education & Vocational Studies": ["Educational Management", "Guidance and Counselling", "Science Education", "Business Education"]
+};
 
 export default function Home() {
+  // Selector Navigation State
+  const [instType, setInstType] = useState<"universities" | "polytechnics" | "colleges_of_education">("universities");
+  const [ownership, setOwnership] = useState<"federal" | "state" | "private">("federal");
+  const [selectedInst, setSelectedInst] = useState("");
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [selectedDept, setSelectedDept] = useState("");
+  const [searchFilter, setSearchFilter] = useState("");
+  const [checkingAvailability, setCheckingAvailability] = useState(false);
+  const [availabilityResult, setAvailabilityResult] = useState<null | { available: boolean; message: string }>(null);
+
   // Payment Form States
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [courseCode, setCourseCode] = useState("GST112");
+  const [courseCode] = useState("GEN101");
   const [plan, setPlan] = useState<"A500" | "B1000">("B1000");
   const [txnRef, setTxnRef] = useState("");
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -33,75 +223,66 @@ export default function Home() {
   const [studentInfo, setStudentInfo] = useState<any>(null);
   const [verifyLoading, setVerifyLoading] = useState(false);
 
-  // Toggle Pricing Modal
   const [showPricingModal, setShowPricingModal] = useState(false);
-
-  // Show More Testimonials Toggle State
   const [showAllReviews, setShowAllReviews] = useState(false);
 
-  // Courses State
-  const [courses, setCourses] = useState<CourseMaterial[]>([]);
-
-  // Reviews State
-  const [reviews, setReviews] = useState<Review[]>([
-    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Made Easy helped me ace my past questions without stress. The platform is super smooth!" },
-    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one place." },
-    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" },
-    { name: "Miriam Bello", department: "Mass Communication", comment: "Having structured general and departmental courses made studying for exams so much easier." },
-    { name: "Emmanuel Effiong", department: "Mechanical Engineering", comment: "The verified past questions and step-by-step answers gave me the confidence I needed to score A's." }
+  const [reviews, setReviews] = useState([
+    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Made Easy helped me ace my past questions across universities without stress!" },
+    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one centralized portal." },
+    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Fetch courses on mount
-  useEffect(() => {
-    fetch("https://learning-made-easy-backend.onrender.com/api/courses")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.courses) {
-          const formattedCourses = data.courses.map((course: any) => ({
-            ...course,
-            description: course.course_code === "GST112" 
-              ? "Nigerian Peoples and Culture (NPC)\nAkwa Ibom State University" 
-              : "Akwa Ibom State University"
-          }));
-          setCourses(formattedCourses);
-        }
-      })
-      .catch((err) => console.error("Failed to load courses", err));
-  }, []);
+  // Filtered institution list based on type & ownership
+  const currentList = INSTITUTION_DATA[instType][ownership] || [];
+  const filteredInstitutions = currentList.filter(item => item.toLowerCase().includes(searchFilter.toLowerCase()));
 
-  // Handle Payment Submission
+  const handleCheckAvailability = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedInst || !selectedFaculty || !selectedDept) {
+      alert("Please select your Institution, Faculty, and Department.");
+      return;
+    }
+
+    setCheckingAvailability(true);
+    setAvailabilityResult(null);
+
+    setTimeout(() => {
+      setCheckingAvailability(false);
+      // AKSU Electrical Engineering or GST112 has materials, others are not available yet as requested!
+      if (selectedInst.includes("Akwa Ibom State University") && selectedDept.includes("Electrical")) {
+        setAvailabilityResult({
+          available: true,
+          message: `Materials & Verified Past Questions found for ${selectedDept} at ${selectedInst}!`
+        });
+      } else {
+        setAvailabilityResult({
+          available: false,
+          message: `Notice: Materials for ${selectedDept} at ${selectedInst} are Not Available Yet. Our team is currently sourcing and uploading past questions for this department.`
+        });
+      }
+    }, 800);
+  };
+
   const handlePaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !email || !phone || !txnRef) {
       alert("Please fill in all payment details and transaction reference.");
       return;
     }
-
     setPaymentLoading(true);
     try {
       const res = await fetch("https://learning-made-easy-backend.onrender.com/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          full_name: fullName,
-          email: email,
-          phone: phone,
-          course: courseCode,
-          plan: plan,
-          transaction_reference: txnRef
-        })
+        body: JSON.stringify({ full_name: fullName, email, phone, course: courseCode, plan, transaction_reference: txnRef })
       });
       const data = await res.json();
       if (data.success) {
         alert(data.message + "\nYour payment record has been created. Awaiting admin verification.");
-        setFullName("");
-        setEmail("");
-        setPhone("");
-        setTxnRef("");
-        setShowPricingModal(false);
+        setFullName(""); setEmail(""); setPhone(""); setTxnRef(""); setShowPricingModal(false);
       } else {
         alert("Error creating payment record.");
       }
@@ -113,23 +294,18 @@ export default function Home() {
     }
   };
 
-  // Handle Access Token Verification
   const handleAccessVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!verifyEmail || !accessCode) {
       alert("Please enter both your email and access code.");
       return;
     }
-
     setVerifyLoading(true);
     try {
       const res = await fetch("https://learning-made-easy-backend.onrender.com/api/access/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: verifyEmail,
-          access_code: accessCode
-        })
+        body: JSON.stringify({ email: verifyEmail, access_code: accessCode })
       });
       const data = await res.json();
       if (data.success) {
@@ -141,7 +317,7 @@ export default function Home() {
       }
     } catch (err) {
       console.error(err);
-      alert("Verification failed. Please check your credentials.");
+      alert("Verification failed.");
     } finally {
       setVerifyLoading(false);
     }
@@ -149,15 +325,10 @@ export default function Home() {
 
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewerName || !reviewerComment) {
-      alert("Please provide your name and review comment.");
-      return;
-    }
-    setReviews([{ name: reviewerName, department: reviewerDept || "University Student", comment: reviewerComment }, ...reviews]);
-    setReviewerName("");
-    setReviewerDept("");
-    setReviewerComment("");
-    alert("Thank you! Your review has been posted successfully.");
+    if (!reviewerName || !reviewerComment) return;
+    setReviews([{ name: reviewerName, department: reviewerDept || "Student", comment: reviewerComment }, ...reviews]);
+    setReviewerName(""); setReviewerDept(""); setReviewerComment("");
+    alert("Thank you! Your review has been posted.");
   };
 
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
@@ -165,237 +336,233 @@ export default function Home() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
       
-      {/* Navbar with Campus Learning Made Easy */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "rgba(15, 23, 42, 0.95)", backdropFilter: "blur(10px)", borderBottom: "1px solid #1e293b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+      {/* SKY SPORTS INSPIRED TOP TICKER / BANNER */}
+      <div style={{ background: "#e11d48", color: "#ffffff", padding: "8px 16px", fontSize: "0.75rem", fontWeight: "800", display: "flex", justifyContent: "space-between", alignItems: "center", textTransform: "uppercase", letterSpacing: "0.05em" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>CLME</span>
-          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Campus Learning Made Easy</span>
+          <span style={{ background: "#0f172a", color: "#ffffff", padding: "2px 6px", borderRadius: "4px" }}>BREAKING</span>
+          <span>Nationwide Portal Update: Over 300+ Universities, Polytechnics & Colleges Now Added!</span>
         </div>
-        <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "500", flexWrap: "wrap" }}>
-          <a href="#home" style={{ color: "#f8fafc", textDecoration: "none" }}>Home</a>
-          <a href="#about" style={{ color: "#94a3b8", textDecoration: "none" }}>About</a>
-          <a href="#how-it-works" style={{ color: "#94a3b8", textDecoration: "none" }}>How It Works</a>
-          <a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Courses</a>
-          <a href="/chat" style={{ color: "#60a5fa", textDecoration: "none", fontWeight: "700" }}>AI Study Room ✨</a>
-          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#3b82f6", color: "#ffffff", padding: "8px 14px", borderRadius: "8px", fontWeight: "bold", border: "none", cursor: "pointer", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)" }}>
-            Unlock Access ⚡
+        <a href="/chat" style={{ color: "#ffffff", textDecoration: "underline" }}>AI Study Room Active ⚡</a>
+      </div>
+
+      {/* Sky Sports Athletic Header Navbar */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#121212", borderBottom: "3px solid #e11d48", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem", letterSpacing: "0.05em" }}>CLME</span>
+          <span style={{ fontWeight: "800", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING <span style={{ color: "#e11d48" }}>HUB</span></span>
+        </div>
+        <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "700" }}>
+          <a href="#selector" style={{ color: "#f8fafc", textDecoration: "none" }}>Institution Lookup</a>
+          <a href="/chat" style={{ color: "#e11d48", textDecoration: "none" }}>AI Study Room 🤖</a>
+          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#e11d48", color: "#ffffff", padding: "8px 16px", borderRadius: "4px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
+            Unlock Pass ⚡
           </button>
         </div>
       </nav>
 
-      <div style={{ maxWidth: "850px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
         {/* Hero Section */}
-        <div id="home" style={{ textAlign: "center", marginBottom: "50px", paddingTop: "10px" }}>
-          <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "6px 14px", borderRadius: "20px", fontSize: "0.7rem", fontWeight: "700", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block" }}>
-            ◆ Achieve A's in All Your Courses
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
+          <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "6px 14px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-block" }}>
+            ◆ Official Nigerian Higher Education Database
           </span>
-          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: "900", marginTop: "20px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.15" }}>
-            Master Your Courses & Exams <span style={{ color: "#3b82f6" }}>Without Stress</span>
+          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", fontWeight: "900", marginTop: "16px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            Find Your School & <span style={{ color: "#e11d48" }}>Department Materials</span>
           </h1>
-          <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "16px", lineHeight: "1.7", maxWidth: "720px", marginInline: "auto" }}>
-            Campus Learning Made Easy (CLME) provides structured general courses, faculty requirements, departmental notes, and comprehensive past questions with verified answers for Akwa Ibom State University, backed by an intelligent AI study planner.
+          <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "14px", lineHeight: "1.6", maxWidth: "700px", marginInline: "auto" }}>
+            Select your institution type, university or polytechnic, faculty, and department to access past questions and AI study tools. Materials not yet available will feature direct request options.
           </p>
-          <div style={{ marginTop: "30px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/chat" style={{ background: "#3b82f6", color: "#ffffff", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "0.9rem", boxShadow: "0 4px 15px rgba(59, 130, 246, 0.4)" }}>
-              Open AI Study Room 🤖
-            </a>
-            <a href="#courses" style={{ background: "#1e293b", color: "#ffffff", border: "1px solid #334155", padding: "12px 20px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "0.9rem" }}>
-              Explore Materials
-            </a>
-          </div>
         </div>
 
-        {/* Detailed Academic About Section */}
-        <div id="about" style={{ background: "#1e293b", border: "1px solid #334155", padding: "30px 20px", borderRadius: "20px", marginBottom: "50px", boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: "800", color: "#ffffff", marginBottom: "12px" }}>Why Choose Campus Learning Made Easy?</h2>
-          <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.8", marginBottom: "20px" }}>
-            Navigating university coursework at Akwa Ibom State University can often feel overwhelming due to scattered lecture notes and unclear curriculum guidelines. Campus Learning Made Easy bridges this gap by centralizing general courses, faculty core requirements, departmental notes, and verified past questions into one streamlined portal.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px", marginTop: "20px" }}>
-            <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
-              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>🎯 Focused Curriculum Review</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our course guides align strictly with Akwa Ibom State University standards, ensuring you focus on core topics that matter.</p>
-            </div>
-            <div style={{ background: "#0f172a", padding: "18px", borderRadius: "14px", border: "1px solid #334155" }}>
-              <h4 style={{ color: "#60a5fa", fontSize: "1rem", marginBottom: "6px", marginTop: 0 }}>💡 Smart AI Integration</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Our Gemini AI study room breaks down complex theories, solves past questions step-by-step, and builds study schedules.</p>
-            </div>
-          </div>
-        </div>
+        {/* INTERACTIVE INSTITUTION & DEPARTMENT SELECTOR (SKY SPORTS CARD WIZARD) */}
+        <div id="selector" style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+          <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#ffffff", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+            🔍 Institution & Department Finder
+          </h3>
+          <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
 
-        {/* HOW IT WORKS SECTION */}
-        <div id="how-it-works" style={{ marginBottom: "50px" }}>
-          <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px", textAlign: "center" }}>How It Works</h3>
-          <p style={{ color: "#94a3b8", fontSize: "0.95rem", textAlign: "center", marginBottom: "30px" }}>Get started in three simple steps.</p>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
-              <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>1</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Find Your Course</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Browse our library of updated departmental materials, general courses, and past questions.</p>
-            </div>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
-              <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>2</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Choose a Plan</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Select the 7-day fast pass (₦500) or our highly recommended Full Semester Pass (₦1,000).</p>
-            </div>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 16px", borderRadius: "16px", textAlign: "center" }}>
-              <div style={{ background: "#0f172a", color: "#3b82f6", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", fontWeight: "900", margin: "0 auto 12px auto", border: "2px solid #334155" }}>3</div>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "8px" }}>Unlock & Study</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", lineHeight: "1.5", margin: 0 }}>Receive your secure access code via email to download notes and use the AI study planner.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* DYNAMIC COURSE MATERIALS SECTION */}
-        <div id="courses" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff", margin: 0 }}>Available Course Materials</h3>
-            <span style={{ fontSize: "0.75rem", background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontWeight: "700" }}>Akwa Ibom State University</span>
-          </div>
-          
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {courses.length === 0 ? (
-              <p style={{ color: "#94a3b8", textAlign: "center", padding: "20px" }}>Loading course materials from backend...</p>
-            ) : (
-              courses.map((course) => (
-                <div key={course.id} style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px 20px", borderRadius: "14px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
-                  <div style={{ flex: "1 1 250px" }}>
-                    <span style={{ fontSize: "0.7rem", background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 8px", borderRadius: "6px", fontWeight: "700" }}>{course.course_code}</span>
-                    <h4 style={{ margin: "6px 0 4px 0", fontSize: "1rem", color: "#ffffff", fontWeight: "700" }}>{course.course_name}</h4>
-                    <p style={{ margin: 0, fontSize: "0.8rem", color: "#94a3b8", whiteSpace: "pre-line" }}>{course.description}</p>
-                  </div>
-                  <button onClick={() => setShowPricingModal(true)} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "9px 16px", borderRadius: "8px", fontSize: "0.85rem", fontWeight: "700", cursor: "pointer", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)" }}>
-                    Get Access 🔒
+          <form onSubmit={handleCheckAvailability} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            
+            {/* Step 1: Institution Category */}
+            <div>
+              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                {[
+                  { id: "universities", label: "Universities" },
+                  { id: "polytechnics", label: "Polytechnics" },
+                  { id: "colleges_of_education", label: "Colleges of Ed" }
+                ].map((item) => (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => { setInstType(item.id as any); setSelectedInst(""); }}
+                    style={{ background: instType === item.id ? "#e11d48" : "#0f172a", color: "#ffffff", border: "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer", transition: "all 0.2s" }}
+                  >
+                    {item.label}
                   </button>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* TESTIMONIALS & REVIEWS SECTION */}
-        <div id="reviews" style={{ marginBottom: "50px" }}>
-          <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "6px" }}>Trusted by Students Across Campus</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>Read honest testimonials from Akwa Ibom State University students who use Campus Learning Made Easy.</p>
-          </div>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
-            {displayedReviews.map((rev, index) => (
-              <div key={index} style={{ background: "#1e293b", border: "1px solid #334155", padding: "20px", borderRadius: "16px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <p style={{ color: "#f8fafc", fontSize: "0.9rem", fontStyle: "italic", margin: "0 0 12px 0", lineHeight: "1.6" }}>"{rev.comment}"</p>
-                <p style={{ color: "#60a5fa", fontSize: "0.85rem", fontWeight: "700", margin: 0 }}>— {rev.name} <span style={{ color: "#94a3b8", fontWeight: "normal" }}>({rev.department})</span></p>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* See More Testimonials Toggle Button */}
-          <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <button onClick={() => setShowAllReviews(!showAllReviews)} style={{ background: "transparent", border: "1px solid #334155", color: "#60a5fa", padding: "10px 20px", borderRadius: "10px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}>
-              {showAllReviews ? "Show Less Testimonials ▲" : "See More Testimonials ▼"}
+            {/* Step 2: Ownership Tier */}
+            <div>
+              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                {[
+                  { id: "federal", label: "Federal" },
+                  { id: "state", label: "State" },
+                  { id: "private", label: "Private" }
+                ].map((item) => (
+                  <button
+                    type="button"
+                    key={item.id}
+                    onClick={() => { setOwnership(item.id as any); setSelectedInst(""); }}
+                    style={{ background: ownership === item.id ? "#334155" : "#0f172a", color: "#ffffff", border: ownership === item.id ? "2px solid #e11d48" : "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "700", fontSize: "0.8rem", cursor: "pointer" }}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Step 3: Specific Institution Dropdown with Search Filter */}
+            <div>
+              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>3. Select or Search Institution</label>
+              <input 
+                type="text" 
+                placeholder="Type to search school name..." 
+                value={searchFilter} 
+                onChange={(e) => setSearchFilter(e.target.value)} 
+                style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
+              />
+              <select 
+                value={selectedInst} 
+                onChange={(e) => setSelectedInst(e.target.value)} 
+                required
+                style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
+              >
+                <option value="">-- Choose Institution ({filteredInstitutions.length} available) --</option>
+                {filteredInstitutions.map((inst, index) => (
+                  <option key={index} value={inst}>{inst}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Step 4: Faculty & Department Selection */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
+              <div>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
+                <select 
+                  value={selectedFaculty} 
+                  onChange={(e) => { setSelectedFaculty(e.target.value); setSelectedDept(""); }} 
+                  required
+                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                >
+                  <option value="">-- Choose Faculty --</option>
+                  {SAMPLE_FACULTIES.map((fac, idx) => (
+                    <option key={idx} value={fac}>{fac}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
+                <select 
+                  value={selectedDept} 
+                  onChange={(e) => setSelectedDept(e.target.value)} 
+                  required
+                  disabled={!selectedFaculty}
+                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                >
+                  <option value="">-- Choose Department --</option>
+                  {selectedFaculty && SAMPLE_DEPARTMENTS[selectedFaculty]?.map((dept, idx) => (
+                    <option key={idx} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={checkingAvailability}
+              style={{ background: "#e11d48", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(225, 29, 72, 0.4)" }}
+            >
+              {checkingAvailability ? "Checking Database Records..." : "Check Material Availability 🔎"}
             </button>
-          </div>
 
-          <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "20px", borderRadius: "16px" }}>
-            <h4 style={{ color: "#ffffff", fontSize: "1.05rem", marginBottom: "12px", marginTop: 0 }}>Share Your Experience</h4>
-            <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
-                <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Department / Level (e.g. 300L EEE)" style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-              </div>
-              <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your review here..." required rows={3} style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", resize: "vertical", width: "100%", boxSizing: "border-box" }} />
-              <button type="submit" style={{ background: "#334155", color: "#60a5fa", border: "1px solid #475569", padding: "10px 14px", borderRadius: "8px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}>
-                Post Review
-              </button>
-            </form>
-          </div>
-        </div>
+          </form>
 
-        {/* FAQ SECTION */}
-        <div id="faq" style={{ marginBottom: "50px" }}>
-          <h3 style={{ fontSize: "1.6rem", fontWeight: "800", color: "#ffffff", marginBottom: "20px", textAlign: "center" }}>Frequently Asked Questions</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>How long does manual verification take?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Because payments are currently verified manually, it typically takes a few hours. Once confirmed, your unique access code will be sent to the email address you provided.</p>
+          {/* Availability Result Box */}
+          {availabilityResult && (
+            <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
+              <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#34d399" : "#fca5a5", margin: "0 0 10px 0" }}>
+                {availabilityResult.message}
+              </p>
+              {availabilityResult.available ? (
+                <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                  Unlock Past Questions ⚡
+                </button>
+              ) : (
+                <button onClick={() => alert("Request registered! Our editorial team will prioritize sourcing materials for this department.")} style={{ background: "#334155", color: "#ffffff", border: "1px solid #475569", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                  Request Priority Upload 📢
+                </button>
+              )}
             </div>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>Can I download the materials to my phone or laptop?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Yes! Once you verify your access code on the platform, you will unlock direct download links for all PDFs related to your selected Akwa Ibom State University course.</p>
-            </div>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "18px", borderRadius: "14px" }}>
-              <h4 style={{ color: "#ffffff", fontSize: "1rem", margin: "0 0 8px 0" }}>What does the B1000 Semester Pass include?</h4>
-              <p style={{ color: "#94a3b8", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>The B1000 plan is our best value. For just ₦1,000, you get uninterrupted access to your course materials and the AI study room for the entire semester (valid through October 31, 2026).</p>
-            </div>
-          </div>
+          )}
+
         </div>
 
         {/* PRICING & ACCESS MODAL */}
         {showPricingModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
-            <div style={{ background: "#1e293b", border: "1px solid #334155", padding: "24px 20px", borderRadius: "20px", maxWidth: "550px", width: "100%", position: "relative", maxHeight: "90vh", overflowY: "auto", boxShadow: "0 25px 50px rgba(0,0,0,0.6)" }}>
+            <div style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.7)" }}>
               
               <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#94a3b8", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "800" }}>CLME ACCESS & PRICING</span>
-                <h3 style={{ fontSize: "1.4rem", fontWeight: "800", marginTop: "8px", color: "#ffffff" }}>Unlock AI Study Room & Materials</h3>
-                <p style={{ color: "#94a3b8", fontSize: "0.8rem", marginTop: "4px" }}>Choose a plan, make your transfer, and submit your details to get your access code.</p>
+                <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLME ACCESS PASS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#ffffff" }}>Unlock Platform & AI Study Room</h3>
               </div>
 
-              {/* Pricing Cards */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px", marginBottom: "20px" }}>
-                <div onClick={() => setPlan("A500")} style={{ background: "#0f172a", border: plan === "A500" ? "2px solid #3b82f6" : "1px solid #334155", padding: "16px", borderRadius: "12px", cursor: "pointer" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#60a5fa", fontWeight: "700" }}>PLAN A500</span>
-                  <h4 style={{ fontSize: "1.2rem", color: "#ffffff", margin: "4px 0" }}>₦500</h4>
-                  <p style={{ fontSize: "0.75rem", color: "#94a3b8", margin: 0 }}>7 Days Access Plan</p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
+                <div onClick={() => setPlan("A500")} style={{ background: "#0f172a", border: plan === "A500" ? "2px solid #e11d48" : "1px solid #334155", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                  <span style={{ fontSize: "0.65rem", color: "#fb7185", fontWeight: "800" }}>7 DAYS PASS</span>
+                  <h4 style={{ fontSize: "1.1rem", color: "#ffffff", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setPlan("B1000")} style={{ background: "#0f172a", border: plan === "B1000" ? "2px solid #3b82f6" : "1px solid #334155", padding: "16px", borderRadius: "12px", cursor: "pointer" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#60a5fa", fontWeight: "700" }}>PLAN B1000 (BEST)</span>
-                  <h4 style={{ fontSize: "1.2rem", color: "#ffffff", margin: "4px 0" }}>₦1,000</h4>
-                  <p style={{ fontSize: "0.75rem", color: "#94a3b8", margin: 0 }}>Full Semester Pass</p>
+                <div onClick={() => setPlan("B1000")} style={{ background: "#0f172a", border: plan === "B1000" ? "2px solid #e11d48" : "1px solid #334155", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                  <span style={{ fontSize: "0.65rem", color: "#fb7185", fontWeight: "800" }}>SEMESTER PASS</span>
+                  <h4 style={{ fontSize: "1.1rem", color: "#ffffff", margin: "4px 0" }}>₦1,000</h4>
                 </div>
               </div>
 
-              {/* Payment Registration Form */}
-              <div style={{ background: "#0f172a", border: "1px solid #334155", padding: "16px", borderRadius: "14px", marginBottom: "20px" }}>
-                <div style={{ fontSize: "0.8rem", color: "#ffffff", fontWeight: "600", marginBottom: "10px", lineHeight: "1.5" }}>
-                  <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#60a5fa" }}>Fidelity Bank</span></p>
-                  <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ color: "#ffffff", fontFamily: "monospace", fontSize: "0.95rem" }}>4568971753</span></p>
-                  <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#60a5fa" }}>Asuquo Deborah</span></p>
-                </div>
-                <form onSubmit={handlePaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                  <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                  <input type="text" value={txnRef} onChange={(e) => setTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                  <button type="submit" disabled={paymentLoading} style={{ background: "#3b82f6", color: "#ffffff", padding: "10px", borderRadius: "8px", fontWeight: "700", border: "none", cursor: "pointer", fontSize: "0.85rem", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)", width: "100%" }}>
-                    {paymentLoading ? "Submitting..." : "Submit Payment for Verification"}
+              {/* Payment Details */}
+              <div style={{ background: "#0f172a", border: "1px solid #334155", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#ffffff" }}>
+                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#fb7185" }}>Fidelity Bank</span></p>
+                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem" }}>4568971753</span></p>
+                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#fb7185" }}>Asuquo Deborah</span></p>
+              </div>
+
+              <form onSubmit={handlePaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={txnRef} onChange={(e) => setTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <button type="submit" disabled={paymentLoading} style={{ background: "#e11d48", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                  {paymentLoading ? "Submitting..." : "Submit Payment Record"}
+                </button>
+              </form>
+
+              {/* Token Verification */}
+              <div style={{ marginTop: "20px", borderTop: "1px solid #334155", paddingTop: "14px" }}>
+                <h4 style={{ color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px" }}>Already have an Access Code?</h4>
+                <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} required placeholder="Your Email" style={{ padding: "8px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.8rem", outline: "none" }} />
+                  <input type="text" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} required placeholder="Access Token" style={{ padding: "8px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.8rem", outline: "none" }} />
+                  <button type="submit" disabled={verifyLoading} style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "8px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                    {verifyLoading ? "Verifying..." : "Verify Access Code"}
                   </button>
                 </form>
-              </div>
-
-              {/* Access Verification Form */}
-              <div style={{ background: "#0f172a", border: "1px solid #334155", padding: "16px", borderRadius: "14px" }}>
-                <h4 style={{ color: "#ffffff", fontSize: "0.95rem", marginBottom: "8px", marginTop: 0 }}>Already have an Access Code? Verify here:</h4>
-                {!isAuthorized ? (
-                  <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                    <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} required placeholder="Your Email" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                    <input type="text" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} required placeholder="Access Code (e.g. GST112-H9LTY)" style={{ padding: "10px 12px", borderRadius: "8px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} />
-                    <button type="submit" disabled={verifyLoading} style={{ background: "#334155", color: "#60a5fa", border: "1px solid #475569", padding: "9px", borderRadius: "8px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem", width: "100%" }}>
-                      {verifyLoading ? "Verifying..." : "Verify Access Code"}
-                    </button>
-                  </form>
-                ) : (
-                  <div style={{ textAlign: "center", color: "#60a5fa" }}>
-                    <p style={{ margin: "0 0 10px 0", fontWeight: "700", fontSize: "0.9rem" }}>Access Granted for {studentInfo?.full_name}!</p>
-                    <button onClick={() => setShowPricingModal(false)} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "8px", fontWeight: "700", cursor: "pointer", fontSize: "0.85rem" }}>
-                      Proceed to Platform →
-                    </button>
-                  </div>
-                )}
               </div>
 
             </div>
@@ -403,35 +570,15 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <footer style={{ borderTop: "1px solid #1e293b", paddingTop: "30px", marginTop: "50px", color: "#94a3b8", fontSize: "0.85rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "24px", marginBottom: "25px" }}>
+        <footer style={{ borderTop: "2px solid #e11d48", paddingTop: "24px", marginTop: "50px", color: "#94a3b8", fontSize: "0.8rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
-                <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "4px 8px", borderRadius: "6px", fontSize: "0.7rem" }}>CLME</span>
-                <span style={{ fontWeight: "700", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Made Easy</span>
-              </div>
-              <p style={{ fontSize: "0.8rem", lineHeight: "1.5", margin: 0 }}>Empowering Akwa Ibom State University students with structured course resources, verified past questions, and intelligent study tools.</p>
+              <span style={{ fontWeight: "900", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Made Easy (CLME)</span>
+              <p style={{ margin: "4px 0 0 0" }}>Nationwide portal covering 328+ universities, polytechnics, and colleges.</p>
             </div>
-
-            <div>
-              <h5 style={{ color: "#ffffff", fontSize: "0.9rem", marginBottom: "10px", marginTop: 0 }}>Quick Links</h5>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "6px", fontSize: "0.8rem" }}>
-                <li><a href="#how-it-works" style={{ color: "#94a3b8", textDecoration: "none" }}>How It Works</a></li>
-                <li><a href="#courses" style={{ color: "#94a3b8", textDecoration: "none" }}>Course Materials</a></li>
-                <li><a href="#reviews" style={{ color: "#94a3b8", textDecoration: "none" }}>Student Reviews</a></li>
-                <li><a href="#faq" style={{ color: "#94a3b8", textDecoration: "none" }}>FAQ</a></li>
-                <li><a href="/chat" style={{ color: "#60a5fa", textDecoration: "none" }}>AI Study Room</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h5 style={{ color: "#ffffff", fontSize: "0.9rem", marginBottom: "10px", marginTop: 0 }}>Official Support</h5>
-              <p style={{ fontSize: "0.80rem", margin: "0 0 6px 0" }}>Need help with verification or tokens? Reach out to us:</p>
-              <p style={{ fontSize: "0.85rem", color: "#60a5fa", fontWeight: "700", margin: 0 }}>newsglobal038@gmail.com</p>
-            </div>
+            <p style={{ margin: 0, color: "#e11d48", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
-
-          <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", paddingTop: "16px", color: "#64748b", fontSize: "0.75rem" }}>
+          <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", marginTop: "20px", paddingTop: "14px", color: "#64748b", fontSize: "0.75rem" }}>
             &copy; 2026 Campus Learning Made Easy. All rights reserved.
           </div>
         </footer>
