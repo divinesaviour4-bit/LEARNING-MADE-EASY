@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const INSTITUTION_DATA = {
   universities: {
@@ -336,87 +336,90 @@ export default function Home() {
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", color: "#0f172a", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
       
-      {/* Sky Sports Athletic Header Navbar */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#121212", borderBottom: "3px solid #e11d48", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+      {/* Royal Blue Navbar */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#1d4ed8", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem", letterSpacing: "0.05em" }}>CLH</span>
-          <span style={{ fontWeight: "800", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING <span style={{ color: "#e11d48" }}>HUB</span></span>
+          <span style={{ backgroundColor: "#fbbf24", color: "#0f172a", fontWeight: "900", padding: "6px 10px", borderRadius: "6px", fontSize: "0.85rem" }}>CLH</span>
+          <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
-        <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#materials" style={{ color: "#f8fafc", textDecoration: "none" }}>Course Materials</a>
-          <a href="#past-questions" style={{ color: "#f8fafc", textDecoration: "none" }}>Past Questions</a>
-          <a href="/chat" style={{ color: "#e11d48", textDecoration: "none" }}>AI Study Room 🤖</a>
-          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#e11d48", color: "#ffffff", padding: "8px 16px", borderRadius: "4px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
+        <div style={{ display: "flex", gap: "20px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
+          <a href="#materials" style={{ color: "#ffffff", textDecoration: "none" }}>Courses</a>
+          <a href="#past-questions" style={{ color: "#ffffff", textDecoration: "none" }}>Past Questions</a>
+          <a href="/chat" style={{ color: "#fbbf24", textDecoration: "none" }}>AI Study Room 🤖</a>
+          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#fbbf24", color: "#0f172a", padding: "8px 18px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
             Unlock Pass ⚡
           </button>
         </div>
       </nav>
 
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
-        
-        {/* Hero Section */}
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "6px 14px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-block" }}>
-            ◆ For All Nigerian Students
+      {/* Royal Blue Hero Banner Section */}
+      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
+            ◆ Educate Yourself — For All Nigerian Students
           </span>
-          <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", fontWeight: "900", marginTop: "16px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Grab A's in All Your Courses <span style={{ color: "#e11d48" }}>Without Stress</span>
+          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            Grab A's in All Your Courses <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
-          <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "14px", lineHeight: "1.6", maxWidth: "720px", marginInline: "auto" }}>
-            Campus Learning Hub is built for all Nigerian students across universities, polytechnics, and colleges of education. Get instant access to structured course notes, verified past questions with detailed answers, and an intelligent AI study planner to master your exams.
+          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
+            Unlock your academic potential with structured course materials, verified past questions with step-by-step solutions, and an intelligent AI study planner.
           </p>
-
-          <div style={{ marginTop: "30px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
             <button 
               onClick={() => {
                 setShowSelector(true);
                 setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100);
               }} 
-              style={{ background: "#e11d48", color: "#ffffff", padding: "14px 24px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", boxShadow: "0 4px 15px rgba(225, 29, 72, 0.4)" }}
+              style={{ background: "#fbbf24", color: "#1d4ed8", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
             >
               🔍 Search Your School & Department
             </button>
-            <a href="/chat" style={{ background: "#182232", color: "#ffffff", border: "1px solid #334155", padding: "14px 24px", borderRadius: "6px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
+            <a href="/chat" style={{ background: "rgba(255,255,255,0.15)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.3)", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
               Open AI Study Room 🤖
             </a>
           </div>
         </div>
+      </div>
 
-        {/* FEATURED COURSE MATERIALS SECTION */}
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
+        
+        {/* OUR COURSES SECTION (Light Blue Cards) */}
         <div id="materials" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase" }}>Featured Course Materials</h3>
-            <span style={{ fontSize: "0.75rem", background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 10px", borderRadius: "4px", fontWeight: "800" }}>Available Now</span>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Our Courses</h3>
+            <span style={{ fontSize: "0.8rem", background: "#dbeafe", color: "#1d4ed8", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Verified Curriculum</span>
           </div>
           
-          <div style={{ background: "#182232", border: "1px solid #334155", borderLeft: "4px solid #e11d48", padding: "20px", borderRadius: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
-            <div style={{ flex: "1 1 250px" }}>
-              <span style={{ fontSize: "0.7rem", background: "#e11d48", color: "#ffffff", padding: "3px 8px", borderRadius: "4px", fontWeight: "900" }}>GST 112</span>
-              <h4 style={{ margin: "8px 0 4px 0", fontSize: "1.1rem", color: "#ffffff", fontWeight: "800" }}>Nigerian Peoples and Culture (NPC)</h4>
-              <p style={{ margin: 0, fontSize: "0.85rem", color: "#94a3b8" }}>Akwa Ibom State University — Complete lecture notes, summary guides, and tutor explanations.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
+            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+              <div>
+                <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>GST 112</span>
+                <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Nigerian Peoples and Culture</h4>
+                <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Akwa Ibom State University — Complete lecture notes, historical overviews, and summaries.</p>
+              </div>
+              <button onClick={() => setShowPricingModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
+                Enroll / Unlock Now ⚡
+              </button>
             </div>
-            <button onClick={() => setShowPricingModal(true)} style={{ background: "#e11d48", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
-              Unlock Material 🔒
-            </button>
           </div>
         </div>
 
-        {/* VERIFIED PAST QUESTIONS SECTION */}
+        {/* VERIFIED PAST QUESTIONS & RESOURCES SECTION */}
         <div id="past-questions" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase" }}>Verified Past Questions & Answers (PQAs)</h3>
-            <span style={{ fontSize: "0.75rem", background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 10px", borderRadius: "4px", fontWeight: "800" }}>Step-by-Step Solutions</span>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Verified Past Questions & Answers</h3>
+            <span style={{ fontSize: "0.8rem", background: "#fef3c7", color: "#b45309", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Exam Prep</span>
           </div>
           
-          <div style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
+          <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
             <div style={{ flex: "1 1 250px" }}>
-              <span style={{ fontSize: "0.7rem", background: "#334155", color: "#fb7185", padding: "3px 8px", borderRadius: "4px", fontWeight: "900" }}>EXAM BANK</span>
-              <h4 style={{ margin: "8px 0 4px 0", fontSize: "1.1rem", color: "#ffffff", fontWeight: "800" }}>GST 112 Past Questions Bank (2021 - 2026)</h4>
-              <p style={{ margin: 0, fontSize: "0.85rem", color: "#94a3b8" }}>Fully solved objective and essay questions with detailed explanations to guarantee top scores.</p>
+              <span style={{ background: "#f59e0b", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>EXAM BANK</span>
+              <h4 style={{ margin: "10px 0 6px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>GST 112 Past Questions Bank (2021 - 2026)</h4>
+              <p style={{ margin: 0, fontSize: "0.85rem", color: "#475569" }}>Fully solved objective and essay questions with step-by-step explanations.</p>
             </div>
-            <button onClick={() => setShowPricingModal(true)} style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "10px 18px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
+            <button onClick={() => setShowPricingModal(true)} style={{ background: "#f59e0b", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
               Access PQAs ⚡
             </button>
           </div>
@@ -424,30 +427,30 @@ export default function Home() {
 
         {/* HIDDEN / TOGGLED SCHOOL SELECTOR SECTION */}
         {!showSelector ? (
-          <div style={{ textAlign: "center", marginBottom: "50px", background: "#182232", border: "1px solid #334155", padding: "30px", borderRadius: "12px" }}>
-            <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px" }}>Looking for other Institutions & Departments?</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "16px" }}>Access over 300+ Nigerian Universities, Polytechnics, and Colleges of Education.</p>
+          <div style={{ textAlign: "center", marginBottom: "50px", background: "#eff6ff", border: "1px solid #bfdbfe", padding: "30px", borderRadius: "12px" }}>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Looking for other Institutions & Departments?</h3>
+            <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Access over 300+ Nigerian Universities, Polytechnics, and Colleges of Education.</p>
             <button 
               onClick={() => setShowSelector(true)} 
-              style={{ background: "transparent", border: "2px solid #e11d48", color: "#fb7185", padding: "10px 20px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}
+              style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}
             >
               Click Here to Search Your School & Department ▼
             </button>
           </div>
         ) : (
-          <div id="selector" style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+          <div id="selector" style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.08)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase", letterSpacing: "0.03em" }}>
+              <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>
                 🔍 Search School, Faculty & Department
               </h3>
-              <button onClick={() => setShowSelector(false)} style={{ background: "transparent", border: "none", color: "#94a3b8", fontWeight: "bold", cursor: "pointer", fontSize: "1rem" }}>✕ Close</button>
+              <button onClick={() => setShowSelector(false)} style={{ background: "transparent", border: "none", color: "#64748b", fontWeight: "bold", cursor: "pointer", fontSize: "1rem" }}>✕ Close</button>
             </div>
-            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
+            <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
 
             <form onSubmit={handleCheckAvailability} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               
               <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
                   {[
                     { id: "universities", label: "Universities" },
@@ -458,7 +461,7 @@ export default function Home() {
                       type="button"
                       key={item.id}
                       onClick={() => { setInstType(item.id as any); setSelectedInst(""); }}
-                      style={{ background: instType === item.id ? "#e11d48" : "#0f172a", color: "#ffffff", border: "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
+                      style={{ background: instType === item.id ? "#1d4ed8" : "#f1f5f9", color: instType === item.id ? "#ffffff" : "#1e293b", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
                     >
                       {item.label}
                     </button>
@@ -467,7 +470,7 @@ export default function Home() {
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
                   {[
                     { id: "federal", label: "Federal" },
@@ -478,7 +481,7 @@ export default function Home() {
                       type="button"
                       key={item.id}
                       onClick={() => { setOwnership(item.id as any); setSelectedInst(""); }}
-                      style={{ background: ownership === item.id ? "#334155" : "#0f172a", color: "#ffffff", border: ownership === item.id ? "2px solid #e11d48" : "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "700", fontSize: "0.8rem", cursor: "pointer" }}
+                      style={{ background: ownership === item.id ? "#e2e8f0" : "#f1f5f9", color: "#1e293b", border: ownership === item.id ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
                     >
                       {item.label}
                     </button>
@@ -487,19 +490,19 @@ export default function Home() {
               </div>
 
               <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>3. Search & Select Institution</label>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>3. Search & Select Institution</label>
                 <input 
                   type="text" 
                   placeholder="Type to search school name..." 
                   value={searchFilter} 
                   onChange={(e) => setSearchFilter(e.target.value)} 
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
                 />
                 <select 
                   value={selectedInst} 
                   onChange={(e) => setSelectedInst(e.target.value)} 
                   required
-                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
+                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
                 >
                   <option value="">-- Choose Institution ({filteredInstitutions.length} available) --</option>
                   {filteredInstitutions.map((inst, index) => (
@@ -510,12 +513,12 @@ export default function Home() {
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
                 <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
+                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
                   <select 
                     value={selectedFaculty} 
                     onChange={(e) => { setSelectedFaculty(e.target.value); setSelectedDept(""); }} 
                     required
-                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
                   >
                     <option value="">-- Choose Faculty --</option>
                     {SAMPLE_FACULTIES.map((fac, idx) => (
@@ -525,13 +528,13 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
+                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
                   <select 
                     value={selectedDept} 
                     onChange={(e) => setSelectedDept(e.target.value)} 
                     required
                     disabled={!selectedFaculty}
-                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
                   >
                     <option value="">-- Choose Department --</option>
                     {selectedFaculty && SAMPLE_DEPARTMENTS[selectedFaculty]?.map((dept, idx) => (
@@ -544,7 +547,7 @@ export default function Home() {
               <button 
                 type="submit" 
                 disabled={checkingAvailability}
-                style={{ background: "#e11d48", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(225, 29, 72, 0.4)" }}
+                style={{ background: "#1d4ed8", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(29, 78, 216, 0.4)" }}
               >
                 {checkingAvailability ? "Checking Database Records..." : "Check Course & Material Availability 🔎"}
               </button>
@@ -552,8 +555,8 @@ export default function Home() {
             </form>
 
             {availabilityResult && (
-              <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
-                <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#34d399" : "#fca5a5", margin: "0 0 10px 0" }}>
+              <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "#d1fae5" : "#fee2e2", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
+                <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#065f46" : "#991b1b", margin: "0 0 10px 0" }}>
                   {availabilityResult.message}
                 </p>
                 {availabilityResult.available ? (
@@ -561,7 +564,7 @@ export default function Home() {
                     Unlock Past Questions & Courses ⚡
                   </button>
                 ) : (
-                  <button onClick={() => alert("Request registered! Our team will prioritize sourcing materials for this department.")} style={{ background: "#334155", color: "#ffffff", border: "1px solid #475569", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                  <button onClick={() => alert("Request registered! Our team will prioritize sourcing materials for this department.")} style={{ background: "#475569", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
                     Request Priority Upload 📢
                   </button>
                 )}
@@ -570,89 +573,98 @@ export default function Home() {
           </div>
         )}
 
-        {/* TESTIMONIALS SECTION */}
+        {/* STUDENT STORIES & TESTIMONIALS SECTION */}
         <div style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#ffffff", marginBottom: "6px", textTransform: "uppercase" }}>Trusted by Students Across Nigeria</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>See what students are saying about Campus Learning Hub.</p>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Student Stories</h3>
+            <p style={{ color: "#475569", fontSize: "0.9rem" }}>See what students are saying about Campus Learning Hub.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
             {displayedReviews.map((rev, index) => (
-              <div key={index} style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "10px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <p style={{ color: "#f8fafc", fontSize: "0.9rem", fontStyle: "italic", margin: "0 0 12px 0", lineHeight: "1.6" }}>"{rev.comment}"</p>
-                <p style={{ color: "#fb7185", fontSize: "0.85rem", fontWeight: "800", margin: 0 }}>— {rev.name} <span style={{ color: "#94a3b8", fontWeight: "normal" }}>({rev.department})</span></p>
+              <div key={index} style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "20px", borderRadius: "10px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <p style={{ color: "#1e293b", fontSize: "0.9rem", fontStyle: "italic", margin: "0 0 12px 0", lineHeight: "1.6" }}>"{rev.comment}"</p>
+                <p style={{ color: "#1d4ed8", fontSize: "0.85rem", fontWeight: "900", margin: 0 }}>— {rev.name} <span style={{ color: "#475569", fontWeight: "normal" }}>({rev.department})</span></p>
               </div>
             ))}
           </div>
 
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <button onClick={() => setShowAllReviews(!showAllReviews)} style={{ background: "transparent", border: "1px solid #334155", color: "#fb7185", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+            <button onClick={() => setShowAllReviews(!showAllReviews)} style={{ background: "transparent", border: "1px solid #cbd5e1", color: "#1d4ed8", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
               {showAllReviews ? "Show Less ▲" : "See More Testimonials ▼"}
             </button>
           </div>
 
           {/* Submit Testimonial Form */}
-          <div style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "10px" }}>
-            <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "12px", marginTop: 0, textTransform: "uppercase" }}>Drop Your Testimonial</h4>
+          <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+            <h4 style={{ color: "#1e293b", fontSize: "1rem", marginBottom: "12px", marginTop: 0, textTransform: "uppercase", fontWeight: "900" }}>Share Your Student Story</h4>
             <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
-                <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. AKSU, Electrical Eng)" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. AKSU, Electrical Eng)" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
               </div>
-              <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your review here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
-              <button type="submit" style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "10px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.85rem" }}>
-                Submit Testimonial 💬
+              <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your story here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
+              <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                Submit Story 💬
               </button>
             </form>
           </div>
         </div>
 
+        {/* JOIN OUR COMMUNITY BANNER */}
+        <div style={{ background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)", color: "#0f172a", padding: "30px 20px", borderRadius: "12px", textAlign: "center", marginBottom: "50px", boxShadow: "0 10px 25px rgba(245, 158, 11, 0.3)" }}>
+          <h3 style={{ fontSize: "1.5rem", fontWeight: "900", margin: "0 0 8px 0", textTransform: "uppercase" }}>Join Our Community</h3>
+          <p style={{ fontSize: "0.95rem", fontWeight: "700", margin: "0 0 20px 0" }}>Enrich your learning today and connect with thousands of Nigerian students achieving top grades!</p>
+          <button onClick={() => setShowPricingModal(true)} style={{ background: "#0f172a", color: "#ffffff", border: "none", padding: "12px 28px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.9rem", textTransform: "uppercase" }}>
+            Get Started Now ⚡
+          </button>
+        </div>
+
         {/* PRICING & ACCESS MODAL */}
         {showPricingModal && (
-          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.85)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
-            <div style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.7)" }}>
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
               
-              <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#94a3b8", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
+              <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLH ACCESS PASS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#ffffff" }}>Unlock Platform & AI Study Room</h3>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLH ACCESS PASS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock Platform & AI Study Room</h3>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
-                <div onClick={() => setPlan("A500")} style={{ background: "#0f172a", border: plan === "A500" ? "2px solid #e11d48" : "1px solid #334155", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#fb7185", fontWeight: "800" }}>7 DAYS PASS</span>
-                  <h4 style={{ fontSize: "1.1rem", color: "#ffffff", margin: "4px 0" }}>₦500</h4>
+                <div onClick={() => setPlan("A500")} style={{ background: plan === "A500" ? "#eff6ff" : "#f8fafc", border: plan === "A500" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>7 DAYS PASS</span>
+                  <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setPlan("B1000")} style={{ background: "#0f172a", border: plan === "B1000" ? "2px solid #e11d48" : "1px solid #334155", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#fb7185", fontWeight: "800" }}>SEMESTER PASS</span>
-                  <h4 style={{ fontSize: "1.1rem", color: "#ffffff", margin: "4px 0" }}>₦1,000</h4>
+                <div onClick={() => setPlan("B1000")} style={{ background: plan === "B1000" ? "#eff6ff" : "#f8fafc", border: plan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
+                  <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
                 </div>
               </div>
 
-              <div style={{ background: "#0f172a", border: "1px solid #334155", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#ffffff" }}>
-                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#fb7185" }}>Fidelity Bank</span></p>
-                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem" }}>4568971753</span></p>
-                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#fb7185" }}>Asuquo Deborah</span></p>
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
+                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
+                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
+                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
               </div>
 
               <form onSubmit={handlePaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={txnRef} onChange={(e) => setTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <button type="submit" disabled={paymentLoading} style={{ background: "#e11d48", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={txnRef} onChange={(e) => setTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <button type="submit" disabled={paymentLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
                   {paymentLoading ? "Submitting..." : "Submit Payment Record"}
                 </button>
               </form>
 
-              <div style={{ marginTop: "20px", borderTop: "1px solid #334155", paddingTop: "14px" }}>
-                <h4 style={{ color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px" }}>Already have an Access Code?</h4>
+              <div style={{ marginTop: "20px", borderTop: "1px solid #cbd5e1", paddingTop: "14px" }}>
+                <h4 style={{ color: "#1e293b", fontSize: "0.85rem", marginBottom: "8px", fontWeight: "900" }}>Already have an Access Code?</h4>
                 <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} required placeholder="Your Email" style={{ padding: "8px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.8rem", outline: "none" }} />
-                  <input type="text" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} required placeholder="Access Token" style={{ padding: "8px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.8rem", outline: "none" }} />
-                  <button type="submit" disabled={verifyLoading} style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "8px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                  <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} required placeholder="Your Email" style={{ padding: "8px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.8rem", outline: "none" }} />
+                  <input type="text" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} required placeholder="Access Token" style={{ padding: "8px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.8rem", outline: "none" }} />
+                  <button type="submit" disabled={verifyLoading} style={{ background: "#475569", color: "#ffffff", border: "none", padding: "8px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
                     {verifyLoading ? "Verifying..." : "Verify Access Code"}
                   </button>
                 </form>
@@ -663,15 +675,15 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <footer style={{ borderTop: "2px solid #e11d48", paddingTop: "24px", marginTop: "50px", color: "#94a3b8", fontSize: "0.8rem" }}>
+        <footer style={{ borderTop: "2px solid #cbd5e1", paddingTop: "24px", marginTop: "50px", color: "#475569", fontSize: "0.8rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
-              <span style={{ fontWeight: "900", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
+              <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
               <p style={{ margin: "4px 0 0 0" }}>Nationwide portal covering 328+ universities, polytechnics, and colleges.</p>
             </div>
-            <p style={{ margin: 0, color: "#e11d48", fontWeight: "800" }}>newsglobal038@gmail.com</p>
+            <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
-          <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", marginTop: "20px", paddingTop: "14px", color: "#64748b", fontSize: "0.75rem" }}>
+          <div style={{ textAlign: "center", borderTop: "1px solid #e2e8f0", marginTop: "20px", paddingTop: "14px", color: "#64748b", fontSize: "0.75rem" }}>
             &copy; 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
