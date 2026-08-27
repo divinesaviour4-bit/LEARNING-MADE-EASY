@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const INSTITUTION_DATA = {
   universities: {
@@ -196,7 +196,6 @@ const SAMPLE_DEPARTMENTS: { [key: string]: string[] } = {
 };
 
 export default function Home() {
-  // Toggle for School Selector Modal / Section
   const [showSelector, setShowSelector] = useState(false);
 
   // Selector Navigation State
@@ -213,7 +212,7 @@ export default function Home() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [courseCode] = useState("GEN101");
+  const [courseCode] = useState("GST112");
   const [plan, setPlan] = useState<"A500" | "B1000">("B1000");
   const [txnRef, setTxnRef] = useState("");
   const [paymentLoading, setPaymentLoading] = useState(false);
@@ -228,7 +227,6 @@ export default function Home() {
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
 
-  // Testimonials State
   const [reviews, setReviews] = useState([
     { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Hub helped me grab A's in my exams without stress. The past questions are top-tier!" },
     { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and verified past questions in one place." },
@@ -347,9 +345,8 @@ export default function Home() {
           <span style={{ fontWeight: "800", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING <span style={{ color: "#e11d48" }}>HUB</span></span>
         </div>
         <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "700" }}>
-          <button onClick={() => { setShowSelector(true); setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100); }} style={{ background: "transparent", border: "none", color: "#f8fafc", cursor: "pointer", fontSize: "0.85rem", fontWeight: "700" }}>
-            Find Your School 🔍
-          </button>
+          <a href="#materials" style={{ color: "#f8fafc", textDecoration: "none" }}>Course Materials</a>
+          <a href="#past-questions" style={{ color: "#f8fafc", textDecoration: "none" }}>Past Questions</a>
           <a href="/chat" style={{ color: "#e11d48", textDecoration: "none" }}>AI Study Room 🤖</a>
           <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#e11d48", color: "#ffffff", padding: "8px 16px", borderRadius: "4px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
             Unlock Pass ⚡
@@ -387,10 +384,48 @@ export default function Home() {
           </div>
         </div>
 
+        {/* FEATURED COURSE MATERIALS SECTION */}
+        <div id="materials" style={{ marginBottom: "50px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+            <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase" }}>Featured Course Materials</h3>
+            <span style={{ fontSize: "0.75rem", background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 10px", borderRadius: "4px", fontWeight: "800" }}>Available Now</span>
+          </div>
+          
+          <div style={{ background: "#182232", border: "1px solid #334155", borderLeft: "4px solid #e11d48", padding: "20px", borderRadius: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
+            <div style={{ flex: "1 1 250px" }}>
+              <span style={{ fontSize: "0.7rem", background: "#e11d48", color: "#ffffff", padding: "3px 8px", borderRadius: "4px", fontWeight: "900" }}>GST 112</span>
+              <h4 style={{ margin: "8px 0 4px 0", fontSize: "1.1rem", color: "#ffffff", fontWeight: "800" }}>Nigerian Peoples and Culture (NPC)</h4>
+              <p style={{ margin: 0, fontSize: "0.85rem", color: "#94a3b8" }}>Akwa Ibom State University — Complete lecture notes, summary guides, and tutor explanations.</p>
+            </div>
+            <button onClick={() => setShowPricingModal(true)} style={{ background: "#e11d48", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
+              Unlock Material 🔒
+            </button>
+          </div>
+        </div>
+
+        {/* VERIFIED PAST QUESTIONS SECTION */}
+        <div id="past-questions" style={{ marginBottom: "50px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+            <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase" }}>Verified Past Questions & Answers (PQAs)</h3>
+            <span style={{ fontSize: "0.75rem", background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 10px", borderRadius: "4px", fontWeight: "800" }}>Step-by-Step Solutions</span>
+          </div>
+          
+          <div style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "8px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
+            <div style={{ flex: "1 1 250px" }}>
+              <span style={{ fontSize: "0.7rem", background: "#334155", color: "#fb7185", padding: "3px 8px", borderRadius: "4px", fontWeight: "900" }}>EXAM BANK</span>
+              <h4 style={{ margin: "8px 0 4px 0", fontSize: "1.1rem", color: "#ffffff", fontWeight: "800" }}>GST 112 Past Questions Bank (2021 - 2026)</h4>
+              <p style={{ margin: 0, fontSize: "0.85rem", color: "#94a3b8" }}>Fully solved objective and essay questions with detailed explanations to guarantee top scores.</p>
+            </div>
+            <button onClick={() => setShowPricingModal(true)} style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "10px 18px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
+              Access PQAs ⚡
+            </button>
+          </div>
+        </div>
+
         {/* HIDDEN / TOGGLED SCHOOL SELECTOR SECTION */}
         {!showSelector ? (
           <div style={{ textAlign: "center", marginBottom: "50px", background: "#182232", border: "1px solid #334155", padding: "30px", borderRadius: "12px" }}>
-            <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px" }}>Looking for your Institution's Past Questions?</h3>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px" }}>Looking for other Institutions & Departments?</h3>
             <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "16px" }}>Access over 300+ Nigerian Universities, Polytechnics, and Colleges of Education.</p>
             <button 
               onClick={() => setShowSelector(true)} 
@@ -563,7 +598,7 @@ export default function Home() {
             <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
                 <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. UNILAG, Accounting)" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. AKSU, Electrical Eng)" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
               </div>
               <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your review here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
               <button type="submit" style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "10px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.85rem" }}>
