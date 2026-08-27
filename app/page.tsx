@@ -198,6 +198,10 @@ const SAMPLE_DEPARTMENTS: { [key: string]: string[] } = {
 export default function Home() {
   const [showSelector, setShowSelector] = useState(false);
 
+  // Direct Global Course Material Search State
+  const [globalQuery, setGlobalQuery] = useState("");
+  const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
+
   // Selector Navigation State
   const [instType, setInstType] = useState<"universities" | "polytechnics" | "colleges_of_education">("universities");
   const [ownership, setOwnership] = useState<"federal" | "state" | "private">("federal");
@@ -238,6 +242,27 @@ export default function Home() {
 
   const currentList = INSTITUTION_DATA[instType][ownership] || [];
   const filteredInstitutions = currentList.filter(item => item.toLowerCase().includes(searchFilter.toLowerCase()));
+
+  // Global Course Search Handler (Identifies course automatically without selecting school first)
+  const handleGlobalSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!globalQuery.trim()) return;
+
+    const query = globalQuery.toLowerCase();
+    if (query.includes("gst 112") || query.includes("nigerian peoples") || query.includes("culture") || query.includes("gst")) {
+      setGlobalSearchResult({
+        found: true,
+        courseName: "GST 112: Nigerian Peoples and Culture",
+        details: "Matched instantly! Complete lecture notes, summary guides, and past questions available."
+      });
+    } else {
+      setGlobalSearchResult({
+        found: false,
+        courseName: globalQuery.toUpperCase(),
+        details: "Course material is currently being indexed by our AI engine for your department. You can request priority upload below!"
+      });
+    }
+  };
 
   const handleCheckAvailability = (e: React.FormEvent) => {
     e.preventDefault();
@@ -345,6 +370,7 @@ export default function Home() {
           <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
         <div style={{ display: "flex", gap: "20px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
+          <a href="#about" style={{ color: "#ffffff", textDecoration: "none" }}>About</a>
           <a href="#materials" style={{ color: "#ffffff", textDecoration: "none" }}>Courses</a>
           <a href="#past-questions" style={{ color: "#ffffff", textDecoration: "none" }}>Past Questions</a>
           <a href="/chat" style={{ color: "#fbbf24", textDecoration: "none" }}>AI Study Room 🤖</a>
@@ -366,17 +392,52 @@ export default function Home() {
           <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
             Unlock your academic potential with structured course materials, verified past questions with step-by-step solutions, and an intelligent AI study planner.
           </p>
+
+          {/* INSTANT GLOBAL COURSE SEARCH (NO UNIVERSITY REQUIRED FIRST) */}
+          <div style={{ background: "#ffffff", padding: "16px", borderRadius: "12px", maxWidth: "600px", margin: "0 auto 20px auto", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
+            <form onSubmit={handleGlobalSearch} style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <input 
+                type="text" 
+                value={globalQuery} 
+                onChange={(e) => setGlobalQuery(e.target.value)} 
+                placeholder="Search any course (e.g. GST 112, CSC 201, CHM 101)..." 
+                style={{ flex: "1 1 280px", padding: "12px 16px", borderRadius: "8px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.9rem", outline: "none" }}
+              />
+              <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                Search Course 🔎
+              </button>
+            </form>
+
+            {globalSearchResult && (
+              <div style={{ marginTop: "14px", padding: "12px", borderRadius: "8px", background: globalSearchResult.found ? "#d1fae5" : "#fef3c7", border: `1px solid ${globalSearchResult.found ? "#10b981" : "#f59e0b"}`, textAlign: "left" }}>
+                <p style={{ fontSize: "0.85rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
+                  {globalSearchResult.found ? `✅ ${globalSearchResult.courseName}` : `🔍 ${globalSearchResult.courseName}`}
+                </p>
+                <p style={{ fontSize: "0.8rem", color: "#334155", margin: "0 0 8px 0" }}>{globalSearchResult.details}</p>
+                {globalSearchResult.found ? (
+                  <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "800", cursor: "pointer" }}>
+                    Unlock Course Material ⚡
+                  </button>
+                ) : (
+                  <button onClick={() => alert("Course material request submitted successfully!")} style={{ background: "#f59e0b", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "800", cursor: "pointer" }}>
+                    Request Material Upload 📢
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
           <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
             <button 
               onClick={() => {
                 setShowSelector(true);
                 setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100);
               }} 
-              style={{ background: "#fbbf24", color: "#1d4ed8", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+              style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem" }}
             >
-              🔍 Search Your School & Department
+              🏫 Search By School & Department
             </button>
-            <a href="/chat" style={{ background: "rgba(255,255,255,0.15)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.3)", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
+            <a href="/chat" style={{ background: "rgba(255,255,255,0.15)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.3)", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
               Open AI Study Room 🤖
             </a>
           </div>
@@ -385,7 +446,36 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* OUR COURSES SECTION (Light Blue Cards) */}
+        {/* PLATFORM DESCRIPTION & WHY STUDENTS SHOULD CHOOSE */}
+        <div id="about" style={{ marginBottom: "50px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "30px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+          <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase" }}>About Campus Learning Hub</span>
+          <h2 style={{ fontSize: "1.6rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 14px 0" }}>The Ultimate Academic Companion for Nigerian Students</h2>
+          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", marginBottom: "20px" }}>
+            Campus Learning Hub is a specialized digital education ecosystem engineered to help Nigerian university, polytechnic, and college students master their coursework. Whether you are tackling general studies (GST) or demanding departmental modules, our platform organizes everything you need into clean, accessible digital assets.
+          </p>
+
+          <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "12px", textTransform: "uppercase" }}>Why Students Should Choose Campus Learning Hub:</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "16px" }}>
+            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🚀 Instant Course Identification</h4>
+              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Search for any course code directly without hassle, and our system instantly retrieves verified materials.</p>
+            </div>
+            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>📚 Verified Past Questions & Answers</h4>
+              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Access step-by-step solutions to past exam questions to understand recurring examiner patterns.</p>
+            </div>
+            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🤖 AI-Powered Study Room</h4>
+              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Interact with our Gemini-powered AI tutor to break down complex topics and generate custom study plans.</p>
+            </div>
+            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🎯 Guaranteed Top Grades</h4>
+              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Designed specifically around the Nigerian higher education curriculum to help you grab A's in all your courses.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* OUR COURSES SECTION */}
         <div id="materials" style={{ marginBottom: "50px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Our Courses</h3>
@@ -434,7 +524,7 @@ export default function Home() {
               onClick={() => setShowSelector(true)} 
               style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}
             >
-              Click Here to Search Your School & Department ▼
+              Click Here to Search By School & Department ▼
             </button>
           </div>
         ) : (
@@ -679,7 +769,7 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
               <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
-              <p style={{ margin: "4px 0 0 0" }}>Nationwide portal covering 328+ universities, polytechnics, and colleges.</p>
+              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for Nigerian students.</p>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
