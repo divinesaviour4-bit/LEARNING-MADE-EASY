@@ -96,12 +96,12 @@ export default function ChatRoom() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#0b132b", color: "#ffffff", fontFamily: "system-ui, -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
       
-      {/* Sky Sports Athletic Header Navbar */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#121212", borderBottom: "3px solid #e11d48", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {/* Navy Blue & White Header Navbar */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#1c2541", borderBottom: "2px solid #3a506b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem" }}>CLH</span>
+          <span style={{ backgroundColor: "#ffffff", color: "#0b132b", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem" }}>CLH</span>
           <span style={{ fontWeight: "800", fontSize: "1rem", color: "#ffffff" }}>Campus Learning AI Study Room</span>
         </div>
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -111,12 +111,12 @@ export default function ChatRoom() {
                 setIsUnlocked(false);
                 sessionStorage.removeItem("clh_verified_student");
               }} 
-              style={{ backgroundColor: "#7c2d12", color: "#ffffff", border: "none", padding: "6px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "700", cursor: "pointer" }}
+              style={{ backgroundColor: "#3a506b", color: "#ffffff", border: "none", padding: "6px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "700", cursor: "pointer" }}
             >
               Lock Session 🔒
             </button>
           )}
-          <a href="/" style={{ backgroundColor: "#182232", color: "#fb7185", border: "1px solid #334155", padding: "8px 14px", borderRadius: "6px", fontSize: "0.8rem", fontWeight: "800", textDecoration: "none" }}>
+          <a href="/" style={{ backgroundColor: "#1c2541", color: "#ffffff", border: "1px solid #3a506b", padding: "8px 14px", borderRadius: "6px", fontSize: "0.8rem", fontWeight: "800", textDecoration: "none" }}>
             ← Home
           </a>
         </div>
@@ -126,18 +126,18 @@ export default function ChatRoom() {
       <div style={{ maxWidth: "800px", width: "100%", margin: "0 auto", padding: "20px 16px", flex: 1, display: "flex", flexDirection: "column", boxSizing: "border-box" }}>
         
         <div style={{ textAlign: "center", marginBottom: "20px", marginTop: "10px" }}>
-          <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 12px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase" }}>
+          <span style={{ background: "rgba(255, 255, 255, 0.1)", color: "#ffffff", border: "1px solid rgba(255, 255, 255, 0.2)", padding: "4px 12px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase" }}>
             Powered by Gemini AI
           </span>
           <h2 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", marginTop: "10px", textTransform: "uppercase" }}>Your Personal Examination Tutor</h2>
         </div>
 
         {!isUnlocked ? (
-          {/* Locked State - Enter Access Code */}
-          <div style={{ flex: 1, background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "30px 20px", maxWidth: "450px", margin: "20px auto", width: "100%", textAlign: "center", boxSizing: "border-box", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+          /* Locked State - Enter Access Code */
+          <div style={{ flex: 1, background: "#1c2541", border: "1px solid #3a506b", borderTop: "4px solid #ffffff", borderRadius: "12px", padding: "30px 20px", maxWidth: "450px", margin: "20px auto", width: "100%", textAlign: "center", boxSizing: "border-box", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
             <span style={{ fontSize: "2.5rem" }}>🔒</span>
             <h3 style={{ color: "#ffffff", fontSize: "1.2rem", margin: "10px 0 6px 0", fontWeight: "900" }}>Enter Access Code to Unlock</h3>
-            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "20px", lineHeight: "1.5" }}>
+            <p style={{ color: "#b0bec5", fontSize: "0.85rem", marginBottom: "20px", lineHeight: "1.5" }}>
               Please enter your verified email address and access code to access the Campus Learning AI Study Room.
             </p>
             <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "10px", textAlign: "left" }}>
@@ -147,7 +147,7 @@ export default function ChatRoom() {
                 onChange={(e) => setVerifyEmail(e.target.value)} 
                 required 
                 placeholder="Your Email Address" 
-                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0b132b", border: "1px solid #3a506b", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
               />
               <input 
                 type="text" 
@@ -155,34 +155,34 @@ export default function ChatRoom() {
                 onChange={(e) => setAccessCode(e.target.value)} 
                 required 
                 placeholder="Access Code (e.g. GEN101-H9LTY)" 
-                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0b132b", border: "1px solid #3a506b", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
               />
               <button 
                 type="submit" 
                 disabled={verifyLoading} 
-                style={{ background: "#e11d48", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", width: "100%", marginTop: "6px", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(225, 29, 72, 0.4)" }}
+                style={{ background: "#ffffff", color: "#0b132b", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", width: "100%", marginTop: "6px", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(255, 255, 255, 0.2)" }}
               >
                 {verifyLoading ? "Verifying Token..." : "Verify & Enter Study Room ⚡"}
               </button>
             </form>
-            <div style={{ marginTop: "16px", fontSize: "0.8rem", color: "#94a3b8" }}>
-              Don't have an access code yet? <a href="/#pricing" style={{ color: "#fb7185", textDecoration: "none", fontWeight: "bold" }}>Get a Pass here →</a>
+            <div style={{ marginTop: "16px", fontSize: "0.8rem", color: "#b0bec5" }}>
+              Don't have an access code yet? <a href="/#pricing" style={{ color: "#ffffff", textDecoration: "underline", fontWeight: "bold" }}>Get a Pass here →</a>
             </div>
           </div>
         ) : (
-          {/* Unlocked Chat Interface */}
+          /* Unlocked Chat Interface */
           <>
-            <div style={{ flex: 1, background: "#182232", border: "1px solid #334155", borderRadius: "12px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
+            <div style={{ flex: 1, background: "#1c2541", border: "1px solid #3a506b", borderRadius: "12px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
               {messages.map((msg, index) => (
-                <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#e11d48" : "#0f172a", color: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: msg.sender === "ai" ? "1px solid #334155" : "none", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
-                  <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#fbcfe8" : "#fb7185", marginBottom: "4px" }}>
+                <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#3a506b" : "#0b132b", color: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid #3a506b", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
+                  <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#ffffff" : "#b0bec5", marginBottom: "4px" }}>
                     {msg.sender === "user" ? "You" : "Campus Learning AI Tutor"}
                   </strong>
                   {msg.text}
                 </div>
               ))}
               {loading && (
-                <div style={{ alignSelf: "flex-start", background: "#0f172a", border: "1px solid #334155", padding: "12px 16px", borderRadius: "8px", color: "#94a3b8", fontSize: "0.85rem" }}>
+                <div style={{ alignSelf: "flex-start", background: "#0b132b", border: "1px solid #3a506b", padding: "12px 16px", borderRadius: "8px", color: "#b0bec5", fontSize: "0.85rem" }}>
                   AI is analyzing course materials and generating your response...
                 </div>
               )}
@@ -194,9 +194,9 @@ export default function ChatRoom() {
                 value={input} 
                 onChange={(e) => setInput(e.target.value)} 
                 placeholder="Ask a question or request a study schedule..." 
-                style={{ flex: 1, padding: "12px 16px", borderRadius: "8px", background: "#182232", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
+                style={{ flex: 1, padding: "12px 16px", borderRadius: "8px", background: "#1c2541", border: "1px solid #3a506b", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
               />
-              <button type="submit" disabled={loading} style={{ background: "#e11d48", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.9rem", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(225, 29, 72, 0.4)" }}>
+              <button type="submit" disabled={loading} style={{ background: "#ffffff", color: "#0b132b", border: "none", padding: "12px 20px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.9rem", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(255, 255, 255, 0.2)" }}>
                 {loading ? "Thinking..." : "Send 🚀"}
               </button>
             </form>
