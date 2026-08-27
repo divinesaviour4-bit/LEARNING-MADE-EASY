@@ -1,8 +1,7 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-// Master institutional data parsed from national directories
 const INSTITUTION_DATA = {
   universities: {
     federal: [
@@ -197,6 +196,9 @@ const SAMPLE_DEPARTMENTS: { [key: string]: string[] } = {
 };
 
 export default function Home() {
+  // Toggle for School Selector Modal / Section
+  const [showSelector, setShowSelector] = useState(false);
+
   // Selector Navigation State
   const [instType, setInstType] = useState<"universities" | "polytechnics" | "colleges_of_education">("universities");
   const [ownership, setOwnership] = useState<"federal" | "state" | "private">("federal");
@@ -226,16 +228,16 @@ export default function Home() {
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
 
+  // Testimonials State
   const [reviews, setReviews] = useState([
-    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Made Easy helped me ace my past questions across universities without stress!" },
-    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and past questions in one centralized portal." },
-    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study schedule kept me organized throughout the semester. Highly recommended!" }
+    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Hub helped me grab A's in my exams without stress. The past questions are top-tier!" },
+    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and verified past questions in one place." },
+    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study planner kept me organized throughout the semester. Highly recommended for all Nigerian students!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  // Filtered institution list based on type & ownership
   const currentList = INSTITUTION_DATA[instType][ownership] || [];
   const filteredInstitutions = currentList.filter(item => item.toLowerCase().includes(searchFilter.toLowerCase()));
 
@@ -251,7 +253,6 @@ export default function Home() {
 
     setTimeout(() => {
       setCheckingAvailability(false);
-      // AKSU Electrical Engineering or GST112 has materials, others are not available yet as requested!
       if (selectedInst.includes("Akwa Ibom State University") && selectedDept.includes("Electrical")) {
         setAvailabilityResult({
           available: true,
@@ -325,34 +326,30 @@ export default function Home() {
 
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewerName || !reviewerComment) return;
-    setReviews([{ name: reviewerName, department: reviewerDept || "Student", comment: reviewerComment }, ...reviews]);
+    if (!reviewerName || !reviewerComment) {
+      alert("Please provide your name and review comment.");
+      return;
+    }
+    setReviews([{ name: reviewerName, department: reviewerDept || "Nigerian Student", comment: reviewerComment }, ...reviews]);
     setReviewerName(""); setReviewerDept(""); setReviewerComment("");
-    alert("Thank you! Your review has been posted.");
+    alert("Thank you! Your testimonial has been posted successfully.");
   };
 
-  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
+  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
       
-      {/* SKY SPORTS INSPIRED TOP TICKER / BANNER */}
-      <div style={{ background: "#e11d48", color: "#ffffff", padding: "8px 16px", fontSize: "0.75rem", fontWeight: "800", display: "flex", justifyContent: "space-between", alignItems: "center", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ background: "#0f172a", color: "#ffffff", padding: "2px 6px", borderRadius: "4px" }}>BREAKING</span>
-          <span>Nationwide Portal Update: Over 300+ Universities, Polytechnics & Colleges Now Added!</span>
-        </div>
-        <a href="/chat" style={{ color: "#ffffff", textDecoration: "underline" }}>AI Study Room Active ⚡</a>
-      </div>
-
       {/* Sky Sports Athletic Header Navbar */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#121212", borderBottom: "3px solid #e11d48", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem", letterSpacing: "0.05em" }}>CLME</span>
+          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem", letterSpacing: "0.05em" }}>CLH</span>
           <span style={{ fontWeight: "800", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING <span style={{ color: "#e11d48" }}>HUB</span></span>
         </div>
         <div style={{ display: "flex", gap: "15px", fontSize: "0.85rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#selector" style={{ color: "#f8fafc", textDecoration: "none" }}>Institution Lookup</a>
+          <button onClick={() => { setShowSelector(true); setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100); }} style={{ background: "transparent", border: "none", color: "#f8fafc", cursor: "pointer", fontSize: "0.85rem", fontWeight: "700" }}>
+            Find Your School 🔍
+          </button>
           <a href="/chat" style={{ color: "#e11d48", textDecoration: "none" }}>AI Study Room 🤖</a>
           <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#e11d48", color: "#ffffff", padding: "8px 16px", borderRadius: "4px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
             Unlock Pass ⚡
@@ -365,152 +362,215 @@ export default function Home() {
         {/* Hero Section */}
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "6px 14px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", letterSpacing: "0.1em", textTransform: "uppercase", display: "inline-block" }}>
-            ◆ Official Nigerian Higher Education Database
+            ◆ For All Nigerian Students
           </span>
           <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", fontWeight: "900", marginTop: "16px", color: "#ffffff", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Find Your School & <span style={{ color: "#e11d48" }}>Department Materials</span>
+            Grab A's in All Your Courses <span style={{ color: "#e11d48" }}>Without Stress</span>
           </h1>
-          <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "14px", lineHeight: "1.6", maxWidth: "700px", marginInline: "auto" }}>
-            Select your institution type, university or polytechnic, faculty, and department to access past questions and AI study tools. Materials not yet available will feature direct request options.
+          <p style={{ color: "#94a3b8", fontSize: "1rem", marginTop: "14px", lineHeight: "1.6", maxWidth: "720px", marginInline: "auto" }}>
+            Campus Learning Hub is built for all Nigerian students across universities, polytechnics, and colleges of education. Get instant access to structured course notes, verified past questions with detailed answers, and an intelligent AI study planner to master your exams.
           </p>
+
+          <div style={{ marginTop: "30px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+            <button 
+              onClick={() => {
+                setShowSelector(true);
+                setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100);
+              }} 
+              style={{ background: "#e11d48", color: "#ffffff", padding: "14px 24px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", boxShadow: "0 4px 15px rgba(225, 29, 72, 0.4)" }}
+            >
+              🔍 Search Your School & Department
+            </button>
+            <a href="/chat" style={{ background: "#182232", color: "#ffffff", border: "1px solid #334155", padding: "14px 24px", borderRadius: "6px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
+              Open AI Study Room 🤖
+            </a>
+          </div>
         </div>
 
-        {/* INTERACTIVE INSTITUTION & DEPARTMENT SELECTOR (SKY SPORTS CARD WIZARD) */}
-        <div id="selector" style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
-          <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#ffffff", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.03em" }}>
-            🔍 Institution & Department Finder
-          </h3>
-          <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
-
-          <form onSubmit={handleCheckAvailability} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            
-            {/* Step 1: Institution Category */}
-            <div>
-              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-                {[
-                  { id: "universities", label: "Universities" },
-                  { id: "polytechnics", label: "Polytechnics" },
-                  { id: "colleges_of_education", label: "Colleges of Ed" }
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    onClick={() => { setInstType(item.id as any); setSelectedInst(""); }}
-                    style={{ background: instType === item.id ? "#e11d48" : "#0f172a", color: "#ffffff", border: "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer", transition: "all 0.2s" }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step 2: Ownership Tier */}
-            <div>
-              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-                {[
-                  { id: "federal", label: "Federal" },
-                  { id: "state", label: "State" },
-                  { id: "private", label: "Private" }
-                ].map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    onClick={() => { setOwnership(item.id as any); setSelectedInst(""); }}
-                    style={{ background: ownership === item.id ? "#334155" : "#0f172a", color: "#ffffff", border: ownership === item.id ? "2px solid #e11d48" : "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "700", fontSize: "0.8rem", cursor: "pointer" }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Step 3: Specific Institution Dropdown with Search Filter */}
-            <div>
-              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>3. Select or Search Institution</label>
-              <input 
-                type="text" 
-                placeholder="Type to search school name..." 
-                value={searchFilter} 
-                onChange={(e) => setSearchFilter(e.target.value)} 
-                style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
-              />
-              <select 
-                value={selectedInst} 
-                onChange={(e) => setSelectedInst(e.target.value)} 
-                required
-                style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
-              >
-                <option value="">-- Choose Institution ({filteredInstitutions.length} available) --</option>
-                {filteredInstitutions.map((inst, index) => (
-                  <option key={index} value={inst}>{inst}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Step 4: Faculty & Department Selection */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
-                <select 
-                  value={selectedFaculty} 
-                  onChange={(e) => { setSelectedFaculty(e.target.value); setSelectedDept(""); }} 
-                  required
-                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
-                >
-                  <option value="">-- Choose Faculty --</option>
-                  {SAMPLE_FACULTIES.map((fac, idx) => (
-                    <option key={idx} value={fac}>{fac}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
-                <select 
-                  value={selectedDept} 
-                  onChange={(e) => setSelectedDept(e.target.value)} 
-                  required
-                  disabled={!selectedFaculty}
-                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
-                >
-                  <option value="">-- Choose Department --</option>
-                  {selectedFaculty && SAMPLE_DEPARTMENTS[selectedFaculty]?.map((dept, idx) => (
-                    <option key={idx} value={dept}>{dept}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
+        {/* HIDDEN / TOGGLED SCHOOL SELECTOR SECTION */}
+        {!showSelector ? (
+          <div style={{ textAlign: "center", marginBottom: "50px", background: "#182232", border: "1px solid #334155", padding: "30px", borderRadius: "12px" }}>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "#ffffff", marginBottom: "8px" }}>Looking for your Institution's Past Questions?</h3>
+            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "16px" }}>Access over 300+ Nigerian Universities, Polytechnics, and Colleges of Education.</p>
             <button 
-              type="submit" 
-              disabled={checkingAvailability}
-              style={{ background: "#e11d48", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(225, 29, 72, 0.4)" }}
+              onClick={() => setShowSelector(true)} 
+              style={{ background: "transparent", border: "2px solid #e11d48", color: "#fb7185", padding: "10px 20px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}
             >
-              {checkingAvailability ? "Checking Database Records..." : "Check Material Availability 🔎"}
+              Click Here to Search Your School & Department ▼
             </button>
-
-          </form>
-
-          {/* Availability Result Box */}
-          {availabilityResult && (
-            <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
-              <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#34d399" : "#fca5a5", margin: "0 0 10px 0" }}>
-                {availabilityResult.message}
-              </p>
-              {availabilityResult.available ? (
-                <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-                  Unlock Past Questions ⚡
-                </button>
-              ) : (
-                <button onClick={() => alert("Request registered! Our editorial team will prioritize sourcing materials for this department.")} style={{ background: "#334155", color: "#ffffff", border: "1px solid #475569", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-                  Request Priority Upload 📢
-                </button>
-              )}
+          </div>
+        ) : (
+          <div id="selector" style={{ background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#ffffff", margin: 0, textTransform: "uppercase", letterSpacing: "0.03em" }}>
+                🔍 Search School, Faculty & Department
+              </h3>
+              <button onClick={() => setShowSelector(false)} style={{ background: "transparent", border: "none", color: "#94a3b8", fontWeight: "bold", cursor: "pointer", fontSize: "1rem" }}>✕ Close</button>
             </div>
-          )}
+            <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
 
+            <form onSubmit={handleCheckAvailability} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              
+              <div>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                  {[
+                    { id: "universities", label: "Universities" },
+                    { id: "polytechnics", label: "Polytechnics" },
+                    { id: "colleges_of_education", label: "Colleges of Ed" }
+                  ].map((item) => (
+                    <button
+                      type="button"
+                      key={item.id}
+                      onClick={() => { setInstType(item.id as any); setSelectedInst(""); }}
+                      style={{ background: instType === item.id ? "#e11d48" : "#0f172a", color: "#ffffff", border: "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                  {[
+                    { id: "federal", label: "Federal" },
+                    { id: "state", label: "State" },
+                    { id: "private", label: "Private" }
+                  ].map((item) => (
+                    <button
+                      type="button"
+                      key={item.id}
+                      onClick={() => { setOwnership(item.id as any); setSelectedInst(""); }}
+                      style={{ background: ownership === item.id ? "#334155" : "#0f172a", color: "#ffffff", border: ownership === item.id ? "2px solid #e11d48" : "1px solid #334155", padding: "10px", borderRadius: "6px", fontWeight: "700", fontSize: "0.8rem", cursor: "pointer" }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>3. Search & Select Institution</label>
+                <input 
+                  type="text" 
+                  placeholder="Type to search school name..." 
+                  value={searchFilter} 
+                  onChange={(e) => setSearchFilter(e.target.value)} 
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
+                />
+                <select 
+                  value={selectedInst} 
+                  onChange={(e) => setSelectedInst(e.target.value)} 
+                  required
+                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
+                >
+                  <option value="">-- Choose Institution ({filteredInstitutions.length} available) --</option>
+                  {filteredInstitutions.map((inst, index) => (
+                    <option key={index} value={inst}>{inst}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
+                  <select 
+                    value={selectedFaculty} 
+                    onChange={(e) => { setSelectedFaculty(e.target.value); setSelectedDept(""); }} 
+                    required
+                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                  >
+                    <option value="">-- Choose Faculty --</option>
+                    {SAMPLE_FACULTIES.map((fac, idx) => (
+                      <option key={idx} value={fac}>{fac}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "800", color: "#f8fafc", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
+                  <select 
+                    value={selectedDept} 
+                    onChange={(e) => setSelectedDept(e.target.value)} 
+                    required
+                    disabled={!selectedFaculty}
+                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }}
+                  >
+                    <option value="">-- Choose Department --</option>
+                    {selectedFaculty && SAMPLE_DEPARTMENTS[selectedFaculty]?.map((dept, idx) => (
+                      <option key={idx} value={dept}>{dept}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={checkingAvailability}
+                style={{ background: "#e11d48", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(225, 29, 72, 0.4)" }}
+              >
+                {checkingAvailability ? "Checking Database Records..." : "Check Course & Material Availability 🔎"}
+              </button>
+
+            </form>
+
+            {availabilityResult && (
+              <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
+                <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#34d399" : "#fca5a5", margin: "0 0 10px 0" }}>
+                  {availabilityResult.message}
+                </p>
+                {availabilityResult.available ? (
+                  <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                    Unlock Past Questions & Courses ⚡
+                  </button>
+                ) : (
+                  <button onClick={() => alert("Request registered! Our team will prioritize sourcing materials for this department.")} style={{ background: "#334155", color: "#ffffff", border: "1px solid #475569", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+                    Request Priority Upload 📢
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TESTIMONIALS SECTION */}
+        <div style={{ marginBottom: "50px" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#ffffff", marginBottom: "6px", textTransform: "uppercase" }}>Trusted by Students Across Nigeria</h3>
+            <p style={{ color: "#94a3b8", fontSize: "0.9rem" }}>See what students are saying about Campus Learning Hub.</p>
+          </div>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+            {displayedReviews.map((rev, index) => (
+              <div key={index} style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "10px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <p style={{ color: "#f8fafc", fontSize: "0.9rem", fontStyle: "italic", margin: "0 0 12px 0", lineHeight: "1.6" }}>"{rev.comment}"</p>
+                <p style={{ color: "#fb7185", fontSize: "0.85rem", fontWeight: "800", margin: 0 }}>— {rev.name} <span style={{ color: "#94a3b8", fontWeight: "normal" }}>({rev.department})</span></p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <button onClick={() => setShowAllReviews(!showAllReviews)} style={{ background: "transparent", border: "1px solid #334155", color: "#fb7185", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+              {showAllReviews ? "Show Less ▲" : "See More Testimonials ▼"}
+            </button>
+          </div>
+
+          {/* Submit Testimonial Form */}
+          <div style={{ background: "#182232", border: "1px solid #334155", padding: "20px", borderRadius: "10px" }}>
+            <h4 style={{ color: "#ffffff", fontSize: "1rem", marginBottom: "12px", marginTop: 0, textTransform: "uppercase" }}>Drop Your Testimonial</h4>
+            <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
+                <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. UNILAG, Accounting)" style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none" }} />
+              </div>
+              <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your review here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
+              <button type="submit" style={{ background: "#334155", color: "#fb7185", border: "1px solid #475569", padding: "10px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.85rem" }}>
+                Submit Testimonial 💬
+              </button>
+            </form>
+          </div>
         </div>
 
         {/* PRICING & ACCESS MODAL */}
@@ -521,7 +581,7 @@ export default function Home() {
               <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#94a3b8", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLME ACCESS PASS</span>
+                <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLH ACCESS PASS</span>
                 <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#ffffff" }}>Unlock Platform & AI Study Room</h3>
               </div>
 
@@ -536,7 +596,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Payment Details */}
               <div style={{ background: "#0f172a", border: "1px solid #334155", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#ffffff" }}>
                 <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#fb7185" }}>Fidelity Bank</span></p>
                 <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem" }}>4568971753</span></p>
@@ -553,7 +612,6 @@ export default function Home() {
                 </button>
               </form>
 
-              {/* Token Verification */}
               <div style={{ marginTop: "20px", borderTop: "1px solid #334155", paddingTop: "14px" }}>
                 <h4 style={{ color: "#ffffff", fontSize: "0.85rem", marginBottom: "8px" }}>Already have an Access Code?</h4>
                 <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -573,13 +631,13 @@ export default function Home() {
         <footer style={{ borderTop: "2px solid #e11d48", paddingTop: "24px", marginTop: "50px", color: "#94a3b8", fontSize: "0.8rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
-              <span style={{ fontWeight: "900", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Made Easy (CLME)</span>
+              <span style={{ fontWeight: "900", color: "#ffffff", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
               <p style={{ margin: "4px 0 0 0" }}>Nationwide portal covering 328+ universities, polytechnics, and colleges.</p>
             </div>
             <p style={{ margin: 0, color: "#e11d48", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
           <div style={{ textAlign: "center", borderTop: "1px solid #1e293b", marginTop: "20px", paddingTop: "14px", color: "#64748b", fontSize: "0.75rem" }}>
-            &copy; 2026 Campus Learning Made Easy. All rights reserved.
+            &copy; 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
 
