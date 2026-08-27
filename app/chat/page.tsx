@@ -9,7 +9,7 @@ interface Message {
 
 export default function ChatRoom() {
   const [messages, setMessages] = useState<Message[]>([
-    { sender: "ai", text: "Hello! I am your Campus Learning Made Easy AI Assistant. Ask me to explain difficult topics, break down past questions and answers, or generate a custom study schedule for your AKSU exams!" }
+    { sender: "ai", text: "Hello! I am your Campus Learning Hub AI Assistant. Ask me to explain difficult topics, break down past questions and answers, or generate a custom study schedule for your exams!" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export default function ChatRoom() {
 
   // Check session storage on load
   useEffect(() => {
-    const verified = sessionStorage.getItem("clme_verified_student");
+    const verified = sessionStorage.getItem("clh_verified_student");
     if (verified) {
       setIsUnlocked(true);
     }
@@ -49,7 +49,7 @@ export default function ChatRoom() {
       const data = await res.json();
       if (data.success) {
         setIsUnlocked(true);
-        sessionStorage.setItem("clme_verified_student", "true");
+        sessionStorage.setItem("clh_verified_student", "true");
         alert(data.message || "Access granted to AI Study Room!");
       } else {
         alert(data.message || "Invalid credentials, payment not verified, or access expired.");
@@ -98,25 +98,25 @@ export default function ChatRoom() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#0f172a", color: "#f8fafc", fontFamily: "system-ui, -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
       
-      {/* Navbar */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "rgba(15, 23, 42, 0.95)", backdropFilter: "blur(10px)", borderBottom: "1px solid #1e293b", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {/* Sky Sports Athletic Header Navbar */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#121212", borderBottom: "3px solid #e11d48", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ backgroundColor: "#3b82f6", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "8px", fontSize: "0.8rem" }}>CLME</span>
-          <span style={{ fontWeight: "700", fontSize: "1rem", color: "#ffffff" }}>Campus Learning AI Study Room</span>
+          <span style={{ backgroundColor: "#e11d48", color: "#ffffff", fontWeight: "900", padding: "6px 10px", borderRadius: "4px", fontSize: "0.85rem" }}>CLH</span>
+          <span style={{ fontWeight: "800", fontSize: "1rem", color: "#ffffff" }}>Campus Learning AI Study Room</span>
         </div>
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           {isUnlocked && (
             <button 
               onClick={() => {
                 setIsUnlocked(false);
-                sessionStorage.removeItem("clme_verified_student");
+                sessionStorage.removeItem("clh_verified_student");
               }} 
-              style={{ backgroundColor: "#7c2d12", color: "#ffffff", border: "none", padding: "6px 10px", borderRadius: "6px", fontSize: "0.7rem", fontWeight: "700", cursor: "pointer" }}
+              style={{ backgroundColor: "#7c2d12", color: "#ffffff", border: "none", padding: "6px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "700", cursor: "pointer" }}
             >
               Lock Session 🔒
             </button>
           )}
-          <a href="/" style={{ backgroundColor: "#1e293b", color: "#60a5fa", border: "1px solid #334155", padding: "8px 14px", borderRadius: "8px", fontSize: "0.8rem", fontWeight: "700", textDecoration: "none" }}>
+          <a href="/" style={{ backgroundColor: "#182232", color: "#fb7185", border: "1px solid #334155", padding: "8px 14px", borderRadius: "6px", fontSize: "0.8rem", fontWeight: "800", textDecoration: "none" }}>
             ← Home
           </a>
         </div>
@@ -125,18 +125,18 @@ export default function ChatRoom() {
       {/* Main Container */}
       <div style={{ maxWidth: "800px", width: "100%", margin: "0 auto", padding: "20px 16px", flex: 1, display: "flex", flexDirection: "column", boxSizing: "border-box" }}>
         
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <span style={{ background: "rgba(59, 130, 246, 0.15)", color: "#60a5fa", border: "1px solid rgba(59, 130, 246, 0.3)", padding: "4px 12px", borderRadius: "20px", fontSize: "0.7rem", fontWeight: "700", textTransform: "uppercase" }}>
+        <div style={{ textAlign: "center", marginBottom: "20px", marginTop: "10px" }}>
+          <span style={{ background: "rgba(225, 29, 72, 0.15)", color: "#fb7185", border: "1px solid rgba(225, 29, 72, 0.3)", padding: "4px 12px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase" }}>
             Powered by Gemini AI
           </span>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff", marginTop: "10px" }}>Your Personal Examination Tutor</h2>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#ffffff", marginTop: "10px", textTransform: "uppercase" }}>Your Personal Examination Tutor</h2>
         </div>
 
         {!isUnlocked ? (
-          /* Locked State - Enter Access Code */
-          <div style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", borderRadius: "16px", padding: "30px 20px", maxWidth: "450px", margin: "20px auto", width: "100%", textAlign: "center", boxSizing: "border-box", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
+          {/* Locked State - Enter Access Code */}
+          <div style={{ flex: 1, background: "#182232", border: "1px solid #334155", borderTop: "4px solid #e11d48", borderRadius: "12px", padding: "30px 20px", maxWidth: "450px", margin: "20px auto", width: "100%", textAlign: "center", boxSizing: "border-box", boxShadow: "0 20px 40px rgba(0,0,0,0.4)" }}>
             <span style={{ fontSize: "2.5rem" }}>🔒</span>
-            <h3 style={{ color: "#ffffff", fontSize: "1.2rem", margin: "10px 0 6px 0" }}>Enter Access Code to Unlock</h3>
+            <h3 style={{ color: "#ffffff", fontSize: "1.2rem", margin: "10px 0 6px 0", fontWeight: "900" }}>Enter Access Code to Unlock</h3>
             <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginBottom: "20px", lineHeight: "1.5" }}>
               Please enter your verified email address and access code to access the Campus Learning AI Study Room.
             </p>
@@ -147,42 +147,42 @@ export default function ChatRoom() {
                 onChange={(e) => setVerifyEmail(e.target.value)} 
                 required 
                 placeholder="Your Email Address" 
-                style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
               />
               <input 
                 type="text" 
                 value={accessCode} 
                 onChange={(e) => setAccessCode(e.target.value)} 
                 required 
-                placeholder="Access Code (e.g. GST112-H9LTY)" 
-                style={{ padding: "10px 12px", borderRadius: "8px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
+                placeholder="Access Code (e.g. GEN101-H9LTY)" 
+                style={{ padding: "10px 12px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.85rem", outline: "none", width: "100%", boxSizing: "border-box" }} 
               />
               <button 
                 type="submit" 
                 disabled={verifyLoading} 
-                style={{ background: "#3b82f6", color: "#ffffff", padding: "10px", borderRadius: "8px", fontWeight: "700", border: "none", cursor: "pointer", fontSize: "0.85rem", width: "100%", marginTop: "6px", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)" }}
+                style={{ background: "#e11d48", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", width: "100%", marginTop: "6px", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(225, 29, 72, 0.4)" }}
               >
                 {verifyLoading ? "Verifying Token..." : "Verify & Enter Study Room ⚡"}
               </button>
             </form>
             <div style={{ marginTop: "16px", fontSize: "0.8rem", color: "#94a3b8" }}>
-              Don't have an access code yet? <a href="/#pricing" style={{ color: "#60a5fa", textDecoration: "none", fontWeight: "bold" }}>Get a Pass here →</a>
+              Don't have an access code yet? <a href="/#pricing" style={{ color: "#fb7185", textDecoration: "none", fontWeight: "bold" }}>Get a Pass here →</a>
             </div>
           </div>
         ) : (
-          /* Unlocked Chat Interface */
+          {/* Unlocked Chat Interface */}
           <>
-            <div style={{ flex: 1, background: "#1e293b", border: "1px solid #334155", borderRadius: "16px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
+            <div style={{ flex: 1, background: "#182232", border: "1px solid #334155", borderRadius: "12px", padding: "16px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px", marginBottom: "16px", maxHeight: "60vh" }}>
               {messages.map((msg, index) => (
-                <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#3b82f6" : "#0f172a", color: "#ffffff", padding: "12px 16px", borderRadius: "12px", border: msg.sender === "ai" ? "1px solid #334155" : "none", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
-                  <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#93c5fd" : "#60a5fa", marginBottom: "4px" }}>
+                <div key={index} style={{ alignSelf: msg.sender === "user" ? "flex-end" : "flex-start", maxWidth: "85%", background: msg.sender === "user" ? "#e11d48" : "#0f172a", color: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: msg.sender === "ai" ? "1px solid #334155" : "none", fontSize: "0.9rem", lineHeight: "1.5", whiteSpace: "pre-line" }}>
+                  <strong style={{ display: "block", fontSize: "0.75rem", color: msg.sender === "user" ? "#fbcfe8" : "#fb7185", marginBottom: "4px" }}>
                     {msg.sender === "user" ? "You" : "Campus Learning AI Tutor"}
                   </strong>
                   {msg.text}
                 </div>
               ))}
               {loading && (
-                <div style={{ alignSelf: "flex-start", background: "#0f172a", border: "1px solid #334155", padding: "12px 16px", borderRadius: "12px", color: "#94a3b8", fontSize: "0.85rem" }}>
+                <div style={{ alignSelf: "flex-start", background: "#0f172a", border: "1px solid #334155", padding: "12px 16px", borderRadius: "8px", color: "#94a3b8", fontSize: "0.85rem" }}>
                   AI is analyzing course materials and generating your response...
                 </div>
               )}
@@ -194,9 +194,9 @@ export default function ChatRoom() {
                 value={input} 
                 onChange={(e) => setInput(e.target.value)} 
                 placeholder="Ask a question or request a study schedule..." 
-                style={{ flex: 1, padding: "12px 16px", borderRadius: "12px", background: "#1e293b", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
+                style={{ flex: 1, padding: "12px 16px", borderRadius: "8px", background: "#182232", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
               />
-              <button type="submit" disabled={loading} style={{ background: "#3b82f6", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "12px", fontWeight: "700", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(59, 130, 246, 0.4)" }}>
+              <button type="submit" disabled={loading} style={{ background: "#e11d48", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.9rem", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(225, 29, 72, 0.4)" }}>
                 {loading ? "Thinking..." : "Send 🚀"}
               </button>
             </form>
