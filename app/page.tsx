@@ -46,7 +46,6 @@ const INSTITUTION_DATA = {
   colleges_of_education: { federal: ["Federal College of Education (Special), Oyo"], state: ["Akwa Ibom State College of Education, Afahansit"], private: ["Top-Most College of Education"] }
 };
 
-// SAMPLE QUESTION BANK FOR UNIUYO & AKSU (GST 111 & GST 112) - Easily expandable up to 200+ questions
 const QUESTION_BANKS: { [key: string]: { question: string; options: string[]; answer: number }[] } = {
   "GST111": [
     { question: "Communication is derived from the Latin word 'communis', which means:", options: ["To share", "To speak", "To write", "To listen"], answer: 0 },
@@ -85,17 +84,8 @@ const QUESTION_BANKS: { [key: string]: { question: string; options: string[]; an
 };
 
 export default function Home() {
-  const [showSelector, setShowSelector] = useState(false);
-
-  // Direct Global Course Material Search State
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
-
-  // Selector Navigation State
-  const [instType, setInstType] = useState<"universities" | "polytechnics" | "colleges_of_education">("universities");
-  const [ownership, setOwnership] = useState<"federal" | "state" | "private">("state");
-  const [selectedInst, setSelectedInst] = useState("Akwa Ibom State University, Ikot Akpaden");
-  const [selectedDept, setSelectedDept] = useState("Electrical & Electronics Engineering");
 
   // OpenAI Pricing Modal State
   const [showPricingModal, setShowPricingModal] = useState(false);
@@ -107,26 +97,18 @@ export default function Home() {
   const [paymentLoading, setPaymentLoading] = useState(false);
 
   // CBT Practice Mode States
-  const [showCBTModal, setShowCBTModal] = useState(false);
   const [cbtCourse, setCbtCourse] = useState<"GST111" | "GST112">("GST111");
-  const [cbtEmail, setCbtEmail] = useState("");
-  const [cbtPhone, setCbtPhone] = useState("");
-  const [cbtTxnRef, setCbtTxnRef] = useState("");
-  const [cbtRegistered, setCbtRegistered] = useState(false);
-  const [cbtLoading, setCbtLoading] = useState(false);
-
-  // CBT Exam Execution States
   const [examStarted, setExamStarted] = useState(false);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: number }>({});
-  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
   // Testimonials State
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [reviews, setReviews] = useState([
-    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "The CBT practice mode with the 15-minute timer gave me real exam confidence. Grabbed A's easily!" },
+    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "The CBT mode exams give you the exact feel of how real exams will be. Grabbed A's easily!" },
     { name: "Grace Okon", department: "Accounting, UNIUYO", comment: "OpenAI API study assistant explains GST 111 and GST 112 concepts brilliantly. Highly recommended!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
@@ -173,22 +155,8 @@ export default function Home() {
     setPaymentLoading(true);
     setTimeout(() => {
       setPaymentLoading(false);
-      alert("OpenAI API Access payment record submitted! Awaiting backend verification. Your access token will be sent to your email.");
+      alert("OpenAI API Access payment record submitted! Awaiting backend verification.");
       setShowPricingModal(false);
-    }, 800);
-  };
-
-  const handleCBTPaymentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!cbtEmail || !cbtPhone || !cbtTxnRef) {
-      alert("Please provide your email, phone, and ₦500 payment reference.");
-      return;
-    }
-    setCbtLoading(true);
-    setTimeout(() => {
-      setCbtLoading(false);
-      setCbtRegistered(true);
-      alert("₦500 CBT Payment recorded successfully! Awaiting backend verification. You can now launch the CBT practice test.");
     }, 800);
   };
 
@@ -237,7 +205,7 @@ export default function Home() {
           <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
         <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Practice 💻</a>
+          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Mode Exams 💻</a>
           <a href="#courses" style={{ color: "#ffffff", textDecoration: "none" }}>Courses</a>
           <a href="/chat" style={{ color: "#ffffff", textDecoration: "none" }}>OpenAI Study Room 🤖</a>
           <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#fbbf24", color: "#0f172a", padding: "8px 16px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
@@ -256,7 +224,7 @@ export default function Home() {
             Grab A's in GST 111 & GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
           <p style={{ fontSize: "1rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 24px auto" }}>
-            Official verified course materials, over 250+ exam past questions with answers, and an interactive CBT simulation exam center.
+            Experience authentic CBT mode exams that show you exactly how real university exams will be.
           </p>
 
           {/* Instant Course Search */}
@@ -288,55 +256,39 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT EXAMINATION PRACTICE SECTION */}
+        {/* CBT MODE EXAMS SECTION */}
         <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
             <div>
-              <span style={{ background: "#fee2e2", color: "#b91c1c", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SECURE CBT MODE</span>
-              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Online Computer-Based Test (CBT) Center</h2>
+              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT MODE EXAMS</span>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience How Real Exams Will Be</h2>
             </div>
-            <span style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Fee: ₦500 / Test Session</span>
+            <span style={{ fontSize: "0.85rem", background: "#d1fae5", color: "#065f46", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Free Practice Session</span>
           </div>
 
-          <p style={{ color: "#475569", fontSize: "0.9rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Practice under real exam conditions: **40 Questions, 15 Minutes Timer, Instant Scoring, Answer Reviews, and Screenshot Protection Enabled.**
+          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
+            Take our CBT mode exams to access exactly how real university exams will be. Each session gives you a simulation featuring 40 questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection.
           </p>
 
-          {!cbtRegistered ? (
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "20px", borderRadius: "10px" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Step 1: Pay ₦500 & Register for CBT Practice</h3>
-              <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "12px", borderRadius: "6px", marginBottom: "14px", fontSize: "0.85rem", color: "#1e293b" }}>
-                <p style={{ margin: "0 0 2px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
-                <p style={{ margin: "0 0 2px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontWeight: "800" }}>4568971753</span></p>
-                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
+          {!examStarted ? (
+            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+              <div style={{ maxWidth: "400px", margin: "0 auto 20px auto", textAlign: "left" }}>
+                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Select Course for CBT Mode Exam:</label>
+                <select value={cbtCourse} onChange={(e) => setCbtCourse(e.target.value as any)} style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", fontWeight: "800", fontSize: "0.9rem" }}>
+                  <option value="GST111">GST 111: Use of English (UNIUYO & AKSU)</option>
+                  <option value="GST112">GST 112: Nigerian Peoples and Culture (UNIUYO & AKSU)</option>
+                </select>
               </div>
 
-              <form onSubmit={handleCBTPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <select value={cbtCourse} onChange={(e) => setCbtCourse(e.target.value as any)} style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", fontWeight: "800" }}>
-                  <option value="GST111">GST 111: Use of English (UNIUYO / AKSU)</option>
-                  <option value="GST112">GST 112: Nigerian Peoples & Culture (UNIUYO / AKSU)</option>
-                </select>
-                <input type="email" value={cbtEmail} onChange={(e) => setCbtEmail(e.target.value)} required placeholder="Your Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
-                <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
-                <input type="text" value={cbtTxnRef} onChange={(e) => setCbtTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
-                <button type="submit" disabled={cbtLoading} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
-                  {cbtLoading ? "Submitting Payment..." : "Submit Payment for Backend Verification ⚡"}
-                </button>
-              </form>
-            </div>
-          ) : !examStarted ? (
-            <div style={{ textAlign: "center", background: "#f0fdf4", border: "1px solid #10b981", padding: "24px", borderRadius: "10px" }}>
-              <h3 style={{ color: "#065f46", fontSize: "1.2rem", fontWeight: "900", marginBottom: "8px" }}>Payment Recorded & Verified!</h3>
-              <p style={{ color: "#047857", fontSize: "0.9rem", marginBottom: "16px" }}>You are cleared to take **{cbtCourse}**. Timer will start immediately upon clicking below.</p>
-              <button onClick={handleStartExam} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase" }}>
-                Start 15-Minute CBT Mock Exam 🚀
+              <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
+                Start CBT Mode Exam Now 🚀
               </button>
             </div>
           ) : !examSubmitted ? (
-            /* ACTIVE EXAM INTERFACE (ANT-SCREENSHOT & COLOR GRID) */
+            /* ACTIVE EXAM INTERFACE (ANTI-SCREENSHOT & COLOR GRID) */
             <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
-                <span style={{ fontWeight: "900", color: "#fbbf24" }}>{cbtCourse} Mock Examination</span>
+                <span style={{ fontWeight: "900", color: "#fbbf24" }}>{cbtCourse} — CBT Mode Exam Simulation</span>
                 <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
                   ⏳ Time Left: {formatTime(timeLeft)}
                 </span>
@@ -439,7 +391,7 @@ export default function Home() {
               </div>
 
               <button onClick={() => setExamStarted(false)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Retake Practice Test 🔄
+                Retake CBT Mode Exam 🔄
               </button>
             </div>
           )}
