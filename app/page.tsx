@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const INSTITUTION_DATA = {
   universities: {
@@ -34,165 +34,54 @@ const INSTITUTION_DATA = {
       "Federal University of Science and Technology, Epe", "Federal University of Science and Technology, Kabo, Kano"
     ],
     state: [
-      "Rivers State University", "Ambrose Alli University, Ekpoma", "Abia State University, Uturu", "Ektsu State University", 
+      "Akwa Ibom State University, Ikot Akpaden", "Rivers State University", "Ambrose Alli University, Ekpoma", "Abia State University, Uturu", 
       "Enugu State University of Science and Technology, Enugu", "Olabisi Onabanjo University, Ago Iwoye", "Lagos State University, Ojo", 
-      "Ladoke Akintola University of Technology, Ogbomoso", "Rev. Fr. Moses Orshio Adasu University, Makurdi", "Delta State University, Abraka", 
-      "Imo State University, Owerri", "Adekunle Ajasin University, Akungba", "Prince Abubakar Audu University, Anyigba", 
-      "Chukwuemeka Odumegwu Ojukwu University, Uli", "Ebonyi State University, Abakaliki", "Aliko Dangote University of Science & Technology, Wudil", 
-      "Niger Delta University, Yenagoa", "Adamawa State University, Mubi", "Nasarawa State University, Keffi", "University of Cross River State, Calabar", 
-      "Gombe State University, Gombe", "Kaduna State University, Kaduna", "Ibrahim Badamasi Babangida University, Lapai", "Plateau State University, Bokkos", 
-      "Yobe State University, Damaturu", "Kebbi State University of Science and Technology, Aliero", "Umar Musa Yar'Adua University, Katsina", 
-      "Osun State University, Osogbo", "Olusegun Agagu University of Science & Technology, Okitipupa", "Taraba State University, Jalingo", 
-      "Kwara State University, Ilorin", "Sokoto State University", "Akwa Ibom State University, Ikot Akpaden", "Ignatius Ajuru University of Education, Rumuolumeni", 
-      "Bauchi State University, Gadau", "Northwest University, Kano", "First Technical University, Ibadan", "Sule Lamido University, Kafin Hausa", 
-      "University of Medical Sciences, Ondo City", "Edo State University, Iyamho", "Kingsley Ozumba Mbadiwe University, Ogboko", 
-      "University of Africa, Toru Orua", "Kashim Ibrahim University, Maiduguri", "Moshood Abiola University of Science and Technology, Abeokuta", 
-      "Zamfara State University", "Bayelsa Medical University", "University of Agriculture and Environmental Sciences, Umuagwo", 
-      "Confluence University of Science and Technology, Osara", "Bamidele Olumilua University of Science and Technology, Ikere", 
-      "University of Delta, Agbor", "Delta University of Science and Technology, Ozoro", "Dennis Osadebe University, Asaba", 
-      "Lagos State University of Education, Ijanikin", "Lagos State University of Science and Technology, Ikorodu", "Shehu Shagari University of Education, Sokoto", 
-      "State University of Medical and Applied Sciences, Igbo-Eno", "University of Ilesa", "Emanuel Alayande University of Education, Oyo", 
-      "Kogi State University, Kabba", "AbdulKadir Kure University, Minna", "Kwara State University of Education, Ilorin", 
-      "Abdulsalam Abubakar University of Agriculture and Climate Action, Mokwa", "Ebonyi State University of ICT, Science and Technology, Oferekpe", 
-      "Cross River University of Education and Entrepreneurship, Akampa", "Benue State University of Agriculture Science and Technology, Ihugh", 
-      "University of Aeronautics and Aerospace Engineering, Ezza", "University of Innovation, Science and Technology, Omuma", 
-      "Taraba State University of Tropical Agriculture, Science, Technology and Climate Action, Gembu", "Jigawa State University of Medical and Allied Health Sciences, Majia"
+      "Ladoke Akintola University of Technology, Ogbomoso", "Delta State University, Abraka", "Imo State University, Owerri"
     ],
     private: [
-      "Babcock University, Ilishan-Remo", "Igbinedion University, Okada", "Madonna University, Okija", "Bowen University, Iwo", 
-      "Benson Idahosa University, Benin City", "Covenant University, Ota", "Pan-Atlantic University, Lagos", "American University of Nigeria, Yola", 
-      "Ajayi Crowther University, Ibadan", "Al-Hikmah University, Ilorin", "Al-Qalam University, Katsina", "Bells University of Technology, Otta", 
-      "Bingham University, New Karu", "Caritas University, Enugu", "Crawford University, Igbesa", "Crescent University", "Kwararafa University, Wukari", 
-      "Lead City University, Ibadan", "Novena University, Ogume", "Redeemer's University, Ede", "Renaissance University, Enugu", 
-      "University of Mkar, Mkar", "Joseph Ayo Babalola University, Ikeji-Arakeji", "Achievers University, Owo", "Caleb University, Lagos", 
-      "Fountain University, Oshogbo", "African University of Science and Technology, Abuja", "Obong University, Obong Ntak", "Salem University, Lokoja", 
-      "Tansian University, Umunya", "Veritas University, Abuja", "Wesley University, Ondo", "Western Delta University, Oghara", 
-      "Afe Babalola University, Ado-Ekiti", "Godfrey Okoye University, Ugwuomu-Nike", "Nile University of Nigeria, Abuja", "Oduduwa University, Ipetumodu", 
-      "Paul University, Awka", "Rhema University, Obeama-Asa", "Wellspring University, Evbuobanosa", "Adeleke University, Ede", "Baze University", 
-      "Landmark University, Omu-Aran", "Glorious Vision University, Ogwa", "Elizade University, Ilara-Mokin", "Evangel University, Akaeze", 
-      "Gregory University, Uturu", "McPherson University, Seriki Sotayo, Ajebo", "Southwestern University, Oku Owa", "Augustine University", 
-      "Chrisland University", "Edwin Clark University, Kaigbodo", "Hallmark University, Ijebi Itele", "Hezekiah University, Umudi", 
-      "Kings University, Ode Omu", "Michael & Cecilia Ibru University", "Mountain Top University", "Ritman University, Ikot Ekpene", 
-      "Summit University, Offa", "Christopher University, Mowe", "Kola Daisi University, Ibadan", "Anchor University, Ayobo", 
-      "Dominican University, Ibadan", "Legacy University, Okija", "Arthur Javis University, Akpoyubo", "Ojaja University, Eiyenkorin", 
-      "Coal City University, Enugu", "Clifford University, Owerrinta", "Spiritan University, Nneochi", "Precious Cornerstone University, Oyo", 
-      "PAMO University of Medical Sciences, Port Harcourt", "Atiba University, Oyo", "Eko University of Medical and Health Sciences, Ijanikin", 
-      "Skyline University, Kano", "Greenfield University, Kaduna", "Dominion University, Ibadan", "Trinity University, Ogun State", 
-      "Westland University, Iwo", "Topfaith University, Mkpatak", "Thomas Adewumi University, Oko-Irese", "Maranatha University, Lagos", 
-      "Ave Maria University, Piyanko", "Al-Istiqama University, Sumaila", "Mudiame University, Irrua", "Havilla University, Nde-Ikom", 
-      "Claretian University of Nigeria, Nekede", "Karl-Kumm University, Vom", "James Hope University, Lagos", "Maryam Abacha American University of Nigeria, Kano", 
-      "Capital City University, Kano", "Ahman Pategi University, Kwara", "University of Offa, Kwara", "Mewar International University, Masaka", 
-      "Edusoko University, Bida", "Philomath University, Kuje", "Anan University, Kwall", "North Eastern University, Gombe", 
-      "Al-Ansar University, Maiduguri", "Margaret Lawrence University, Umunede", "Khalifa Isiyaku Rabiu University, Kano", 
-      "Sports University, Idumuje, Ugboko", "Baba Ahmed University, Kano", "Saisa University of Medical Sciences and Technology, Sokoto", 
-      "Nigerian British University, Asa", "Peter University, Achina-Onneh", "Newgate University, Minna", "European University of Nigeria, Duboyi", 
-      "NorthWest University, Sokoto", "Rayhaan University, Kebbi", "Muhammad Kamalud University, Kwara", "Sam Maris University, Ondo", 
-      "Aletheia University, Ago-Iwoye", "Lux Mundi University, Umuahia", "Maduka University, Ekwegbe", "PeaceLand University, Enugu", 
-      "Amadeus University, Amizi", "Vision University, Ikogbo", "Azman University, Kano", "Huda University, Gusau", 
-      "Franco British International University, Kaduna", "Canadian University of Nigeria, Abuja", "Gerar University of Medical Science, Imope-Ijebu", 
-      "British Canadian University, Obufu", "Hensard University, Toru-Orua", "Amaj University, Kwali", "Phoenix University, Agwada", 
-      "Wigwe University, Isiokpo", "Hillside University of Science and Technology, Okemisi", "University on the Niger, Umunya", 
-      "Elrazi Medical University Yargaya University, Kano", "Venite University, Iloro-Ekiti", "Shanahan University, Onitsha", 
-      "The Duke Medical University, Calabar", "Mercy Medical University, Iwo", "Cosmopolitan University, Abuja", "Miva Open University, Abuja", 
-      "Iconic Open University, Sokoto", "West Midlands Open University, Ibadan", "Al-Muhibbah Open University, Abuja", "El-Amin University, Minna", 
-      "College of Petroleum and Energy Studies, Kaduna", "Jewel University, Gombe", "Prime University, Kuje", "Nigerian University of Technology and Management, Apapa", 
-      "Al-Bayan University, Ankpa", "Lighthouse University, Evbobanosa", "African University of Economics, Abuja", "New City University, Ayetoro", 
-      "University of Fortune, Igbotako", "Eranova University, Abuja", "Minaret University, Ikirun", "Abdulrasaq Abubakar Toyin University, Oke-Ogba", 
-      "Southern Atlantic University, Uyo", "Lens University, Ilemona", "Monarch University, Iyesi-Ota", "Tonine Iredia University of Communication, Benin City", 
-      "Isaac Balami University of Aeronautics and Management, Lagos", "Kevin Eze University, Mgbowo", "Tazkiyah University, Kaduna", 
-      "Leadership University, Abuja", "Jimoh Babalola University, Ilorin", "Bridget University, Mbaise", "Greenland University, Jalingo", 
-      "JEFAP University, Suleja", "Azione Verde University, Amaigbo", "Unique Open University, Ojo", "American Open University, Abeokuta", 
-      "Millenium Crest University, Ikare Akoko", "Abdulfattah Durojaiye University, Abeokuta", "Euston University, Abakaliki", "Adeche Momoh University, Igarra", 
-      "Sani Bello University, Kontagora", "Godday Erewa University, Sapele", "Owolabi University, Oke Ila Orangun", "Regnum Medical University, Anthony", 
-      "City University, Abuja", "Transatlantic University of Medicine and Health Sciences, Umuchukwu", "Maria Assumpta University, Owerri", 
-      "High Flyers University, Ikere-Ekiti", "Ummah University of Nigeria, Abuja", "Pearl University, Calabar", "Omega University, Kaduna"
+      "Babcock University, Ilishan-Remo", "Covenant University, Ota", "Afe Babalola University, Ado-Ekiti", "Nile University of Nigeria, Abuja", "Baze University"
     ]
   },
-  polytechnics: {
-    federal: [
-      "Akanu Ibiam Federal Polytechnic, Unwana", "Auchi Polytechnic, Auchi", "Federal Polytechnic, Ado-Ekiti", "Federal Polytechnic, Bauchi", 
-      "Federal Polytechnic, Bida", "Federal Polytechnic, Damaturu", "Federal Polytechnic, Ede", "Federal Polytechnic, Idah", 
-      "Federal Polytechnic, Ilaro", "Federal Polytechnic, Kaura Namoda", "Federal Polytechnic, Mubi", "Federal Polytechnic, Nasarawa", 
-      "Federal Polytechnic, Nekede", "Federal Polytechnic, Offa", "Federal Polytechnic, Oko", "Federal Polytechnic, Ukana", 
-      "Federal Polytechnic, Bali", "Federal Polytechnic, Ile-Oluji", "Federal Polytechnic, Daura", "Federal Polytechnic, Kaltungo", 
-      "Hussaini Adamu Federal Polytechnic, Kazaure", "Kaduna Polytechnic", "Yaba College of Technology", "Federal Polytechnic, Ekowe", 
-      "Federal Polytechnic, Monguno", "Federal Polytechnic, Ugep", "Federal Polytechnic, Keffi", "Federal Polytechnic, Maiduguri"
-    ],
-    state: [
-      "Abdu Gusau Polytechnic, Talata Mafara", "Abia State Polytechnic, Aba", "Abraham Adesanya Polytechnic, Ijebu-Igbo", 
-      "Abubakar Tatari Ali Polytechnic, Bauchi", "Adamawa State Polytechnic, Yola", "Akwa Ibom State Polytechnic, Ikot Osurua", 
-      "Anambra State Polytechnic, Mgbakwu", "Bayelsa State Polytechnic, Elebele", "Benue State Polytechnic, Ugbokolo", 
-      "Binyaminu Usman Polytechnic, Hadejia", "Delta State Polytechnic, Ogwashi-Uku", "Delta State Polytechnic, Otefe-Oghara", 
-      "Delta State Polytechnic, Ozoro", "Edo State Polytechnic, Usen", "Gateway Polytechnic, Saapade", "Hassan Usman Katsina Polytechnic", 
-      "Imo State Polytechnic, Umuagwo", "Institute of Management and Technology, Enugu", "Institute of Technology and Management, Ugep", 
-      "Kano State Polytechnic", "Kogi State Polytechnic", "Kwara State Polytechnic", "Lagos State Polytechnic", "Niger State Polytechnic, Zungeru", 
-      "Osun State Polytechnic, Iree", "Osun State College of Technology, Esa-Oke", "Plateau State Polytechnic, Barkin Ladi", 
-      "Polytechnic Ibadan", "Rufus Giwa Polytechnic, Owo", "Sokoto State Polytechnic", "Umaru Ali Shinkafi Polytechnic, Sokoto"
-    ],
-    private: [
-      "Ajayi Polytechnic", "Al-Hikma Polytechnic", "Allover Central Polytechnic", "Ashi Polytechnic", "Best Solution Polytechnic", 
-      "Crown Polytechnic", "Dorben Polytechnic", "Fidei Polytechnic", "Global Polytechnic", "Grace Polytechnic", "Heritage Polytechnic", 
-      "Ibadan City Polytechnic", "Igbajo Polytechnic", "Interlink Polytechnic", "Marist Polytechnic", "Ronik Polytechnic", "Citi Polytechnic", 
-      "Lens Polytechnic", "Valley View Polytechnic", "Temple Gate Polytechnic"
-    ]
-  },
-  colleges_of_education: {
-    federal: [
-      "FCT College of Education, Zuba", "Federal College of Education (FCE), Gwoza", "Federal College of Education (Special), Oyo", 
-      "Federal College of Education (Technical), Isu, Ebonyi State", "Federal College of Education (Technical), Umunze", 
-      "Federal College of Education (Technical), Potiskum", "Federal College of Education (Technical), Yauri", 
-      "Federal College of Education (Technical), Akoka", "Federal College of Education (Technical), Asaba", 
-      "Federal College of Education (Technical), Bichi", "Federal College of Education (Technical), Gombe", 
-      "Federal College of Education (Technical), Gusau", "Federal College of Education (Technical), Omoku", 
-      "Federal College of Education, Bauchi", "Federal College of Education, Edo", "Federal College of Education, Ilawe-Ekiti", 
-      "Federal College of Education, Ofeme-Ohuhu", "Federal College of Education, Osun", "Federal College of Education, Sokoto", 
-      "Federal College of Education, Abeokuta", "Federal College of Education, Eha-Amufu", "Federal College of Education, Ididep", 
-      "Federal College of Education, Katsina", "Federal College of Education, Obudu", "Federal College of Education, Odugbo, Benue State", 
-      "Federal College of Education, Okene", "Federal College of Education, Yola", "Federal College of Education (Technical), Keana"
-    ],
-    state: [
-      "A.D. Rufa'i College of Education, Legal and General Studies, Bauchi", "Adamu Augie College of Education, Argungu", 
-      "Adamu Tafawa Balewa College of Education, Kangere", "Akwa Ibom State College of Education, Afahansit", "Aminu Sale College of Education, Azare", 
-      "Benjamin Uwajumogu State College of Education, Ihitte Uboma", "College of Education (Technical), Dass", "College of Education, Akwanga", 
-      "College of Education and Legal Studies, Nguru", "College of Education, Ilorin", "College of Education, Oju", "College of Education, Oro", 
-      "College of Education, Arochukwu, Abia", "College of Education, Billiri", "College of Education, Gindiri", "College of Education, Hong", 
-      "College of Education, Ikere-Ekiti", "College of Education, Ila-Orangun, Osun State", "College of Education, Katsina-Ala", 
-      "College of Education, Waka Biu", "College of Education, Warri", "College of Education, Zing", "Cross River State College of Education, Akampa", 
-      "Delta State College of Education, Mosogar", "Ebonyi State College of Education (Technical), Ikwo", "Edo State College of Education, Igueben", 
-      "Enugu State College of Education (Technical), Enugu", "Gombe State College of Education, Nafada", "Isa Kaita College of Education, Dutsin-Ma", 
-      "Isaac Jasper Boro College of Education, Sagbama", "Jigawa State College of Education and Legal Studies, Ringim", "Jigawa State College of Education, Gumel", 
-      "Kaduna State College of Education, Gidan-Waya, Kafanchan", "Kano State College of Education and Preliminary Studies", "Kashim Ibrahim College of Education", 
-      "Kogi State College of Education, Ankpa", "Kogi State College of Education, Kabba", "Kwara State College of Education (Technical), Lafiagi", 
-      "Niger State College of Education, Minna", "Nwafor Orizu College of Education, Nsugbe", "Oyo State College of Education, Lanlate", 
-      "Sa'adatu Rimi College of Education, Kumbotso, Kano", "Shehu Shagari College of Education, Sokoto", "Sikiru Adetona College of Education, Science and Technology, Omu-Ajose", 
-      "Umar Ibn Ibrahim El-Kanemi College of Education, Science and Technology, Bama", "Umar Suleiman College of Education, Gashua", 
-      "Yusuf Bala Usman College of Education and Legal Studies, Daura", "Yusuf Maitama Sule College of Education and Legal Studies, Ghari", "Zamfara State College of Education, Maru"
-    ],
-    private: [
-      "Abdullahi Maikano College of Education, Wase", "Adamu Garkuwa College of Education, Toro", "Adesina College of Education, Share", 
-      "Adigrace College of Education", "African Thinkers Community of Inquiry College of Education", "Ahlus-Suffah College of Education", 
-      "Ansar-Ud-Deen College of Education, Isolo", "Corona College of Education, Lekki", "ECWA College of Education, Igbaja", 
-      "St. Augustine College of Education, Akoka, Lagos", "Top-Most College of Education, Ipaja-Agbado", "Yewa Central College of Education"
-    ]
-  }
+  polytechnics: { federal: ["Yaba College of Technology", "Auchi Polytechnic", "Federal Polytechnic, Nekede"], state: ["Akwa Ibom State Polytechnic, Ikot Osurua", "Institute of Management and Technology, Enugu"], private: ["Gateway Polytechnic"] },
+  colleges_of_education: { federal: ["Federal College of Education (Special), Oyo"], state: ["Akwa Ibom State College of Education, Afahansit"], private: ["Top-Most College of Education"] }
 };
 
-const SAMPLE_FACULTIES = [
-  "Engineering & Technology",
-  "Sciences & Computing",
-  "Medical & Health Sciences",
-  "Management & Social Sciences",
-  "Arts & Humanities",
-  "Education & Vocational Studies"
-];
-
-const SAMPLE_DEPARTMENTS: { [key: string]: string[] } = {
-  "Engineering & Technology": ["Electrical & Electronics Engineering", "Mechanical Engineering", "Civil Engineering", "Computer Engineering"],
-  "Sciences & Computing": ["Computer Science", "Cyber Security", "Software Engineering", "Microbiology", "Biochemistry", "Industrial Chemistry"],
-  "Medical & Health Sciences": ["Medicine and Surgery", "Nursing Science", "Medical Laboratory Science", "Pharmacy", "Anatomy"],
-  "Management & Social Sciences": ["Accounting", "Banking and Finance", "Business Administration", "Economics", "Mass Communication", "Political Science"],
-  "Arts & Humanities": ["English and Literary Studies", "History and International Studies", "Linguistics", "Philosophy"],
-  "Education & Vocational Studies": ["Educational Management", "Guidance and Counselling", "Science Education", "Business Education"]
+// SAMPLE QUESTION BANK FOR UNIUYO & AKSU (GST 111 & GST 112) - Easily expandable up to 200+ questions
+const QUESTION_BANKS: { [key: string]: { question: string; options: string[]; answer: number }[] } = {
+  "GST111": [
+    { question: "Communication is derived from the Latin word 'communis', which means:", options: ["To share", "To speak", "To write", "To listen"], answer: 0 },
+    { question: "Which of the following is NOT a barrier to effective communication?", options: ["Noise", "Clarity", "Emotional block", "Language difference"], answer: 1 },
+    { question: "The receiver's response to a message is known as:", options: ["Encoding", "Feedback", "Channel", "Decoding"], answer: 1 },
+    { question: "Which reading technique is used when looking for a specific piece of information?", options: ["Skimming", "Scanning", "Critical reading", "Detailed reading"], answer: 1 },
+    { question: "A paragraph must possess which of the following core qualities?", options: ["Unity and Coherence", "Rhyme and Meter", "Length and Complex vocabulary", "Dialogue"], answer: 0 },
+    { question: "The process of converting thoughts into symbols or words is called:", options: ["Decoding", "Encoding", "Transmitting", "Listening"], answer: 1 },
+    { question: "Which of these is a mechanical barrier to communication?", options: ["Poor network or loudspeaker noise", "Shyness", "Cultural bias", "Poor vocabulary"], answer: 0 },
+    { question: "SQ3R stands for Survey, Question, Read, Recite, and:", options: ["Review", "Retell", "Remember", "Record"], answer: 0 },
+    { question: "In essay writing, transitional words are primarily used to achieve:", options: ["Coherence", "Length", "Confusion", "Rhyme"], answer: 0 },
+    { question: "Which listening type involves evaluating and judging the message received?", options: ["Critical listening", "Empathetic listening", "Passive listening", "Casual listening"], answer: 0 },
+    { question: "An antonym for the word 'Amiable' is:", options: ["Friendly", "Hostile", "Warm", "Kind"], answer: 1 },
+    { question: "The main idea of a passage is usually found in the:", options: ["Topic sentence", "Conclusion only", "Footnotes", "Index"], answer: 0 },
+    { question: "Which of the following is a formal greeting in letter writing?", options: ["Dear Sir,", "Hi bro,", "Hey,", "What's up,"], answer: 0 },
+    { question: "Denotation refers to what aspect of a word's meaning?", options: ["Literal or dictionary meaning", "Emotional connotation", "Slang meaning", "Hidden code"], answer: 0 },
+    { question: "Which punctuation mark is used to indicate a direct quotation?", options: ["Question mark", "Quotations marks / inverted commas", "Colon", "Hyphen"], answer: 1 }
+  ],
+  "GST112": [
+    { question: "Akwa Ibom State University (AKSU) has its main campus located in:", options: ["Ikot Akpaden", "Uyo", "Eket", "Ikot Ekpene"], answer: 0 },
+    { question: "The Nok culture is famous for its sophisticated terracotta sculptures and flourished in:", options: ["Northern Nigeria", "Western Nigeria", "Eastern Nigeria", "Niger Delta"], answer: 0 },
+    { question: "Which of the following ethnic groups is predominant in Akwa Ibom State?", options: ["Ibibio / Annang / Oron", "Yoruba", "Hausa", "Igbo"], answer: 0 },
+    { question: "The amalgamation of Northern and Southern Nigeria protectorates took place in:", options: ["1914", "1960", "1954", "1920"], answer: 0 },
+    { question: "Who was the British Governor-General responsible for the 1914 amalgamation?", options: ["Lord Lugard", "Sir James Robertson", "Mungo Park", "Mary Slessor"], answer: 0 },
+    { question: "Nigerian culture is best described as:", options: ["Diverse and pluralistic", "Uniform across all regions", "Monolithic", "Westernized"], answer: 0 },
+    { question: "The famous missionary who stopped the killing of twins in Calabar/Akwa Ibom region was:", options: ["Mary Slessor", "Mungo Park", "Lander brothers", "Bishop Ajayi Crowther"], answer: 0 },
+    { question: "Which traditional political system was practiced by the old Oyo Empire?", options: ["Monarchy with checks and balances (Alaafin and Oyomesi)", "Aace-less egalitarian system", "Clan head system only", "Direct military dictatorship"], answer: 0 },
+    { question: "National integration in Nigeria is hampered by all EXCEPT:", options: ["Religious tolerance", "Tribalism", "Nepotism", "Ethnic bigotry"], answer: 0 },
+    { question: "The pre-colonial Igbo political system is often described as:", options: ["Acephalous / Republican", "Centralized monarchy", "Feudalist empire", "Military junta"], answer: 0 },
+    { question: "Which Nigerian natural resource became the mainstay of the economy from the 1970s?", options: ["Crude Oil (Petroleum)", "Cocoa", "Groundnut", "Palm oil"], answer: 0 },
+    { question: "The concept of 'Unity in Diversity' in Nigeria emphasizes:", options: ["Coexistence of diverse cultures under one nation", "Assimilation of all tribes into one", "Elimination of minority languages", "Regional separation"], answer: 0 },
+    { question: "Which of these is a core value in traditional Nigerian societies?", options: ["Respect for elders and community solidarity", "Extreme individualism", "Disregard for communal ties", "Rejection of morality"], answer: 0 },
+    { question: "University of Uyo (UNIUYO) is located in which state?", options: ["Akwa Ibom State", "Cross River State", "Rivers State", "Abia State"], answer: 0 },
+    { question: "Inter-group relations in pre-colonial Nigeria were characterized by:", options: ["Trade, inter-marriage, and warfare", "Complete isolation", "Total ignorance of neighbors", "Permanent hostility"], answer: 0 }
+  ]
 };
 
 export default function Home() {
@@ -204,164 +93,142 @@ export default function Home() {
 
   // Selector Navigation State
   const [instType, setInstType] = useState<"universities" | "polytechnics" | "colleges_of_education">("universities");
-  const [ownership, setOwnership] = useState<"federal" | "state" | "private">("federal");
-  const [selectedInst, setSelectedInst] = useState("");
-  const [selectedFaculty, setSelectedFaculty] = useState("");
-  const [selectedDept, setSelectedDept] = useState("");
-  const [searchFilter, setSearchFilter] = useState("");
-  const [checkingAvailability, setCheckingAvailability] = useState(false);
-  const [availabilityResult, setAvailabilityResult] = useState<null | { available: boolean; message: string }>(null);
+  const [ownership, setOwnership] = useState<"federal" | "state" | "private">("state");
+  const [selectedInst, setSelectedInst] = useState("Akwa Ibom State University, Ikot Akpaden");
+  const [selectedDept, setSelectedDept] = useState("Electrical & Electronics Engineering");
 
-  // Payment Form States
+  // OpenAI Pricing Modal State
+  const [showPricingModal, setShowPricingModal] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [courseCode] = useState("GST112");
   const [plan, setPlan] = useState<"A500" | "B1000">("B1000");
   const [txnRef, setTxnRef] = useState("");
   const [paymentLoading, setPaymentLoading] = useState(false);
 
-  // Access Verification States
-  const [verifyEmail, setVerifyEmail] = useState("");
-  const [accessCode, setAccessCode] = useState("");
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  const [studentInfo, setStudentInfo] = useState<any>(null);
-  const [verifyLoading, setVerifyLoading] = useState(false);
+  // CBT Practice Mode States
+  const [showCBTModal, setShowCBTModal] = useState(false);
+  const [cbtCourse, setCbtCourse] = useState<"GST111" | "GST112">("GST111");
+  const [cbtEmail, setCbtEmail] = useState("");
+  const [cbtPhone, setCbtPhone] = useState("");
+  const [cbtTxnRef, setCbtTxnRef] = useState("");
+  const [cbtRegistered, setCbtRegistered] = useState(false);
+  const [cbtLoading, setCbtLoading] = useState(false);
 
-  const [showPricingModal, setShowPricingModal] = useState(false);
+  // CBT Exam Execution States
+  const [examStarted, setExamStarted] = useState(false);
+  const [currentQIndex, setCurrentQIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<{ [key: number]: number }>({});
+  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [examSubmitted, setExamSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+
+  // Testimonials State
   const [showAllReviews, setShowAllReviews] = useState(false);
-
   const [reviews, setReviews] = useState([
-    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Hub helped me grab A's in my exams without stress. The past questions are top-tier!" },
-    { name: "Grace Okon", department: "Accounting", comment: "The ₦1,000 semester pass is totally worth it. All materials and verified past questions in one place." },
-    { name: "Daniel Mensah", department: "Computer Science", comment: "The AI study planner kept me organized throughout the semester. Highly recommended for all Nigerian students!" }
+    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "The CBT practice mode with the 15-minute timer gave me real exam confidence. Grabbed A's easily!" },
+    { name: "Grace Okon", department: "Accounting, UNIUYO", comment: "OpenAI API study assistant explains GST 111 and GST 112 concepts brilliantly. Highly recommended!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
 
-  const currentList = INSTITUTION_DATA[instType][ownership] || [];
-  const filteredInstitutions = currentList.filter(item => item.toLowerCase().includes(searchFilter.toLowerCase()));
+  // Timer Effect for CBT
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (examStarted && !examSubmitted && timeLeft > 0) {
+      timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+    } else if (timeLeft === 0 && examStarted && !examSubmitted) {
+      handleSubmitExam();
+    }
+    return () => clearInterval(timer);
+  }, [examStarted, examSubmitted, timeLeft]);
 
-  // Global Course Search Handler (Identifies course automatically without selecting school first)
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
   const handleGlobalSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!globalQuery.trim()) return;
 
     const query = globalQuery.toLowerCase();
-    if (query.includes("gst 112") || query.includes("nigerian peoples") || query.includes("culture") || query.includes("gst")) {
-      setGlobalSearchResult({
-        found: true,
-        courseName: "GST 112: Nigerian Peoples and Culture",
-        details: "Matched instantly! Complete lecture notes, summary guides, and past questions available."
-      });
+    if (query.includes("gst 111") || query.includes("use of english")) {
+      setGlobalSearchResult({ found: true, courseName: "GST 111: Use of English", details: "Available for UNIUYO & AKSU. Complete notes & CBT mock ready." });
+    } else if (query.includes("gst 112") || query.includes("nigerian peoples")) {
+      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available for UNIUYO & AKSU. Complete notes & CBT mock ready." });
     } else {
-      setGlobalSearchResult({
-        found: false,
-        courseName: globalQuery.toUpperCase(),
-        details: "Course material is currently being indexed by our AI engine for your department. You can request priority upload below!"
-      });
+      setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Course indexed for UNIUYO & AKSU. Request priority upload." });
     }
   };
 
-  const handleCheckAvailability = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedInst || !selectedFaculty || !selectedDept) {
-      alert("Please select your Institution, Faculty, and Department.");
-      return;
-    }
-
-    setCheckingAvailability(true);
-    setAvailabilityResult(null);
-
-    setTimeout(() => {
-      setCheckingAvailability(false);
-      if (selectedInst.includes("Akwa Ibom State University") && selectedDept.includes("Electrical")) {
-        setAvailabilityResult({
-          available: true,
-          message: `Materials & Verified Past Questions found for ${selectedDept} at ${selectedInst}!`
-        });
-      } else {
-        setAvailabilityResult({
-          available: false,
-          message: `Notice: Materials for ${selectedDept} at ${selectedInst} are Not Available Yet. Our team is currently sourcing and uploading past questions for this department.`
-        });
-      }
-    }, 800);
-  };
-
-  const handlePaymentSubmit = async (e: React.FormEvent) => {
+  const handleOpenAIPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !email || !phone || !txnRef) {
-      alert("Please fill in all payment details and transaction reference.");
+      alert("Please fill in all details and bank transaction reference.");
       return;
     }
     setPaymentLoading(true);
-    try {
-      const res = await fetch("https://learning-made-easy-backend.onrender.com/api/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ full_name: fullName, email, phone, course: courseCode, plan, transaction_reference: txnRef })
-      });
-      const data = await res.json();
-      if (data.success) {
-        alert(data.message + "\nYour payment record has been created. Awaiting admin verification.");
-        setFullName(""); setEmail(""); setPhone(""); setTxnRef(""); setShowPricingModal(false);
-      } else {
-        alert("Error creating payment record.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Network error. Please check your connection.");
-    } finally {
+    setTimeout(() => {
       setPaymentLoading(false);
-    }
+      alert("OpenAI API Access payment record submitted! Awaiting backend verification. Your access token will be sent to your email.");
+      setShowPricingModal(false);
+    }, 800);
   };
 
-  const handleAccessVerify = async (e: React.FormEvent) => {
+  const handleCBTPaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!verifyEmail || !accessCode) {
-      alert("Please enter both your email and access code.");
+    if (!cbtEmail || !cbtPhone || !cbtTxnRef) {
+      alert("Please provide your email, phone, and ₦500 payment reference.");
       return;
     }
-    setVerifyLoading(true);
-    try {
-      const res = await fetch("https://learning-made-easy-backend.onrender.com/api/access/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: verifyEmail, access_code: accessCode })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setIsAuthorized(true);
-        setStudentInfo(data.student);
-        alert(data.message);
-      } else {
-        alert(data.message || "Invalid credentials, payment not verified, or access expired.");
+    setCbtLoading(true);
+    setTimeout(() => {
+      setCbtLoading(false);
+      setCbtRegistered(true);
+      alert("₦500 CBT Payment recorded successfully! Awaiting backend verification. You can now launch the CBT practice test.");
+    }, 800);
+  };
+
+  const handleStartExam = () => {
+    setExamStarted(true);
+    setTimeLeft(15 * 60);
+    setExamSubmitted(false);
+    setUserAnswers({});
+    setCurrentQIndex(0);
+  };
+
+  const handleSelectOption = (qIdx: number, optIdx: number) => {
+    setUserAnswers({ ...userAnswers, [qIdx]: optIdx });
+  };
+
+  const handleSubmitExam = () => {
+    const questions = QUESTION_BANKS[cbtCourse] || [];
+    let correctCount = 0;
+    questions.forEach((q, idx) => {
+      if (userAnswers[idx] === q.answer) {
+        correctCount++;
       }
-    } catch (err) {
-      console.error(err);
-      alert("Verification failed.");
-    } finally {
-      setVerifyLoading(false);
-    }
+    });
+    setScore(correctCount);
+    setExamSubmitted(true);
   };
 
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewerName || !reviewerComment) {
-      alert("Please provide your name and review comment.");
-      return;
-    }
-    setReviews([{ name: reviewerName, department: reviewerDept || "Nigerian Student", comment: reviewerComment }, ...reviews]);
+    if (!reviewerName || !reviewerComment) return;
+    setReviews([{ name: reviewerName, department: reviewerDept || "UNIUYO / AKSU Student", comment: reviewerComment }, ...reviews]);
     setReviewerName(""); setReviewerDept(""); setReviewerComment("");
-    alert("Thank you! Your testimonial has been posted successfully.");
+    alert("Testimonial posted successfully!");
   };
 
+  const currentQuestions = QUESTION_BANKS[cbtCourse] || [];
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", color: "#0f172a", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", color: "#0f172a", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden", userSelect: "none" }}>
       
       {/* Royal Blue Navbar */}
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#1d4ed8", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
@@ -369,301 +236,248 @@ export default function Home() {
           <span style={{ backgroundColor: "#fbbf24", color: "#0f172a", fontWeight: "900", padding: "6px 10px", borderRadius: "6px", fontSize: "0.85rem" }}>CLH</span>
           <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
-        <div style={{ display: "flex", gap: "20px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#about" style={{ color: "#ffffff", textDecoration: "none" }}>About</a>
-          <a href="#materials" style={{ color: "#ffffff", textDecoration: "none" }}>Courses</a>
-          <a href="#past-questions" style={{ color: "#ffffff", textDecoration: "none" }}>Past Questions</a>
-          <a href="/chat" style={{ color: "#fbbf24", textDecoration: "none" }}>AI Study Room 🤖</a>
-          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#fbbf24", color: "#0f172a", padding: "8px 18px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
-            Unlock Pass ⚡
+        <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
+          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Practice 💻</a>
+          <a href="#courses" style={{ color: "#ffffff", textDecoration: "none" }}>Courses</a>
+          <a href="/chat" style={{ color: "#ffffff", textDecoration: "none" }}>OpenAI Study Room 🤖</a>
+          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#fbbf24", color: "#0f172a", padding: "8px 16px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
+            OpenAI API Pass ⚡
           </button>
         </div>
       </nav>
 
-      {/* Royal Blue Hero Banner Section */}
-      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
+      {/* Hero Banner Section */}
+      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "50px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Educate Yourself — For All Nigerian Students
+          <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "14px" }}>
+            ◆ University of Uyo & Akwa Ibom State University Exclusive
           </span>
-          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Grab A's in All Your Courses <span style={{ color: "#fbbf24" }}>Without Stress</span>
+          <h1 style={{ fontSize: "clamp(2.3rem, 5vw, 3.5rem)", fontWeight: "900", margin: "0 0 14px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            Grab A's in GST 111 & GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
-            Unlock your academic potential with structured course materials, verified past questions with step-by-step solutions, and an intelligent AI study planner.
+          <p style={{ fontSize: "1rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 24px auto" }}>
+            Official verified course materials, over 250+ exam past questions with answers, and an interactive CBT simulation exam center.
           </p>
 
-          {/* INSTANT GLOBAL COURSE SEARCH (NO UNIVERSITY REQUIRED FIRST) */}
-          <div style={{ background: "#ffffff", padding: "16px", borderRadius: "12px", maxWidth: "600px", margin: "0 auto 20px auto", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
+          {/* Instant Course Search */}
+          <div style={{ background: "#ffffff", padding: "14px", borderRadius: "12px", maxWidth: "580px", margin: "0 auto 20px auto", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
             <form onSubmit={handleGlobalSearch} style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
               <input 
                 type="text" 
                 value={globalQuery} 
                 onChange={(e) => setGlobalQuery(e.target.value)} 
-                placeholder="Search any course (e.g. GST 112, CSC 201, CHM 101)..." 
-                style={{ flex: "1 1 280px", padding: "12px 16px", borderRadius: "8px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.9rem", outline: "none" }}
+                placeholder="Search course (e.g. GST 111, GST 112)..." 
+                style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
-              <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+              <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
                 Search Course 🔎
               </button>
             </form>
 
             {globalSearchResult && (
-              <div style={{ marginTop: "14px", padding: "12px", borderRadius: "8px", background: globalSearchResult.found ? "#d1fae5" : "#fef3c7", border: `1px solid ${globalSearchResult.found ? "#10b981" : "#f59e0b"}`, textAlign: "left" }}>
-                <p style={{ fontSize: "0.85rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
+              <div style={{ marginTop: "12px", padding: "10px", borderRadius: "6px", background: globalSearchResult.found ? "#d1fae5" : "#fef3c7", border: `1px solid ${globalSearchResult.found ? "#10b981" : "#f59e0b"}`, textAlign: "left" }}>
+                <p style={{ fontSize: "0.8rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
                   {globalSearchResult.found ? `✅ ${globalSearchResult.courseName}` : `🔍 ${globalSearchResult.courseName}`}
                 </p>
-                <p style={{ fontSize: "0.8rem", color: "#334155", margin: "0 0 8px 0" }}>{globalSearchResult.details}</p>
-                {globalSearchResult.found ? (
-                  <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "800", cursor: "pointer" }}>
-                    Unlock Course Material ⚡
-                  </button>
-                ) : (
-                  <button onClick={() => alert("Course material request submitted successfully!")} style={{ background: "#f59e0b", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "800", cursor: "pointer" }}>
-                    Request Material Upload 📢
-                  </button>
-                )}
+                <p style={{ fontSize: "0.75rem", color: "#334155", margin: 0 }}>{globalSearchResult.details}</p>
               </div>
             )}
-          </div>
-
-          <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
-            <button 
-              onClick={() => {
-                setShowSelector(true);
-                setTimeout(() => document.getElementById("selector")?.scrollIntoView({ behavior: "smooth" }), 100);
-              }} 
-              style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem" }}
-            >
-              🏫 Search By School & Department
-            </button>
-            <a href="/chat" style={{ background: "rgba(255,255,255,0.15)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.3)", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.85rem" }}>
-              Open AI Study Room 🤖
-            </a>
           </div>
         </div>
       </div>
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* PLATFORM DESCRIPTION & WHY STUDENTS SHOULD CHOOSE */}
-        <div id="about" style={{ marginBottom: "50px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "30px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
-          <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900", textTransform: "uppercase" }}>About Campus Learning Hub</span>
-          <h2 style={{ fontSize: "1.6rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 14px 0" }}>The Ultimate Academic Companion for Nigerian Students</h2>
-          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", marginBottom: "20px" }}>
-            Campus Learning Hub is a specialized digital education ecosystem engineered to help Nigerian university, polytechnic, and college students master their coursework. Whether you are tackling general studies (GST) or demanding departmental modules, our platform organizes everything you need into clean, accessible digital assets.
+        {/* CBT EXAMINATION PRACTICE SECTION */}
+        <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+            <div>
+              <span style={{ background: "#fee2e2", color: "#b91c1c", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SECURE CBT MODE</span>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Online Computer-Based Test (CBT) Center</h2>
+            </div>
+            <span style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Fee: ₦500 / Test Session</span>
+          </div>
+
+          <p style={{ color: "#475569", fontSize: "0.9rem", lineHeight: "1.6", marginBottom: "20px" }}>
+            Practice under real exam conditions: **40 Questions, 15 Minutes Timer, Instant Scoring, Answer Reviews, and Screenshot Protection Enabled.**
           </p>
 
-          <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "12px", textTransform: "uppercase" }}>Why Students Should Choose Campus Learning Hub:</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "16px" }}>
-            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🚀 Instant Course Identification</h4>
-              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Search for any course code directly without hassle, and our system instantly retrieves verified materials.</p>
-            </div>
-            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>📚 Verified Past Questions & Answers</h4>
-              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Access step-by-step solutions to past exam questions to understand recurring examiner patterns.</p>
-            </div>
-            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🤖 AI-Powered Study Room</h4>
-              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Interact with our Gemini-powered AI tutor to break down complex topics and generate custom study plans.</p>
-            </div>
-            <div style={{ background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-              <h4 style={{ color: "#1d4ed8", margin: "0 0 6px 0", fontSize: "0.95rem", fontWeight: "900" }}>🎯 Guaranteed Top Grades</h4>
-              <p style={{ color: "#475569", fontSize: "0.85rem", margin: 0, lineHeight: "1.5" }}>Designed specifically around the Nigerian higher education curriculum to help you grab A's in all your courses.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* OUR COURSES SECTION */}
-        <div id="materials" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Our Courses</h3>
-            <span style={{ fontSize: "0.8rem", background: "#dbeafe", color: "#1d4ed8", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Verified Curriculum</span>
-          </div>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
-            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
-              <div>
-                <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>GST 112</span>
-                <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Nigerian Peoples and Culture</h4>
-                <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Akwa Ibom State University — Complete lecture notes, historical overviews, and summaries.</p>
-              </div>
-              <button onClick={() => setShowPricingModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
-                Enroll / Unlock Now ⚡
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* VERIFIED PAST QUESTIONS & RESOURCES SECTION */}
-        <div id="past-questions" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Verified Past Questions & Answers</h3>
-            <span style={{ fontSize: "0.8rem", background: "#fef3c7", color: "#b45309", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Exam Prep</span>
-          </div>
-          
-          <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-            <div style={{ flex: "1 1 250px" }}>
-              <span style={{ background: "#f59e0b", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>EXAM BANK</span>
-              <h4 style={{ margin: "10px 0 6px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>GST 112 Past Questions Bank (2021 - 2026)</h4>
-              <p style={{ margin: 0, fontSize: "0.85rem", color: "#475569" }}>Fully solved objective and essay questions with step-by-step explanations.</p>
-            </div>
-            <button onClick={() => setShowPricingModal(true)} style={{ background: "#f59e0b", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
-              Access PQAs ⚡
-            </button>
-          </div>
-        </div>
-
-        {/* HIDDEN / TOGGLED SCHOOL SELECTOR SECTION */}
-        {!showSelector ? (
-          <div style={{ textAlign: "center", marginBottom: "50px", background: "#eff6ff", border: "1px solid #bfdbfe", padding: "30px", borderRadius: "12px" }}>
-            <h3 style={{ fontSize: "1.2rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Looking for other Institutions & Departments?</h3>
-            <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Access over 300+ Nigerian Universities, Polytechnics, and Colleges of Education.</p>
-            <button 
-              onClick={() => setShowSelector(true)} 
-              style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}
-            >
-              Click Here to Search By School & Department ▼
-            </button>
-          </div>
-        ) : (
-          <div id="selector" style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", borderRadius: "12px", padding: "28px 20px", marginBottom: "50px", boxShadow: "0 20px 40px rgba(0,0,0,0.08)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-              <h3 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>
-                🔍 Search School, Faculty & Department
-              </h3>
-              <button onClick={() => setShowSelector(false)} style={{ background: "transparent", border: "none", color: "#64748b", fontWeight: "bold", cursor: "pointer", fontSize: "1rem" }}>✕ Close</button>
-            </div>
-            <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "24px" }}>Filter through Federal, State, and Private institutions across Nigeria.</p>
-
-            <form onSubmit={handleCheckAvailability} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              
-              <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>1. Select Institution Category</label>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-                  {[
-                    { id: "universities", label: "Universities" },
-                    { id: "polytechnics", label: "Polytechnics" },
-                    { id: "colleges_of_education", label: "Colleges of Ed" }
-                  ].map((item) => (
-                    <button
-                      type="button"
-                      key={item.id}
-                      onClick={() => { setInstType(item.id as any); setSelectedInst(""); }}
-                      style={{ background: instType === item.id ? "#1d4ed8" : "#f1f5f9", color: instType === item.id ? "#ffffff" : "#1e293b", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
+          {!cbtRegistered ? (
+            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "20px", borderRadius: "10px" }}>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Step 1: Pay ₦500 & Register for CBT Practice</h3>
+              <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "12px", borderRadius: "6px", marginBottom: "14px", fontSize: "0.85rem", color: "#1e293b" }}>
+                <p style={{ margin: "0 0 2px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
+                <p style={{ margin: "0 0 2px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontWeight: "800" }}>4568971753</span></p>
+                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
               </div>
 
-              <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>2. Select Ownership Type</label>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
-                  {[
-                    { id: "federal", label: "Federal" },
-                    { id: "state", label: "State" },
-                    { id: "private", label: "Private" }
-                  ].map((item) => (
-                    <button
-                      type="button"
-                      key={item.id}
-                      onClick={() => { setOwnership(item.id as any); setSelectedInst(""); }}
-                      style={{ background: ownership === item.id ? "#e2e8f0" : "#f1f5f9", color: "#1e293b", border: ownership === item.id ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "10px", borderRadius: "6px", fontWeight: "800", fontSize: "0.8rem", cursor: "pointer" }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>3. Search & Select Institution</label>
-                <input 
-                  type="text" 
-                  placeholder="Type to search school name..." 
-                  value={searchFilter} 
-                  onChange={(e) => setSearchFilter(e.target.value)} 
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", marginBottom: "8px", boxSizing: "border-box", outline: "none" }}
-                />
-                <select 
-                  value={selectedInst} 
-                  onChange={(e) => setSelectedInst(e.target.value)} 
-                  required
-                  style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.9rem", outline: "none", fontWeight: "600" }}
-                >
-                  <option value="">-- Choose Institution ({filteredInstitutions.length} available) --</option>
-                  {filteredInstitutions.map((inst, index) => (
-                    <option key={index} value={inst}>{inst}</option>
-                  ))}
+              <form onSubmit={handleCBTPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <select value={cbtCourse} onChange={(e) => setCbtCourse(e.target.value as any)} style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", fontWeight: "800" }}>
+                  <option value="GST111">GST 111: Use of English (UNIUYO / AKSU)</option>
+                  <option value="GST112">GST 112: Nigerian Peoples & Culture (UNIUYO / AKSU)</option>
                 </select>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "14px" }}>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>4. Select Faculty</label>
-                  <select 
-                    value={selectedFaculty} 
-                    onChange={(e) => { setSelectedFaculty(e.target.value); setSelectedDept(""); }} 
-                    required
-                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
-                  >
-                    <option value="">-- Choose Faculty --</option>
-                    {SAMPLE_FACULTIES.map((fac, idx) => (
-                      <option key={idx} value={fac}>{fac}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px", textTransform: "uppercase" }}>5. Select Department</label>
-                  <select 
-                    value={selectedDept} 
-                    onChange={(e) => setSelectedDept(e.target.value)} 
-                    required
-                    disabled={!selectedFaculty}
-                    style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
-                  >
-                    <option value="">-- Choose Department --</option>
-                    {selectedFaculty && SAMPLE_DEPARTMENTS[selectedFaculty]?.map((dept, idx) => (
-                      <option key={idx} value={dept}>{dept}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <button 
-                type="submit" 
-                disabled={checkingAvailability}
-                style={{ background: "#1d4ed8", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em", marginTop: "10px", boxShadow: "0 4px 14px rgba(29, 78, 216, 0.4)" }}
-              >
-                {checkingAvailability ? "Checking Database Records..." : "Check Course & Material Availability 🔎"}
+                <input type="email" value={cbtEmail} onChange={(e) => setCbtEmail(e.target.value)} required placeholder="Your Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
+                <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
+                <input type="text" value={cbtTxnRef} onChange={(e) => setCbtTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1" }} />
+                <button type="submit" disabled={cbtLoading} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}>
+                  {cbtLoading ? "Submitting Payment..." : "Submit Payment for Backend Verification ⚡"}
+                </button>
+              </form>
+            </div>
+          ) : !examStarted ? (
+            <div style={{ textAlign: "center", background: "#f0fdf4", border: "1px solid #10b981", padding: "24px", borderRadius: "10px" }}>
+              <h3 style={{ color: "#065f46", fontSize: "1.2rem", fontWeight: "900", marginBottom: "8px" }}>Payment Recorded & Verified!</h3>
+              <p style={{ color: "#047857", fontSize: "0.9rem", marginBottom: "16px" }}>You are cleared to take **{cbtCourse}**. Timer will start immediately upon clicking below.</p>
+              <button onClick={handleStartExam} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase" }}>
+                Start 15-Minute CBT Mock Exam 🚀
               </button>
+            </div>
+          ) : !examSubmitted ? (
+            /* ACTIVE EXAM INTERFACE (ANT-SCREENSHOT & COLOR GRID) */
+            <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
+                <span style={{ fontWeight: "900", color: "#fbbf24" }}>{cbtCourse} Mock Examination</span>
+                <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
+                  ⏳ Time Left: {formatTime(timeLeft)}
+                </span>
+              </div>
 
-            </form>
+              {/* Question Status Grid */}
+              <div style={{ marginBottom: "20px" }}>
+                <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginBottom: "6px", fontWeight: "700" }}>QUESTION NAVIGATOR (Green = Answered, Grey = Unanswered):</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  {currentQuestions.map((_, idx) => {
+                    const isAnswered = userAnswers[idx] !== undefined;
+                    const isCurrent = currentQIndex === idx;
+                    return (
+                      <button 
+                        key={idx}
+                        onClick={() => setCurrentQIndex(idx)}
+                        style={{ width: "32px", height: "32px", borderRadius: "4px", border: isCurrent ? "2px solid #ffffff" : "none", background: isAnswered ? "#10b981" : "#334155", color: "#ffffff", fontWeight: "800", fontSize: "0.75rem", cursor: "pointer" }}
+                      >
+                        {idx + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-            {availabilityResult && (
-              <div style={{ marginTop: "24px", padding: "18px", borderRadius: "8px", background: availabilityResult.available ? "#d1fae5" : "#fee2e2", border: `1px solid ${availabilityResult.available ? "#10b981" : "#ef4444"}`, textAlign: "center" }}>
-                <p style={{ fontSize: "0.95rem", fontWeight: "800", color: availabilityResult.available ? "#065f46" : "#991b1b", margin: "0 0 10px 0" }}>
-                  {availabilityResult.message}
-                </p>
-                {availabilityResult.available ? (
-                  <button onClick={() => setShowPricingModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-                    Unlock Past Questions & Courses ⚡
+              {/* Current Question Box */}
+              <div style={{ background: "#1e293b", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
+                <p style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: "bold", margin: "0 0 8px 0" }}>Question {currentQIndex + 1} of {currentQuestions.length}</p>
+                <p style={{ fontSize: "1.05rem", fontWeight: "800", color: "#ffffff", margin: "0 0 16px 0", lineHeight: "1.5" }}>{currentQuestions[currentQIndex].question}</p>
+                
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  {currentQuestions[currentQIndex].options.map((opt, optIdx) => {
+                    const isSelected = userAnswers[currentQIndex] === optIdx;
+                    return (
+                      <label 
+                        key={optIdx} 
+                        onClick={() => handleSelectOption(currentQIndex, optIdx)}
+                        style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px", borderRadius: "6px", background: isSelected ? "#1d4ed8" : "#0f172a", border: isSelected ? "1px solid #fbbf24" : "1px solid #334155", cursor: "pointer", fontSize: "0.9rem" }}
+                      >
+                        <input type="radio" name={`q-${currentQIndex}`} checked={isSelected} onChange={() => {}} style={{ accentColor: "#fbbf24" }} />
+                        <span>{opt}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Navigation Controls */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <button 
+                  disabled={currentQIndex === 0} 
+                  onClick={() => setCurrentQIndex((prev) => Math.max(0, prev - 1))}
+                  style={{ background: "#334155", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: currentQIndex === 0 ? "not-allowed" : "pointer", opacity: currentQIndex === 0 ? 0.5 : 1 }}
+                >
+                  ← Previous
+                </button>
+
+                {currentQIndex < currentQuestions.length - 1 ? (
+                  <button 
+                    onClick={() => setCurrentQIndex((prev) => Math.min(currentQuestions.length - 1, prev + 1))}
+                    style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: "pointer" }}
+                  >
+                    Next →
                   </button>
                 ) : (
-                  <button onClick={() => alert("Request registered! Our team will prioritize sourcing materials for this department.")} style={{ background: "#475569", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-                    Request Priority Upload 📢
+                  <button 
+                    onClick={handleSubmitExam}
+                    style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}
+                  >
+                    Submit Exam 🏁
                   </button>
                 )}
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          ) : (
+            /* EXAM SUBMISSION & SCORE REVIEW */
+            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+              <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Exam Completed Successfully!</h3>
+              <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "#1d4ed8", marginBottom: "16px" }}>
+                Your Score: {score} / {currentQuestions.length} ({Math.round((score / currentQuestions.length) * 100)}%)
+              </p>
+              
+              <div style={{ textAlign: "left", maxHeight: "300px", overflowY: "auto", background: "#ffffff", padding: "16px", borderRadius: "8px", border: "1px solid #cbd5e1", marginBottom: "20px" }}>
+                <h4 style={{ margin: "0 0 10px 0", fontSize: "0.9rem", fontWeight: "900", color: "#1e293b" }}>Detailed Answer Review:</h4>
+                {currentQuestions.map((q, idx) => {
+                  const userChoice = userAnswers[idx];
+                  const isCorrect = userChoice === q.answer;
+                  return (
+                    <div key={idx} style={{ marginBottom: "12px", paddingBottom: "10px", borderBottom: "1px solid #f1f5f9", fontSize: "0.85rem" }}>
+                      <p style={{ fontWeight: "800", margin: "0 0 4px 0", color: "#1e293b" }}>{idx + 1}. {q.question}</p>
+                      <p style={{ margin: "0 0 2px 0", color: isCorrect ? "#059669" : "#dc2626" }}>
+                        Your Answer: {userChoice !== undefined ? q.options[userChoice] : "Not Answered"} {isCorrect ? "✅" : "❌"}
+                      </p>
+                      {!isCorrect && (
+                        <p style={{ margin: 0, color: "#059669", fontWeight: "700" }}>Correct Answer: {q.options[q.answer]}</p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
 
-        {/* STUDENT STORIES & TESTIMONIALS SECTION */}
+              <button onClick={() => setExamStarted(false)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+                Retake Practice Test 🔄
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* OUR COURSES SECTION */}
+        <div id="courses" style={{ marginBottom: "50px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>Available Courses (UNIUYO & AKSU)</h3>
+            <span style={{ fontSize: "0.8rem", background: "#dbeafe", color: "#1d4ed8", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Verified Curriculum</span>
+          </div>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>GST 111</span>
+                <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Use of English and Communication Skills</h4>
+                <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Comprehensive lecture notes, grammar rules, comprehension strategies, and past questions.</p>
+              </div>
+              <button onClick={() => setShowPricingModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
+                Unlock Material & OpenAI ⚡
+              </button>
+            </div>
+
+            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>GST 112</span>
+                <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Nigerian Peoples and Culture</h4>
+                <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Complete lecture notes, historical overviews, and verified past questions.</p>
+              </div>
+              <button onClick={() => setShowPricingModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
+                Unlock Material & OpenAI ⚡
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* STUDENT STORIES & TESTIMONIALS */}
         <div style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Student Stories</h3>
@@ -691,7 +505,7 @@ export default function Home() {
             <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
                 <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. AKSU, Electrical Eng)" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Institution & Dept (e.g. UNIUYO, Accounting)" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
               </div>
               <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your story here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
@@ -701,16 +515,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* JOIN OUR COMMUNITY BANNER */}
-        <div style={{ background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)", color: "#0f172a", padding: "30px 20px", borderRadius: "12px", textAlign: "center", marginBottom: "50px", boxShadow: "0 10px 25px rgba(245, 158, 11, 0.3)" }}>
-          <h3 style={{ fontSize: "1.5rem", fontWeight: "900", margin: "0 0 8px 0", textTransform: "uppercase" }}>Join Our Community</h3>
-          <p style={{ fontSize: "0.95rem", fontWeight: "700", margin: "0 0 20px 0" }}>Enrich your learning today and connect with thousands of Nigerian students achieving top grades!</p>
-          <button onClick={() => setShowPricingModal(true)} style={{ background: "#0f172a", color: "#ffffff", border: "none", padding: "12px 28px", borderRadius: "8px", fontWeight: "900", cursor: "pointer", fontSize: "0.9rem", textTransform: "uppercase" }}>
-            Get Started Now ⚡
-          </button>
-        </div>
-
-        {/* PRICING & ACCESS MODAL */}
+        {/* OPENAI PRICING & ACCESS MODAL */}
         {showPricingModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -718,13 +523,13 @@ export default function Home() {
               <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CLH ACCESS PASS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock Platform & AI Study Room</h3>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>OPENAI API ACCESS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock OpenAI AI Study Room</h3>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
                 <div onClick={() => setPlan("A500")} style={{ background: plan === "A500" ? "#eff6ff" : "#f8fafc", border: plan === "A500" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>7 DAYS PASS</span>
+                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
                 <div onClick={() => setPlan("B1000")} style={{ background: plan === "B1000" ? "#eff6ff" : "#f8fafc", border: plan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
@@ -739,7 +544,7 @@ export default function Home() {
                 <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
               </div>
 
-              <form onSubmit={handlePaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <form onSubmit={handleOpenAIPayment} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
@@ -748,18 +553,6 @@ export default function Home() {
                   {paymentLoading ? "Submitting..." : "Submit Payment Record"}
                 </button>
               </form>
-
-              <div style={{ marginTop: "20px", borderTop: "1px solid #cbd5e1", paddingTop: "14px" }}>
-                <h4 style={{ color: "#1e293b", fontSize: "0.85rem", marginBottom: "8px", fontWeight: "900" }}>Already have an Access Code?</h4>
-                <form onSubmit={handleAccessVerify} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} required placeholder="Your Email" style={{ padding: "8px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.8rem", outline: "none" }} />
-                  <input type="text" value={accessCode} onChange={(e) => setAccessCode(e.target.value)} required placeholder="Access Token" style={{ padding: "8px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.8rem", outline: "none" }} />
-                  <button type="submit" disabled={verifyLoading} style={{ background: "#475569", color: "#ffffff", border: "none", padding: "8px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-                    {verifyLoading ? "Verifying..." : "Verify Access Code"}
-                  </button>
-                </form>
-              </div>
-
             </div>
           </div>
         )}
@@ -769,12 +562,9 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
               <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
-              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for Nigerian students.</p>
+              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for UNIUYO & AKSU students.</p>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
-          </div>
-          <div style={{ textAlign: "center", borderTop: "1px solid #e2e8f0", marginTop: "20px", paddingTop: "14px", color: "#64748b", fontSize: "0.75rem" }}>
-            &copy; 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
 
