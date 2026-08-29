@@ -98,6 +98,14 @@ export default function Home() {
 
   // CBT Practice Mode States
   const [cbtCourse, setCbtCourse] = useState<"GST111" | "GST112">("GST111");
+  const [showCbtPayModal, setShowCbtPayModal] = useState(false);
+  const [cbtFullName, setCbtFullName] = useState("");
+  const [cbtEmail, setCbtEmail] = useState("");
+  const [cbtPhone, setCbtPhone] = useState("");
+  const [cbtTxnRef, setCbtTxnRef] = useState("");
+  const [cbtPayLoading, setCbtPayLoading] = useState(false);
+
+  // CBT Exam Execution States
   const [examStarted, setExamStarted] = useState(false);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: number }>({});
@@ -160,6 +168,21 @@ export default function Home() {
     }, 800);
   };
 
+  const handleCbtPaymentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!cbtFullName || !cbtEmail || !cbtPhone || !cbtTxnRef) {
+      alert("Please fill in all details and bank transaction reference.");
+      return;
+    }
+    setCbtPayLoading(true);
+    setTimeout(() => {
+      setCbtPayLoading(false);
+      alert("₦500 CBT payment record submitted successfully! Awaiting backend verification. Your session token will be sent shortly.");
+      setShowCbtPayModal(false);
+      setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
+    }, 800);
+  };
+
   const handleStartExam = () => {
     setExamStarted(true);
     setTimeLeft(15 * 60);
@@ -214,16 +237,16 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section */}
-      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "50px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
+      {/* Hero Banner Section (No University Tags at Top) */}
+      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "14px" }}>
-            ◆ University of Uyo & Akwa Ibom State University Exclusive
+          <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
+            ◆ Official Academic Success Companion
           </span>
-          <h1 style={{ fontSize: "clamp(2.3rem, 5vw, 3.5rem)", fontWeight: "900", margin: "0 0 14px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Grab A's in GST 111 & GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
+          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            Grab A's in All Your Courses <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
-          <p style={{ fontSize: "1rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 24px auto" }}>
+          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
             Experience authentic CBT mode exams that show you exactly how real university exams will be.
           </p>
 
@@ -263,11 +286,13 @@ export default function Home() {
               <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT MODE EXAMS</span>
               <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience How Real Exams Will Be</h2>
             </div>
-            <span style={{ fontSize: "0.85rem", background: "#d1fae5", color: "#065f46", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Free Practice Session</span>
+            <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+              Access CBT Mode — ₦500 ⚡
+            </button>
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Take our CBT mode exams to access exactly how real university exams will be. Each session gives you a simulation featuring 40 questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection.
+            Take our CBT mode exams to access exactly how real university exams will be. Each session gives you a simulation featuring 40 questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection. Available for UNIUYO & AKSU (GST 111 & GST 112).
           </p>
 
           {!examStarted ? (
@@ -280,9 +305,14 @@ export default function Home() {
                 </select>
               </div>
 
-              <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
-                Start CBT Mode Exam Now 🚀
-              </button>
+              <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
+                <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
+                  Start Free CBT Practice 🚀
+                </button>
+                <button onClick={() => setShowCbtPayModal(true)} style={{ background: "#fbbf24", color: "#0f172a", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase" }}>
+                  Unlock Full CBT Access (₦500) ⚡
+                </button>
+              </div>
             </div>
           ) : !examSubmitted ? (
             /* ACTIVE EXAM INTERFACE (ANTI-SCREENSHOT & COLOR GRID) */
@@ -467,7 +497,38 @@ export default function Home() {
           </div>
         </div>
 
-        {/* OPENAI PRICING & ACCESS MODAL */}
+        {/* ₦500 CBT PAYMENT MODAL */}
+        {showCbtPayModal && (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
+              
+              <button onClick={() => setShowCbtPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
+
+              <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock Full CBT Mode Access (₦500)</h3>
+              </div>
+
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
+                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
+                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
+                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
+              </div>
+
+              <form onSubmit={handleCbtPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <input type="text" value={cbtFullName} onChange={(e) => setCbtFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={cbtEmail} onChange={(e) => setCbtEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={cbtTxnRef} onChange={(e) => setCbtTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <button type="submit" disabled={cbtPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                  {cbtPayLoading ? "Submitting..." : "Submit Payment Record"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* OPENAI PRICING MODAL */}
         {showPricingModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -514,7 +575,7 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
               <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (CLH)</span>
-              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for UNIUYO & AKSU students.</p>
+              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for Nigerian students.</p>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
