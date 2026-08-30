@@ -200,7 +200,10 @@ export default function Home() {
           <span style={{ backgroundColor: "#fbbf24", color: "#0f172a", fontWeight: "900", padding: "6px 10px", borderRadius: "6px", fontSize: "0.85rem" }}>CLH</span>
           <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
-        <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
+        <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700", flexWrap: "wrap" }}>
+          <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: "#25D366", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", textDecoration: "none", fontSize: "0.8rem", display: "flex", alignItems: "center", gap: "5px" }}>
+            💬 Join WhatsApp Group
+          </a>
           <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Exams 💻</a>
           <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
             AI Study Room 🤖
@@ -217,9 +220,15 @@ export default function Home() {
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
             Master Your Coursework & <span style={{ color: "#fbbf24" }}>Achieve Distinction</span>
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
+          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 20px auto" }}>
             Campus Learning Hub bridges the traditional gap between complex coursework and distinction-level achievement by combining realistic examination simulations with intelligent academic tools.
           </p>
+
+          <div style={{ marginBottom: "30px" }}>
+            <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ background: "#25D366", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.9rem", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(37, 211, 102, 0.4)" }}>
+              💬 Join Our WhatsApp Community & Get Updates
+            </a>
+          </div>
 
           {/* Instant Course Search */}
           <div style={{ background: "#ffffff", padding: "14px", borderRadius: "12px", maxWidth: "580px", margin: "0 auto 20px auto", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}>
@@ -572,7 +581,7 @@ export default function Home() {
               <form onSubmit={handleAiPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <input type="text" value={aiFullName} onChange={(e) => setAiFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="email" value={aiEmail} onChange={(e) => setAiEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "0" }} />
                 <input type="text" value={aiTxnRef} onChange={(e) => setAiTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
                   {aiPayLoading ? "Submitting..." : "Submit AI Room Payment"}
@@ -588,6 +597,9 @@ export default function Home() {
             <div>
               <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub</span>
               <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for undergraduate students.</p>
+              <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "8px", color: "#25D366", fontWeight: "800", textDecoration: "none" }}>
+                💬 Join WhatsApp Community Group ↗
+              </a>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
