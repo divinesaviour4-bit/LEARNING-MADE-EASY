@@ -287,14 +287,14 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section with University of Uyo Dedicated Focus */}
+      {/* Hero Banner Section with Updated Outstanding Grades Heading */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
             ◆ Official University of Uyo (UniUyo) Portal — Achieve A&apos;s in All Your Courses
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 18px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Master Your UniUyo Coursework & <span style={{ color: "#fbbf24" }}>Achieve Lasting Distinction</span>
+            Master Your UniUyo Coursework & <span style={{ color: "#fbbf24" }}>Outstanding Grades</span>
           </h1>
           <p style={{ fontSize: "1.1rem", color: "#e2e8f0", lineHeight: "1.7", maxWidth: "780px", margin: "0 auto 24px auto" }}>
             Campus Learning Hub is your ultimate undergraduate academic companion at the <strong style={{ color: "#fbbf24" }}>University of Uyo (UniUyo)</strong>. Specially customized with verified past questions and course materials for essential university requirements including <strong style={{ color: "#fbbf24" }}>GST 111 (Communication in English)</strong> and <strong style={{ color: "#fbbf24" }}>GST 112 (Nigerian Peoples and Culture)</strong>. Prepare with absolute confidence, master difficult concepts effortlessly, and secure top grades throughout your university journey.
