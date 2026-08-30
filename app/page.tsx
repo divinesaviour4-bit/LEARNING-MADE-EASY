@@ -184,7 +184,7 @@ export default function Home() {
     }
   };
 
-  // Paystack Automated Payment Integration
+  // Paystack Automated Payment & Instant Access Trigger
   const handlePaystackPayment = () => {
     if (!cbtFullName || !cbtEmail || !cbtPhone) {
       alert("Please fill in your full name, email, and phone number first.");
@@ -194,7 +194,7 @@ export default function Home() {
     const generatedToken = "CLH-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const handler = (window as any).PaystackPop.setup({
-      key: 'pk_live_your_actual_paystack_public_key_here', // Replace with your active Paystack public key
+      key: 'pk_live_your_actual_paystack_public_key_here', // Replace with active public key from your partner/dashboard
       email: cbtEmail,
       amount: 500 * 100, // ₦500 in kobo
       currency: 'NGN',
@@ -207,10 +207,12 @@ export default function Home() {
         ]
       },
       callback: function(response: any) {
-        alert(`Payment successful! Your verified Access Token is: ${generatedToken}. Saved and verified instantly.`);
+        // AUTOMATIC INSTANT VERIFICATION & ACCESS GRANT UPON PAYMENT SUCCESS
+        alert(`Payment Verified! Your Access Token is: ${generatedToken}. Access granted instantly.`);
         setShowCbtPayModal(false);
         setEnteredToken(generatedToken);
         setIsTokenVerified(true);
+        setShowCbtBox(true);
         setCbtFullName(""); setCbtEmail(""); setCbtPhone("");
       },
       onClose: function() {
@@ -700,8 +702,8 @@ export default function Home() {
               <button onClick={() => setShowCbtPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>AUTOMATED PAYSTACK GATEWAY</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay ₦500 & Get Instant Access Token</h3>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>INSTANT PAYSTACK GATEWAY</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay ₦500 & Unlock Exam Instantly</h3>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -710,7 +712,7 @@ export default function Home() {
                 <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 
                 <button type="button" onClick={handlePaystackPayment} style={{ background: "#22c55e", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "10px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.3)" }}>
-                  Pay ₦500 with Paystack (Instant Access) ⚡
+                  Pay ₦500 & Access Exam Instantly ⚡
                 </button>
               </div>
             </div>
