@@ -70,12 +70,36 @@ const GST202_QUESTIONS = [
   { question: "Ozone layer depletion is represented by which chemical formula?", options: ["O3", "O2", "H2O", "CO2"], answer: 0 }
 ];
 
+// GST 111: COMMUNICATION IN ENGLISH QUESTIONS
+const GST111_QUESTIONS = [
+  { question: "A simple sentence, in the context of language, contains a subject and a ______?", options: ["Infinite verb", "Articulate verb", "Finite verb", "Additive verb"], answer: 2 },
+  { question: "What serves as the basic index of measurement in written English?", options: ["Phrase", "Sentence", "Alphabet", "Clause"], answer: 1 },
+  { question: "The predicate is also called the ______.", options: ["Verb phrase", "Main clause", "Noun phrase", "Adverbial phrase"], answer: 0 },
+  { question: "A predicate begins with the ______ in a simple sentence.", options: ["Auxiliary verb", "Finite verb", "Adjective", "Adverb"], answer: 1 },
+  { question: "There are ______ types of complement.", options: ["One", "Two", "Three", "Four"], answer: 2 },
+  { question: "An object is a word that receives the action of a ______.", options: ["Verb", "Noun", "Pronoun", "Adverb"], answer: 0 },
+  { question: "Where the complementing structure is an adjective qualifying the subject of a verb to BE in a sentence, we have a ______ complement.", options: ["Subjective", "Objective", "Adverbial", "Adjectival"], answer: 3 },
+  { question: "What denotes an extra structure added to an already complete sentence for clarity, emphasis, and definiteness?", options: ["Injunct", "Conjunct", "Prejunct", "Adjunct"], answer: 3 },
+  { question: "Which is a verb of action?", options: ["Dynamic verb", "Stative verb", "Ordinary verb", "Modified verb"], answer: 0 },
+  { question: "What kind of conjunction is the word “but”?", options: ["Ordinate conjunction", "Co-ordinate conjunction", "Subordinate conjunction", "Inordinate conjunction"], answer: 1 },
+  { question: "What kind of conjunction is the word “as well as”?", options: ["Ordinate conjunction", "Co-ordinate conjunction", "Subordinator conjunction", "Inordinate conjunction"], answer: 2 },
+  { question: "When the determiners precede the subjects in a sentence, they are called ______?", options: ["Indeterminers", "Postdeterminers", "Predeterminer", "Prodeterminers"], answer: 2 },
+  { question: "In terms of structure, there are ______ types of sentences.", options: ["Five", "Four", "Three", "Two"], answer: 0 },
+  { question: "Which kind of sentence is also known as a statement?", options: ["Decisive", "Exclamatory", "Declarative", "Imperative"], answer: 2 },
+  { question: "A command is also called ______ sentence.", options: ["Declarative", "Exclamatory", "Imperative", "Interrogative"], answer: 2 },
+  { question: "______ marks the interrogative sentences.", options: ["Comma", "Exclamation mark", "Full stop", "Question mark"], answer: 3 },
+  { question: "______ denotes failure to acknowledge a source of substantial information.", options: ["Citation", "Plagiarism", "Imprimatur", "Review"], answer: 1 },
+  { question: "______ denotes a full list of all books and related materials consulted in the course of research.", options: ["Bibliography", "Portmanteau", "Collocation", "Plagiarism"], answer: 0 },
+  { question: "In subject/verb agreement, a singleton subject takes a ______ verb.", options: ["Mixed", "Fixed", "Singular", "Plural"], answer: 2 },
+  { question: "The word ‘foreman’ is related to", options: ["Building", "Finance", "Military", "Entertainment"], answer: 0 }
+];
+
 export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // Active Course Selection: "GST112" or "GST202"
-  const [activeCourse, setActiveCourse] = useState<"GST112" | "GST202">("GST112");
+  // Active Course Selection: "GST111", "GST112" or "GST202"
+  const [activeCourse, setActiveCourse] = useState<"GST111" | "GST112" | "GST202">("GST111");
 
   // CBT Interaction & Token States
   const [showCbtBox, setShowCbtBox] = useState(false);
@@ -142,7 +166,9 @@ export default function Home() {
     }
 
     const query = globalQuery.toLowerCase();
-    if (query.includes("gst 112") || query.includes("nigerian peoples")) {
+    if (query.includes("gst 111") || query.includes("communication in english")) {
+      setGlobalSearchResult({ found: true, courseName: "GST 111: Communication in English", details: "Available on Campus Learning Hub! CBT Mock ready." });
+    } else if (query.includes("gst 112") || query.includes("nigerian peoples")) {
       setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
     } else if (query.includes("gst 202") || query.includes("philosophy") || query.includes("logic")) {
       setGlobalSearchResult({ found: true, courseName: "GST 202: Philosophy and Logic for Human Existence", details: "Available on Campus Learning Hub! Independent CBT Mock ready." });
@@ -196,9 +222,9 @@ export default function Home() {
       alert("Please input your verified access token to unlock this examination session.");
       return;
     }
-    const sourceQuestions = activeCourse === "GST112" ? GST112_QUESTIONS : GST202_QUESTIONS;
+    const sourceQuestions = activeCourse === "GST111" ? GST111_QUESTIONS : activeCourse === "GST112" ? GST112_QUESTIONS : GST202_QUESTIONS;
     const shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
-    const selectedCount = Math.min(30, shuffled.length);
+    const selectedCount = Math.min(20, shuffled.length);
     const selectedQuestions = shuffled.slice(0, selectedCount);
     setActiveQuestions(selectedQuestions);
     setExamStarted(true);
@@ -232,6 +258,12 @@ export default function Home() {
   };
 
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
+
+  const getCourseTitle = (code: "GST111" | "GST112" | "GST202") => {
+    if (code === "GST111") return "GST 111: Communication in English";
+    if (code === "GST112") return "GST 112: Nigerian Peoples and Culture";
+    return "GST 202: Philosophy and Logic";
+  };
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", color: "#0f172a", fontFamily: "system-ui, -apple-system, sans-serif", overflowX: "hidden", userSelect: "none" }}>
@@ -289,7 +321,7 @@ export default function Home() {
                     setGlobalSearchResult(null);
                   }
                 }} 
-                placeholder="Search course (e.g. GST 112, GST 202)..." 
+                placeholder="Search course (e.g. GST 111, GST 112, GST 202)..." 
                 style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
@@ -341,6 +373,12 @@ export default function Home() {
                 <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course:</p>
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                   <button 
+                    onClick={() => setActiveCourse("GST111")}
+                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST111" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST111" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
+                  >
+                    📖 GST 111: Communication in English
+                  </button>
+                  <button 
                     onClick={() => setActiveCourse("GST112")}
                     style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST112" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST112" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
                   >
@@ -359,7 +397,7 @@ export default function Home() {
             {!isTokenVerified ? (
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
                 <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
-                <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session for <strong style={{ color: "#1d4ed8" }}>{activeCourse === "GST112" ? "GST 112" : "GST 202"}</strong>.</p>
+                <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session for <strong style={{ color: "#1d4ed8" }}>{getCourseTitle(activeCourse)}</strong>.</p>
                 
                 <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
                   <input 
@@ -381,7 +419,7 @@ export default function Home() {
               </div>
             ) : !examStarted ? (
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-                <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully for {activeCourse === "GST112" ? "GST 112" : "GST 202"}!</p>
+                <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully for {getCourseTitle(activeCourse)}!</p>
                 <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
                   Start Examination Simulation 🚀
                 </button>
@@ -391,7 +429,7 @@ export default function Home() {
               <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
                   <span style={{ fontWeight: "900", color: "#fbbf24" }}>
-                    {activeCourse === "GST112" ? "GST 112: Nigerian Peoples and Culture" : "GST 202: Philosophy and Logic"} — Simulation
+                    {getCourseTitle(activeCourse)} — Simulation
                   </span>
                   <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
                     ⏳ Time Left: {formatTime(timeLeft)}
@@ -513,7 +551,7 @@ export default function Home() {
             <div onClick={() => setShowCbtBox(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
               <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center ↗</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for GST 112 & GST 202.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for GST 111, GST 112 & GST 202.</p>
             </div>
 
             <div onClick={() => setShowAiModal(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
@@ -537,7 +575,7 @@ export default function Home() {
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Empowering Undergraduate Success</h3>
           </div>
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", textAlign: "center", maxWidth: "750px", margin: "0 auto" }}>
-            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 112 and GST 202 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
+            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 111, GST 112, and GST 202 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
           </p>
         </div>
 
