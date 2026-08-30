@@ -58,7 +58,7 @@ const GST202_QUESTIONS = [
   { question: "The medieval period of philosophy was regarded as the period of faith or what else?", options: ["The Dark-age of Philosophy", "The age of reason", "The age of science", "The contemporary era"], answer: 0 },
   { question: "Who wrote the famous book 'The City of God' / 'Confessions'?", options: ["St. Augustine", "St. Thomas Aquinas", "Plotinus", "Moses Maimonides"], answer: 0 },
   { question: "What does Descartes' famous dictum 'Cogito, ergo sum' mean?", options: ["I think, therefore I am", "To be is to be perceived", "Man is the measure of all things", "Knowledge is power"], answer: 0 },
-  { question: "According to John Locke, the human mind at birth is a clean slate known as what?", option: ["Tabula rasa", "Cogito", "Monad", "A priori"], answer: 0 },
+  { question: "According to John Locke, the human mind at birth is a clean slate known as what?", options: ["Tabula rasa", "Cogito", "Monad", "A priori"], answer: 0 },
   { question: "An argument that starts from general principles to particulars is called what?", options: ["Deductive argument", "Inductive argument", "Informal fallacy", "A posteriori argument"], answer: 0 },
   { question: "An error in reasoning is known as a what?", options: ["Fallacy", "Premise", "Syallogism", "Paradox"], answer: 0 },
   { question: "What does 'Argumentum ad hominem' mean?", options: ["Attacking the man", "Appeal to pity", "Appeal to the people", "Does not follow"], answer: 0 },
@@ -528,6 +528,17 @@ export default function Home() {
               <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Explore curated course materials, foundational textbook revision notes, and verified past examination questions.</p>
             </div>
           </div>
+        </div>
+
+        {/* ABOUT US SECTION */}
+        <div style={{ marginBottom: "50px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "30px", borderRadius: "14px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>ABOUT CAMPUS LEARNING HUB</span>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Empowering Undergraduate Success</h3>
+          </div>
+          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", textAlign: "center", maxWidth: "750px", margin: "0 auto" }}>
+            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 112 and GST 202 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
+          </p>
         </div>
 
         {/* WHY CHOOSE US SECTION */}
