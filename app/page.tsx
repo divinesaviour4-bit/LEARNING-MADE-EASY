@@ -1,6 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+// Supabase client initialization
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // AKSU GST 112 QUESTIONS (30 non-repeating per session)
 const GST112_QUESTIONS = [
@@ -194,7 +200,7 @@ export default function Home() {
     const generatedToken = "CLH-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const handler = (window as any).PaystackPop.setup({
-      key: 'pk_live_your_actual_paystack_public_key_here', // Replace with active public key from your partner/dashboard
+      key: 'pk_live_your_actual_paystack_public_key_here',
       email: cbtEmail,
       amount: 500 * 100, // ₦500 in kobo
       currency: 'NGN',
@@ -207,7 +213,6 @@ export default function Home() {
         ]
       },
       callback: function(response: any) {
-        // AUTOMATIC INSTANT VERIFICATION & ACCESS GRANT UPON PAYMENT SUCCESS
         alert(`Payment Verified! Your Access Token is: ${generatedToken}. Access granted instantly.`);
         setShowCbtPayModal(false);
         setEnteredToken(generatedToken);
@@ -223,13 +228,26 @@ export default function Home() {
     handler.openIframe();
   };
 
-  const handleVerifyToken = (e: React.FormEvent) => {
+  // Live Supabase Database Token Verification
+  const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (enteredToken.trim().length >= 5) {
-      setIsTokenVerified(true);
-      alert("Token verified successfully! You can now start your examination simulation.");
+    if (!enteredToken.trim()) {
+      alert("Please enter a valid access token.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('access_codes')
+      .select('*')
+      .eq('access_code', enteredToken.trim())
+      .single();
+
+    if (error || !data) {
+      alert("Invalid access token or code not found in database.");
+      setIsTokenVerified(false);
     } else {
-      alert("Invalid access token. Please enter your verified access token.");
+      setIsTokenVerified(true);
+      alert("Token verified successfully from database! Access granted.");
     }
   };
 
