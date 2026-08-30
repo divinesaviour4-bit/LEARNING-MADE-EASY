@@ -681,7 +681,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer style={{ borderTop: "2px solid #cbd5e1", paddingTop: "24px", marginTop: "50px", color: "#475569", fontSize: "0.85rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px", marginBottom: "16px" }}>
             <div>
               <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub</span>
               <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for undergraduate students.</p>
@@ -690,6 +690,9 @@ export default function Home() {
               </a>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
+          </div>
+          <div style={{ textAlign: "center", borderTop: "1px solid #e2e8f0", paddingTop: "12px", color: "#64748b", fontSize: "0.8rem" }}>
+            © 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
 
