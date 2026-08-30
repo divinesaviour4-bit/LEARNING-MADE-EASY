@@ -98,7 +98,10 @@ export default function Home() {
 
   const handleGlobalSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!globalQuery.trim()) return;
+    if (!globalQuery.trim()) {
+      setGlobalSearchResult(null);
+      return;
+    }
 
     const query = globalQuery.toLowerCase();
     if (query.includes("gst 112") || query.includes("nigerian peoples")) {
@@ -224,7 +227,12 @@ export default function Home() {
               <input 
                 type="text" 
                 value={globalQuery} 
-                onChange={(e) => setGlobalQuery(e.target.value)} 
+                onChange={(e) => {
+                  setGlobalQuery(e.target.value);
+                  if (!e.target.value.trim()) {
+                    setGlobalSearchResult(null);
+                  }
+                }} 
                 placeholder="Search course (e.g. GST 112)..." 
                 style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
@@ -501,7 +509,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CBT PAYMENT MODAL (AMOUNT ONLY VISIBLE HERE WHEN CLICKED) */}
+        {/* CBT PAYMENT MODAL */}
         {showCbtPayModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -532,7 +540,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* OPENAI AI STUDY ROOM PRICING MODAL (₦500 / ₦1000) */}
+        {/* OPENAI AI STUDY ROOM PRICING MODAL */}
         {showAiModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
