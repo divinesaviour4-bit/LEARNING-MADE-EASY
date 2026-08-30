@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 
@@ -36,9 +36,46 @@ const GST112_QUESTIONS = [
   { question: "The four types of ancient man identified in human evolution are:", options: ["Australopithecus, Homo habilis, Homo erectus, Homo sapiens", "Homo sapien, Homo industrial, Homo digital, Homo superior", "Neanderthal, Viking, Roman, Spartan", "Palaeolithic, Neolithic, Bronze, Iron"], answer: 0 }
 ];
 
+// GST 202: PHILOSOPHY AND LOGIC QUESTIONS
+const GST202_QUESTIONS = [
+  { question: "Philosophy is coined from two Greek terms: Philo meaning what?", options: ["Love", "Wisdom", "Knowledge", "Truth"], answer: 0 },
+  { question: "Philosophy is coined from two Greek terms: Sophia meaning what?", options: ["Wisdom", "Love", "Reason", "Logic"], answer: 0 },
+  { question: "An educated person who develops a mind which makes problem solving possible is called?", options: ["An intellectual", "A sophist", "A cosmologist", "A logician"], answer: 0 },
+  { question: "Metaphysics is derived from the Greek term 'Ta-meta-physika' meaning what?", options: ["Beyond and after the physical", "Study of the mind", "Science of reasoning", "Study of value"], answer: 0 },
+  { question: "Which branch of philosophy is defined as the study of value, subdivided into ethics and aesthetics?", options: ["Axiology", "Epistemology", "Metaphysics", "Logic"], answer: 0 },
+  { question: "Epistemology is the study of what?", options: ["Knowledge", "Beauty", "Morality", "Being"], answer: 0 },
+  { question: "Logic is defined as the science of what?", options: ["Correct and incorrect reasoning", "Human behavior and politics", "The physical universe", "Moral values"], answer: 0 },
+  { question: "Philosophy started in the Greek City of Ionia, in a school called?", options: ["Millesia", "Athens", "Elea", "Stagira"], answer: 0 },
+  { question: "Who was the first Western philosopher?", options: ["Thales of Miletus", "Socrates", "Plato", "Aristotle"], answer: 0 },
+  { question: "According to Thales, what is the ultimate material of the universe?", options: ["Water", "Air", "Fire", "Numbers"], answer: 0 },
+  { question: "Who posited that the ultimate material of the universe is an indeterminate boundless (Apeiron)?", options: ["Anaximander", "Anaximenes", "Pythagoras", "Heraclitus"], answer: 0 },
+  { question: "Who posited that Air is the ultimate material of the universe?", options: ["Anaximenes", "Thales", "Anaximander", "Empedocles"], answer: 0 },
+  { question: "Pythagoras posited that the ultimate material of the universe is what?", options: ["Numbers", "Water", "Atoms", "Fire"], answer: 0 },
+  { question: "Heraclitus of Ephesus compared ever-changing motion in the universe to what element?", options: ["Fire", "Water", "Earth", "Air"], answer: 0 },
+  { question: "Who was famously known for his paradoxes, including the Achilles and Tortoise paradox?", options: ["Zeno of Elea", "Parmenides", "Democritus", "Gorgias"], answer: 0 },
+  { question: "Who stated that 'Man is the measure of all things'?", options: ["Protagoras", "Gorgias", "Socrates", "Plato"], answer: 0 },
+  { question: "Which philosopher was sentenced to death by a poison called Hemlock?", options: ["Socrates", "Aristotle", "Pythagoras", "Thales"], answer: 0 },
+  { question: "The medieval period of philosophy was regarded as the period of faith or what else?", options: ["The Dark-age of Philosophy", "The age of reason", "The age of science", "The contemporary era"], answer: 0 },
+  { question: "Who wrote the famous book 'The City of God' / 'Confessions'?", options: ["St. Augustine", "St. Thomas Aquinas", "Plotinus", "Moses Maimonides"], answer: 0 },
+  { question: "What does Descartes' famous dictum 'Cogito, ergo sum' mean?", options: ["I think, therefore I am", "To be is to be perceived", "Man is the measure of all things", "Knowledge is power"], answer: 0 },
+  { question: "According to John Locke, the human mind at birth is a clean slate known as what?", option: ["Tabula rasa", "Cogito", "Monad", "A priori"], answer: 0 },
+  { question: "An argument that starts from general principles to particulars is called what?", options: ["Deductive argument", "Inductive argument", "Informal fallacy", "A posteriori argument"], answer: 0 },
+  { question: "An error in reasoning is known as a what?", options: ["Fallacy", "Premise", "Syallogism", "Paradox"], answer: 0 },
+  { question: "What does 'Argumentum ad hominem' mean?", options: ["Attacking the man", "Appeal to pity", "Appeal to the people", "Does not follow"], answer: 0 },
+  { question: "Knowledge that comes from experience is known as what?", options: ["A posteriori knowledge", "A priori knowledge", "Divine knowledge", "Innate knowledge"], answer: 0 },
+  { question: "Who introduced Positivism, viewing practical and experienced things as meaningful?", options: ["Auguste Comte", "Charles Peirce", "William James", "Karl Marx"], answer: 0 },
+  { question: "Science comes from the Latin term 'Scientia' and Greek term 'Epistemology/Episteme' referring to what?", options: ["A systematic body of knowledge", "An ethical system", "Political governance", "Mathematical formulas"], answer: 0 },
+  { question: "Technology is from the Greek terms 'Techne' and 'Logia', where 'Techne' means what?", options: ["Craft and art", "Study and science", "Mind and reason", "Nature and matter"], answer: 0 },
+  { question: "What is the term for the loss of green pigment in plants caused by pollution?", options: ["Chlorosis", "Necrosis", "Abscission", "Osmolality"], answer: 0 },
+  { question: "Ozone layer depletion is represented by which chemical formula?", options: ["O3", "O2", "H2O", "CO2"], answer: 0 }
+];
+
 export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
+
+  // Active Course Selection: "GST112" or "GST202"
+  const [activeCourse, setActiveCourse] = useState<"GST112" | "GST202">("GST112");
 
   // CBT Interaction & Token States
   const [showCbtBox, setShowCbtBox] = useState(false);
@@ -107,6 +144,8 @@ export default function Home() {
     const query = globalQuery.toLowerCase();
     if (query.includes("gst 112") || query.includes("nigerian peoples")) {
       setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
+    } else if (query.includes("gst 202") || query.includes("philosophy") || query.includes("logic")) {
+      setGlobalSearchResult({ found: true, courseName: "GST 202: Philosophy and Logic for Human Existence", details: "Available on Campus Learning Hub! Independent CBT Mock ready." });
     } else {
       setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Campus Learning Hub course repository indexed successfully." });
     }
@@ -157,9 +196,11 @@ export default function Home() {
       alert("Please input your verified access token to unlock this examination session.");
       return;
     }
-    const shuffled = [...GST112_QUESTIONS].sort(() => 0.5 - Math.random());
-    const selected30 = shuffled.slice(0, 30);
-    setActiveQuestions(selected30);
+    const sourceQuestions = activeCourse === "GST112" ? GST112_QUESTIONS : GST202_QUESTIONS;
+    const shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
+    const selectedCount = Math.min(30, shuffled.length);
+    const selectedQuestions = shuffled.slice(0, selectedCount);
+    setActiveQuestions(selectedQuestions);
     setExamStarted(true);
     setTimeLeft(15 * 60);
     setExamSubmitted(false);
@@ -248,7 +289,7 @@ export default function Home() {
                     setGlobalSearchResult(null);
                   }
                 }} 
-                placeholder="Search course (e.g. GST 112)..." 
+                placeholder="Search course (e.g. GST 112, GST 202)..." 
                 style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
@@ -294,10 +335,31 @@ export default function Home() {
               Access authentic, timed examination simulations that replicate official university testing environments, complete with structured navigation and immediate performance analytics.
             </p>
 
+            {/* Course Selector Tabs inside CBT */}
+            {!examStarted && (
+              <div style={{ marginBottom: "20px", background: "#f8fafc", padding: "14px", borderRadius: "10px", border: "1px solid #cbd5e1" }}>
+                <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course:</p>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                  <button 
+                    onClick={() => setActiveCourse("GST112")}
+                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST112" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST112" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
+                  >
+                    📚 GST 112: Nigerian Peoples & Culture
+                  </button>
+                  <button 
+                    onClick={() => setActiveCourse("GST202")}
+                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST202" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST202" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
+                  >
+                    🧠 GST 202: Philosophy & Logic
+                  </button>
+                </div>
+              </div>
+            )}
+
             {!isTokenVerified ? (
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
                 <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
-                <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session.</p>
+                <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session for <strong style={{ color: "#1d4ed8" }}>{activeCourse === "GST112" ? "GST 112" : "GST 202"}</strong>.</p>
                 
                 <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
                   <input 
@@ -319,7 +381,7 @@ export default function Home() {
               </div>
             ) : !examStarted ? (
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-                <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
+                <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully for {activeCourse === "GST112" ? "GST 112" : "GST 202"}!</p>
                 <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
                   Start Examination Simulation 🚀
                 </button>
@@ -327,8 +389,10 @@ export default function Home() {
             ) : !examSubmitted ? (
               /* ACTIVE EXAM INTERFACE */
               <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
-                  <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112: Nigerian Peoples and Culture — Simulation (30 Qs)</span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
+                  <span style={{ fontWeight: "900", color: "#fbbf24" }}>
+                    {activeCourse === "GST112" ? "GST 112: Nigerian Peoples and Culture" : "GST 202: Philosophy and Logic"} — Simulation
+                  </span>
                   <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
                     ⏳ Time Left: {formatTime(timeLeft)}
                   </span>
@@ -449,7 +513,7 @@ export default function Home() {
             <div onClick={() => setShowCbtBox(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
               <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center ↗</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations that replicate official university testing environments.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for GST 112 & GST 202.</p>
             </div>
 
             <div onClick={() => setShowAiModal(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
@@ -585,7 +649,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.80rem", color: "#1e293b" }}>
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
                 <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
                 <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
                 <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
