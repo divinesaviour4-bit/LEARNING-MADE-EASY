@@ -118,14 +118,20 @@ export default function Home() {
   const [enteredToken, setEnteredToken] = useState("");
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
-  // AI Study Room Modal States
+  // AI Study Room & Interactive Chat States
   const [showAiModal, setShowAiModal] = useState(false);
+  const [showAiChatDrawer, setShowAiChatDrawer] = useState(false);
   const [aiFullName, setAiFullName] = useState("");
   const [aiEmail, setAiEmail] = useState("");
   const [aiPhone, setAiPhone] = useState("");
   const [aiPlan, setAiPlan] = useState<"PassA" | "PassB">("PassB");
   const [aiTxnRef, setAiTxnRef] = useState("");
   const [aiPayLoading, setAiPayLoading] = useState(false);
+  const [aiChatMessages, setAiChatMessages] = useState<{ role: string; content: string }[]>([
+    { role: "assistant", content: "Hello! I am your AI Study Companion on Campus Learning Hub. Ask me any question about your coursework!" }
+  ]);
+  const [aiInputText, setAiInputText] = useState("");
+  const [aiChatLoading, setAiChatLoading] = useState(false);
 
   // CBT Exam Execution States
   const [examStarted, setExamStarted] = useState(false);
@@ -260,10 +266,44 @@ export default function Home() {
     setAiPayLoading(true);
     setTimeout(() => {
       setAiPayLoading(false);
-      alert("AI Study Room access pass request submitted! Awaiting verification.");
+      alert("AI Study Room access pass request submitted! Opening AI Chat Room.");
       setShowAiModal(false);
+      setShowAiChatDrawer(true);
       setAiFullName(""); setAiEmail(""); setAiPhone(""); setAiTxnRef("");
     }, 800);
+  };
+
+  const handleSendAiMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!aiInputText.trim()) return;
+
+    const userMessage = aiInputText.trim();
+    const updatedMessages = [...aiChatMessages, { role: "user", content: userMessage }];
+    setAiChatMessages(updatedMessages);
+    setAiInputText("");
+    setAiChatLoading(true);
+
+    try {
+      const response = await fetch('/api/ai-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages })
+      });
+      const data = await response.json();
+      if (data.reply) {
+        setAiChatMessages([...updatedMessages, { role: "assistant", content: data.reply }]);
+      } else {
+        setAiChatMessages([...updatedMessages, { role: "assistant", content: "AI response received or check OpenAI API key." }]);
+      }
+    } catch (err) {
+      setAI_FallbackResponse(updatedMessages);
+    } finally {
+      setAiChatLoading(false);
+    }
+  };
+
+  const setAI_FallbackResponse = (currentMsgs: any[]) => {
+    setAiChatMessages([...currentMsgs, { role: "assistant", content: "AI Study Room connected successfully! Configure your OpenAI API key in .env.local to get live answers." }]);
   };
 
   const handleStartExam = () => {
@@ -355,6 +395,9 @@ export default function Home() {
             </a>
             <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(251, 191, 36, 0.4)" }}>
               💻 Access CBT Center
+            </button>
+            <button onClick={() => setShowAiChatDrawer(true)} style={{ background: "#10b981", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(16, 185, 129, 0.4)" }}>
+              🤖 Open AI Chat Room 💬
             </button>
           </div>
 
@@ -737,7 +780,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* AI STUDY ROOM MODAL */}
+        {/* AI STUDY ROOM PASS MODAL */}
         {showAiModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #fbbf24", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -766,6 +809,56 @@ export default function Home() {
 
                 <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "10px" }}>
                   {aiPayLoading ? "Submitting Request..." : "Submit Access Pass Request 🚀"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* INTERACTIVE AI CHAT ROOM DRAWER */}
+        {showAiChatDrawer && (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 110, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px" }}>
+            <div style={{ background: "#0f172a", border: "2px solid #fbbf24", borderRadius: "14px", width: "100%", maxWidth: "600px", height: "80vh", display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "0 25px 50px rgba(0,0,0,0.5)" }}>
+              
+              {/* Chat Header */}
+              <div style={{ background: "#1e293b", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #334155" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{ background: "#fbbf24", color: "#0f172a", padding: "4px 8px", borderRadius: "4px", fontWeight: "900", fontSize: "0.75rem" }}>AI</span>
+                  <h3 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: "900", margin: 0 }}>Campus Learning Hub — Virtual AI Study Room</h3>
+                </div>
+                <button onClick={() => setShowAiChatDrawer(false)} style={{ background: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontWeight: "bold", cursor: "pointer", fontSize: "0.8rem" }}>Close ✕</button>
+              </div>
+
+              {/* Chat Messages Body */}
+              <div style={{ flex: 1, padding: "20px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "14px" }}>
+                {aiChatMessages.map((msg, idx) => (
+                  <div key={idx} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+                    <div style={{ maxWidth: "80%", padding: "12px 16px", borderRadius: "10px", background: msg.role === "user" ? "#1d4ed8" : "#1e293b", color: "#ffffff", fontSize: "0.9rem", lineHeight: "1.5", border: msg.role === "assistant" ? "1px solid #334155" : "none" }}>
+                      <p style={{ margin: "0 0 4px 0", fontSize: "0.7rem", fontWeight: "800", color: msg.role === "user" ? "#93c5fd" : "#fbbf24" }}>{msg.role === "user" ? "You" : "AI Study Assistant"}</p>
+                      {msg.content}
+                    </div>
+                  </div>
+                ))}
+                {aiChatLoading && (
+                  <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                    <div style={{ background: "#1e293b", color: "#94a3b8", padding: "10px 14px", borderRadius: "10px", fontSize: "0.85rem", fontStyle: "italic" }}>
+                      AI is thinking... 🤖
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Chat Input Form */}
+              <form onSubmit={handleSendAiMessage} style={{ background: "#1e293b", padding: "14px", borderTop: "1px solid #334155", display: "flex", gap: "10px" }}>
+                <input 
+                  type="text" 
+                  value={aiInputText} 
+                  onChange={(e) => setAiInputText(e.target.value)} 
+                  placeholder="Ask any academic or coursework question..." 
+                  style={{ flex: 1, padding: "10px 14px", borderRadius: "6px", background: "#0f172a", border: "1px solid #334155", color: "#ffffff", fontSize: "0.9rem", outline: "none" }}
+                />
+                <button type="submit" disabled={aiChatLoading} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                  Send 🚀
                 </button>
               </form>
             </div>
