@@ -247,16 +247,18 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION */}
+        {/* CBT MODE EXAMS SECTION (HIDDEN UNTIL TOKEN IS VERIFIED) */}
         <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
             <div>
               <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SIMULATED CBT CENTER</span>
               <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience Authentic Examination Conditions</h2>
             </div>
-            <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-              Pay ₦500 for CBT Access ⚡
-            </button>
+            {!isTokenVerified && (
+              <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+                Pay ₦500 for CBT Access ⚡
+              </button>
+            )}
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
@@ -289,7 +291,6 @@ export default function Home() {
           ) : !examStarted ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
               <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
-              <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Your session is ready: 30 Questions, 15-Minute Timer, Instant Scoring & Review.</p>
               <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
                 Start Examination Simulation 🚀
               </button>
@@ -562,7 +563,7 @@ export default function Home() {
 
               <form onSubmit={handleAiPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <input type="text" value={aiFullName} onChange={(e) => setAiFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="email" value={aiEmail} onChange={(e) => setAiEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={aiEmail} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="text" value={aiTxnRef} onChange={(e) => setAiTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
