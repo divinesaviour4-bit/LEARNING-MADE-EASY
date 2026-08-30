@@ -287,11 +287,11 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section with Rich Expanded Write-up */}
+      {/* Hero Banner Section with Updated Badge & Rich Write-up */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ The Premier Academic Success Ecosystem
+            ◆ Achieve A&apos;s in All Your Courses
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 18px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
             Master Your University Coursework & <span style={{ color: "#fbbf24" }}>Achieve Lasting Distinction</span>
