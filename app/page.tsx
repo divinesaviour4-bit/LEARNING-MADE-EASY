@@ -167,9 +167,9 @@ export default function Home() {
 
     const query = globalQuery.toLowerCase();
     if (query.includes("gst 111") || query.includes("communication in english")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 111: Communication in English", details: "Official University of Uyo Course! CBT Mock ready." });
+      setGlobalSearchResult({ found: true, courseName: "GST 111: Communication in English", details: "Available on Campus Learning Hub! CBT Mock ready." });
     } else if (query.includes("gst 112") || query.includes("nigerian peoples")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Official University of Uyo Course! CBT Mock & AI Study Room ready." });
+      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
     } else if (query.includes("gst 202") || query.includes("philosophy") || query.includes("logic")) {
       setGlobalSearchResult({ found: true, courseName: "GST 202: Philosophy and Logic for Human Existence", details: "Available on Campus Learning Hub! Independent CBT Mock ready." });
     } else {
@@ -260,8 +260,8 @@ export default function Home() {
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
   const getCourseTitle = (code: "GST111" | "GST112" | "GST202") => {
-    if (code === "GST111") return "GST 111: Communication in English (UniUyo)";
-    if (code === "GST112") return "GST 112: Nigerian Peoples and Culture (UniUyo)";
+    if (code === "GST111") return "GST 111: Communication in English";
+    if (code === "GST112") return "GST 112: Nigerian Peoples and Culture";
     return "GST 202: Philosophy and Logic";
   };
 
@@ -276,7 +276,7 @@ export default function Home() {
         </div>
         <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700", flexWrap: "wrap" }}>
           <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: "#22c55e", color: "#ffffff", padding: "8px 14px", borderRadius: "6px", textDecoration: "none", fontSize: "0.85rem", display: "inline-flex", alignItems: "center", gap: "6px", fontWeight: "900", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
-            💬 Join UniUyo WhatsApp Group
+            💬 Join Our Campus Learning WhatsApp Group
           </a>
           <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
             CBT Exams 💻
@@ -287,22 +287,22 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section Restored */}
+      {/* Hero Banner Section (General Ecosystem) */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Official University of Uyo (UniUyo) Portal — Achieve A&apos;s in All Your Courses
+            ◆ The Premier Academic Success Ecosystem
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 18px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Master Your UniUyo Coursework & <span style={{ color: "#fbbf24" }}>Lasting Distinction</span>
+            Master Your Coursework & <span style={{ color: "#fbbf24" }}>Outstanding Grades</span>
           </h1>
           <p style={{ fontSize: "1.1rem", color: "#e2e8f0", lineHeight: "1.7", maxWidth: "780px", margin: "0 auto 24px auto" }}>
-            Campus Learning Hub is your ultimate undergraduate academic companion at the <strong style={{ color: "#fbbf24" }}>University of Uyo (UniUyo)</strong>. Specially customized with verified past questions and course materials for essential university requirements including <strong style={{ color: "#fbbf24" }}>GST 111 (Communication in English)</strong> and <strong style={{ color: "#fbbf24" }}>GST 112 (Nigerian Peoples and Culture)</strong>. Prepare with absolute confidence, master difficult concepts effortlessly, and secure top grades throughout your university journey.
+            Campus Learning Hub bridges the traditional gap between complex coursework and distinction-level achievement by combining realistic examination simulations with intelligent academic tools.
           </p>
 
           <div style={{ marginBottom: "35px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
             <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ background: "#22c55e", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.9rem", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.4)" }}>
-              💬 Join UniUyo WhatsApp Group
+              💬 Join Our WhatsApp Group
             </a>
             <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(251, 191, 36, 0.4)" }}>
               💻 Access CBT Center
@@ -321,7 +321,7 @@ export default function Home() {
                     setGlobalSearchResult(null);
                   }
                 }} 
-                placeholder="Search UniUyo course (e.g. GST 111, GST 112)..." 
+                placeholder="Search course (e.g. GST 111, GST 112, GST 202)..." 
                 style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
@@ -331,7 +331,7 @@ export default function Home() {
 
             {globalSearchResult && (
               <div style={{ marginTop: "12px", padding: "10px", borderRadius: "6px", background: globalSearchResult.found ? "#d1fae5" : "#fef3c7", border: `1px solid ${globalSearchResult.found ? "#10b981" : "#f59e0b"}`, textAlign: "left" }}>
-                <p style={{ fontSize: "0.80rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
+                <p style={{ fontSize: "0.8rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
                   {globalSearchResult.found ? `✅ ${globalSearchResult.courseName}` : `🔍 ${globalSearchResult.courseName}`}
                 </p>
                 <p style={{ fontSize: "0.75rem", color: "#334155", margin: 0 }}>{globalSearchResult.details}</p>
@@ -343,47 +343,18 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* UNIUST / UNIUYO DEDICATED GST 111 & GST 112 HIGHLIGHT SECTION */}
-        <div style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #fbbf24", borderRadius: "14px", padding: "30px", boxShadow: "0 10px 25px rgba(251, 191, 36, 0.15)" }}>
-          <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 12px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>UNIUYO GST REQUIREMENT HUB</span>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "8px 0 0 0", textTransform: "uppercase" }}>Dedicated GST 111 & GST 112 Portal for UniUyo Students</h3>
-          </div>
-          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", textAlign: "center", maxWidth: "780px", margin: "0 auto 20px auto" }}>
-            At the University of Uyo, passing General Studies courses with high scores is compulsory for stellar GPA standing. We maintain an exclusive question bank and study module specifically tailored to UniUyo standards for <strong style={{ color: "#1d4ed8" }}>GST 111: Communication in English</strong> and <strong style={{ color: "#1d4ed8" }}>GST 112: Nigerian Peoples and Culture</strong>.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "18px", borderRadius: "10px" }}>
-              <h4 style={{ color: "#1d4ed8", fontSize: "1rem", fontWeight: "900", margin: "0 0 6px 0" }}>📖 GST 111: Communication in English</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", margin: "0 0 12px 0", lineHeight: "1.5" }}>Master grammatical units, sentence types, predication, subject-verb agreement, and reference citations according to UniUyo lecturer guidelines.</p>
-              <button onClick={() => { setActiveCourse("GST111"); setShowCbtBox(true); }} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem" }}>
-                Launch GST 111 Mock CBT 💻
-              </button>
-            </div>
-
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "18px", borderRadius: "10px" }}>
-              <h4 style={{ color: "#1d4ed8", fontSize: "1rem", fontWeight: "900", margin: "0 0 6px 0" }}>📚 GST 112: Nigerian Peoples & Culture</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", margin: "0 0 12px 0", lineHeight: "1.5" }}>Practice exhaustive questions covering Nigerian history, cultural epochs, the Nok culture, historical migrations, and constitutional rights.</p>
-              <button onClick={() => { setActiveCourse("GST112"); setShowCbtBox(true); }} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem" }}>
-                Launch GST 112 Mock CBT 💻
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* CBT MODE EXAMS SECTION */}
+        {/* DEDICATED UNIUYO GST 111 & GST 112 SECTION (INSIDE CBT CENTER OPTION) */}
         {showCbtBox && (
           <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
               <div>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SIMULATED CBT CENTER</span>
-                <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience Authentic Examination Conditions</h2>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>UNIVERSITY OF UYO (UNIUYO) CBT PORTAL</span>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>UniUyo GST 111 & GST 112 Exam Center</h2>
               </div>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 {!isTokenVerified && (
                   <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                    Get CBT Mode Access ⚡
+                    Get CBT Access ⚡
                   </button>
                 )}
                 <button onClick={() => setShowCbtBox(false)} style={{ background: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontWeight: "bold", cursor: "pointer", fontSize: "0.8rem" }}>
@@ -393,25 +364,25 @@ export default function Home() {
             </div>
 
             <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-              Access authentic, timed examination simulations that replicate official university testing environments, complete with structured navigation and immediate performance analytics.
+              Passing General Studies courses with high scores is compulsory for stellar GPA standing at the University of Uyo. Practice official UniUyo standards for GST 111 and GST 112 below.
             </p>
 
             {/* Course Selector Tabs inside CBT */}
             {!examStarted && (
               <div style={{ marginBottom: "20px", background: "#f8fafc", padding: "14px", borderRadius: "10px", border: "1px solid #cbd5e1" }}>
-                <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course (UniUyo):</p>
+                <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course:</p>
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                   <button 
                     onClick={() => setActiveCourse("GST111")}
                     style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST111" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST111" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
                   >
-                    📖 GST 111: Communication in English
+                    📖 GST 111: Communication in English (UniUyo)
                   </button>
                   <button 
                     onClick={() => setActiveCourse("GST112")}
                     style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST112" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST112" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
                   >
-                    📚 GST 112: Nigerian Peoples & Culture
+                    📚 GST 112: Nigerian Peoples & Culture (UniUyo)
                   </button>
                   <button 
                     onClick={() => setActiveCourse("GST202")}
@@ -572,7 +543,7 @@ export default function Home() {
         {/* CORE PILLARS SECTION */}
         <div style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
-            <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>UNIUYO ECOSYSTEM</span>
+            <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>PLATFORM ECOSYSTEM</span>
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Our Core Pillars</h3>
           </div>
 
@@ -580,7 +551,7 @@ export default function Home() {
             <div onClick={() => setShowCbtBox(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
               <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center ↗</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for UniUyo GST 111, GST 112 & GST 202.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for GST 111, GST 112 & GST 202.</p>
             </div>
 
             <div onClick={() => setShowAiModal(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
@@ -601,10 +572,10 @@ export default function Home() {
         <div style={{ marginBottom: "50px", background: "#ffffff", border: "1px solid #cbd5e1", padding: "30px", borderRadius: "14px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>ABOUT CAMPUS LEARNING HUB</span>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Empowering UniUyo Undergraduate Success</h3>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Empowering Undergraduate Success</h3>
           </div>
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", textAlign: "center", maxWidth: "750px", margin: "0 auto" }}>
-            Campus Learning Hub is an advanced digital learning ecosystem built specifically for University of Uyo (UniUyo) undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for core general studies courses like GST 111 and GST 112 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
+            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 111, GST 112, and GST 202 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
           </p>
         </div>
 
@@ -639,7 +610,7 @@ export default function Home() {
         <div style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Student Stories</h3>
-            <p style={{ color: "#475569", fontSize: "0.9rem" }}>See what UniUyo undergraduates are saying about Campus Learning Hub.</p>
+            <p style={{ color: "#475569", fontSize: "0.9rem" }}>See what undergraduates are saying about Campus Learning Hub.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
@@ -659,11 +630,11 @@ export default function Home() {
 
           {/* Submit Testimonial Form */}
           <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
-            <h4 style={{ color: "#1e293b", fontSize: "1rem", marginBottom: "12px", marginTop: 0, textTransform: "uppercase", fontWeight: "900" }}>Share Your UniUyo Student Story</h4>
+            <h4 style={{ color: "#1e293b", fontSize: "1rem", marginBottom: "12px", marginTop: 0, textTransform: "uppercase", fontWeight: "900" }}>Share Your Student Story</h4>
             <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
                 <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Department / UniUyo" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Department / Institution" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
               </div>
               <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your story here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
@@ -721,13 +692,13 @@ export default function Home() {
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setAiPlan("PassB")} style={{ background: aiPlan === "PassB" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassB" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setAiPlan("PassB")} style={{ background: aiPlan === "PassB" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassB" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" -->
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
                 </div>
               </div>
 
-              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.80rem", color: "#1e293b" }}>
                 <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
                 <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
                 <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
@@ -750,16 +721,16 @@ export default function Home() {
         <footer style={{ borderTop: "2px solid #cbd5e1", paddingTop: "24px", marginTop: "50px", color: "#475569", fontSize: "0.85rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px", marginBottom: "16px" }}>
             <div>
-              <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (UniUyo Portal)</span>
-              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for University of Uyo undergraduate students.</p>
+              <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub</span>
+              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for undergraduate students.</p>
               <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "8px", color: "#22c55e", fontWeight: "900", textDecoration: "none" }}>
-                💬 Join UniUyo WhatsApp Group ↗
+                💬 Join Our Campus Learning WhatsApp Group ↗
               </a>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
           <div style={{ textAlign: "center", borderTop: "1px solid #e2e8f0", paddingTop: "12px", color: "#64748b", fontSize: "0.8rem" }}>
-            © 2026 Campus Learning Hub — University of Uyo. All rights reserved.
+            © 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
 
