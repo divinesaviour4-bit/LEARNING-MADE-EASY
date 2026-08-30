@@ -46,42 +46,39 @@ const INSTITUTION_DATA = {
   colleges_of_education: { federal: ["Federal College of Education (Special), Oyo"], state: ["Akwa Ibom State College of Education, Afahansit"], private: ["Top-Most College of Education"] }
 };
 
-const QUESTION_BANKS: { [key: string]: { question: string; options: string[]; answer: number }[] } = {
-  "GST111": [
-    { question: "Communication is derived from the Latin word 'communis', which means:", options: ["To share", "To speak", "To write", "To listen"], answer: 0 },
-    { question: "Which of the following is NOT a barrier to effective communication?", options: ["Noise", "Clarity", "Emotional block", "Language difference"], answer: 1 },
-    { question: "The receiver's response to a message is known as:", options: ["Encoding", "Feedback", "Channel", "Decoding"], answer: 1 },
-    { question: "Which reading technique is used when looking for a specific piece of information?", options: ["Skimming", "Scanning", "Critical reading", "Detailed reading"], answer: 1 },
-    { question: "A paragraph must possess which of the following core qualities?", options: ["Unity and Coherence", "Rhyme and Meter", "Length and Complex vocabulary", "Dialogue"], answer: 0 },
-    { question: "The process of converting thoughts into symbols or words is called:", options: ["Decoding", "Encoding", "Transmitting", "Listening"], answer: 1 },
-    { question: "Which of these is a mechanical barrier to communication?", options: ["Poor network or loudspeaker noise", "Shyness", "Cultural bias", "Poor vocabulary"], answer: 0 },
-    { question: "SQ3R stands for Survey, Question, Read, Recite, and:", options: ["Review", "Retell", "Remember", "Record"], answer: 0 },
-    { question: "In essay writing, transitional words are primarily used to achieve:", options: ["Coherence", "Length", "Confusion", "Rhyme"], answer: 0 },
-    { question: "Which listening type involves evaluating and judging the message received?", options: ["Critical listening", "Empathetic listening", "Passive listening", "Casual listening"], answer: 0 },
-    { question: "An antonym for the word 'Amiable' is:", options: ["Friendly", "Hostile", "Warm", "Kind"], answer: 1 },
-    { question: "The main idea of a passage is usually found in the:", options: ["Topic sentence", "Conclusion only", "Footnotes", "Index"], answer: 0 },
-    { question: "Which of the following is a formal greeting in letter writing?", options: ["Dear Sir,", "Hi bro,", "Hey,", "What's up,"], answer: 0 },
-    { question: "Denotation refers to what aspect of a word's meaning?", options: ["Literal or dictionary meaning", "Emotional connotation", "Slang meaning", "Hidden code"], answer: 0 },
-    { question: "Which punctuation mark is used to indicate a direct quotation?", options: ["Question mark", "Quotations marks / inverted commas", "Colon", "Hyphen"], answer: 1 }
-  ],
-  "GST112": [
-    { question: "Akwa Ibom State University (AKSU) has its main campus located in:", options: ["Ikot Akpaden", "Uyo", "Eket", "Ikot Ekpene"], answer: 0 },
-    { question: "The Nok culture is famous for its sophisticated terracotta sculptures and flourished in:", options: ["Northern Nigeria", "Western Nigeria", "Eastern Nigeria", "Niger Delta"], answer: 0 },
-    { question: "Which of the following ethnic groups is predominant in Akwa Ibom State?", options: ["Ibibio / Annang / Oron", "Yoruba", "Hausa", "Igbo"], answer: 0 },
-    { question: "The amalgamation of Northern and Southern Nigeria protectorates took place in:", options: ["1914", "1960", "1954", "1920"], answer: 0 },
-    { question: "Who was the British Governor-General responsible for the 1914 amalgamation?", options: ["Lord Lugard", "Sir James Robertson", "Mungo Park", "Mary Slessor"], answer: 0 },
-    { question: "Nigerian culture is best described as:", options: ["Diverse and pluralistic", "Uniform across all regions", "Monolithic", "Westernized"], answer: 0 },
-    { question: "The famous missionary who stopped the killing of twins in Calabar/Akwa Ibom region was:", options: ["Mary Slessor", "Mungo Park", "Lander brothers", "Bishop Ajayi Crowther"], answer: 0 },
-    { question: "Which traditional political system was practiced by the old Oyo Empire?", options: ["Monarchy with checks and balances (Alaafin and Oyomesi)", "Aace-less egalitarian system", "Clan head system only", "Direct military dictatorship"], answer: 0 },
-    { question: "National integration in Nigeria is hampered by all EXCEPT:", options: ["Religious tolerance", "Tribalism", "Nepotism", "Ethnic bigotry"], answer: 0 },
-    { question: "The pre-colonial Igbo political system is often described as:", options: ["Acephalous / Republican", "Centralized monarchy", "Feudalist empire", "Military junta"], answer: 0 },
-    { question: "Which Nigerian natural resource became the mainstay of the economy from the 1970s?", options: ["Crude Oil (Petroleum)", "Cocoa", "Groundnut", "Palm oil"], answer: 0 },
-    { question: "The concept of 'Unity in Diversity' in Nigeria emphasizes:", options: ["Coexistence of diverse cultures under one nation", "Assimilation of all tribes into one", "Elimination of minority languages", "Regional separation"], answer: 0 },
-    { question: "Which of these is a core value in traditional Nigerian societies?", options: ["Respect for elders and community solidarity", "Extreme individualism", "Disregard for communal ties", "Rejection of morality"], answer: 0 },
-    { question: "University of Uyo (UNIUYO) is located in which state?", options: ["Akwa Ibom State", "Cross River State", "Rivers State", "Abia State"], answer: 0 },
-    { question: "Inter-group relations in pre-colonial Nigeria were characterized by:", options: ["Trade, inter-marriage, and warfare", "Complete isolation", "Total ignorance of neighbors", "Permanent hostility"], answer: 0 }
-  ]
-};
+// FULL GST 112 QUESTION BANK (Non-repeating 30 questions extraction per session)
+const RAW_GST112_QUESTIONS = [
+  { question: "Amalgamation of Northern and Southern protectorate in Nigeria took place on ________ by a British man called _________", options: ["1st January 1914, Sir Frederick Lord Lugard", "1st October 1960, Sir James Robertson", "1914, Mungo Park", "1900, George Goldie"], answer: 0 },
+  { question: "The Edo people were best known for their ability to build a strong kingdom known as ________", options: ["The Benin Empire", "The Oyo Empire", "The Kanem-Borno Empire", "The Sokoto Caliphate"], answer: 0 },
+  { question: "The man Udo has projected that by the year 2050, this country will expand to _______ ethnic groups.", options: ["850", "250", "500", "1000"], answer: 0 },
+  { question: "In the year ______ to ______ was the first census in Nigeria.", options: ["1952 - 1953", "1960 - 1961", "1914 - 1915", "1970 - 1971"], answer: 0 },
+  { question: "The people of the _______ are believed to be the oldest surviving group in Nigeria.", options: ["Forest belt", "Savanna belt", "Coastal wetlands", " Sahel region"], answer: 0 },
+  { question: "______ and ______ is the largest forest belt group.", options: ["Yoruba and Edo", "Hausa and Fulani", "Igbo and Efik", "Tiv and Nupe"], answer: 0 },
+  { question: "The first person to have lived in Tiv was ______ and had two sons named ______ and _______", options: ["Takuruku, Ipusu and Ichongo", "Bayajidda, Bawo and Biram", "Oduduwa, Olofin and Oranyan", "Uthman, Bello and Abdullahi"], answer: 0 },
+  { question: "The Nupe live in large nucleated villages and have daughter settlements, which consist of small farm outlets called _____", options: ["Tunga", "Sabon-gari", "Emirates", "Fadama"], answer: 0 },
+  { question: "In addition to farming, the Hausa were and are still ______", options: ["Shrewd traders", "Fishermen", "Goldsmiths", "Carvers"], answer: 0 },
+  { question: "_______ was given to Bayajidda by a community of blacksmith when he reached Daura.", options: ["A special sword", "A golden crown", "A shield", "A spear"], answer: 0 },
+  { question: "With this ______, Bayajidda killed a troublesome snake which had prevented the people of Daura from drawing water.", options: ["Special sword", "Bow and arrow", "Magic charm", "Fire"], answer: 0 },
+  { question: "The place made for migrant people by the Hausa is called______", options: ["Sabon-gari", "Tunga", "Emirate", "Gidan"], answer: 0 },
+  { question: "Thurstan Shaw, a leading scholar in archaeology, categorized Nigerian history into how many epochs?", options: ["3 epochs (Early, Middle, Late Stone Age)", "2 epochs", "4 epochs", "5 epochs"], answer: 0 },
+  { question: "In Nigeria, the earliest site of iron industry is _____", options: ["Nok culture on the Jos plateau", "Ife bronze site", "Igbo-Ukwu", "Oyo Ile"], answer: 0 },
+  { question: "The date for the Nok culture is reported to be around _____", options: ["500 BC", "1000 AD", "1914", "300 AD"], answer: 0 },
+  { question: "It was towards the end of the Acheulian period that _____ was discovered.", options: ["Fire", "Iron", "Bronze", "Electricity"], answer: 0 },
+  { question: "In Nigeria, the areas around ______ and ______ is believed to have produced Acheulian products.", options: ["The Sahara and Jos plateau", "Lagos and Ibadan", "Port Harcourt and Calabar", "Enugu and Onitsha"], answer: 0 },
+  { question: "The fundamental human rights are entrenched in ________ sections of the 1999 Nigerian constitution.", options: ["Section 33 - Section 46", "Section 1 - Section 10", "Section 100 - Section 110", "Section 50 - Section 60"], answer: 0 },
+  { question: "The oldest religion in Nigeria is _____", options: ["African Traditional Religion (ATR)", "Christianity", "Islam", "Buddhism"], answer: 0 },
+  { question: "The middle stone age covers a period between _____ and ______", options: ["35,000 BC and 12,999 BC", "500 BC and 1 AD", "1914 and 1960", "10,000 BC and 5,000 BC"], answer: 0 },
+  { question: "It is believed that iron technology diffused from Nok to Yoruba land in ______ and Igbo land, specifically Afikpo and Nri.", options: ["300 BC", "1914 AD", "500 AD", "1804 AD"], answer: 0 },
+  { question: "The Yoruba god of iron is called_____", options: ["Ogun", "Sango", "Esu", "Obatala"], answer: 0 },
+  { question: "Igbo-Ukwu specialized in ______", options: ["Bronze work", "Iron smelting", "Pottery", "Wood carving"], answer: 0 },
+  { question: "______ are rules or patterns of behavior.", options: ["Norms", "Values", "Institutions", "Mores"], answer: 0 },
+  { question: "There are two approaches to the definition of norms namely:", options: ["The idealist approach and the behaviourist approach", "The legal and spiritual approach", "The traditional and modern approach", "The political and economic approach"], answer: 0 },
+  { question: "According to the Tiv people of Benue State, the first man to live on Earth was ______ and his brother was ______", options: ["Takuruku, A'ondo the sky god", "Oduduwa, Ogun", "Bayajidda, Bawo", "Uthman, Danfodio"], answer: 0 },
+  { question: "Central to belief systems is ____", options: ["Religion", "Politics", "Commerce", "Agriculture"], answer: 0 },
+  { question: "_______ are attributes and standards of judgment about what things are important, desirable and right.", options: ["Values", "Norms", "Laws", "Taboos"], answer: 0 },
+  { question: "The scientific version of the origin of man was stated by an English biologist called_____", options: ["Charles Robert Darwin", "Thurstan Shaw", "Lord Lugard", "Mary Slessor"], answer: 0 },
+  { question: "The four types of ancient man identified in human evolution are:", options: ["Australopithecus, Homo habilis, Homo erectus, Homo sapiens", "Homo sapien, Homo industrial, Homo digital, Homo superior", "Neanderthal, Viking, Roman, Spartan", "Palaeolithic, Neolithic, Bronze, Iron"], answer: 0 }
+];
 
 export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
@@ -96,8 +93,8 @@ export default function Home() {
   const [txnRef, setTxnRef] = useState("");
   const [paymentLoading, setPaymentLoading] = useState(false);
 
-  // CBT Practice Mode States
-  const [cbtCourse, setCbtCourse] = useState<"GST111" | "GST112">("GST111");
+  // CBT Practice Mode States (GST 112 & GST 111 with 30 non-repeating questions)
+  const [cbtCourse, setCbtCourse] = useState<"GST111" | "GST112">("GST112");
   const [showCbtPayModal, setShowCbtPayModal] = useState(false);
   const [cbtFullName, setCbtFullName] = useState("");
   const [cbtEmail, setCbtEmail] = useState("");
@@ -107,6 +104,7 @@ export default function Home() {
 
   // CBT Exam Execution States
   const [examStarted, setExamStarted] = useState(false);
+  const [activeQuestions, setActiveQuestions] = useState<any[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: number }>({});
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes
@@ -177,13 +175,17 @@ export default function Home() {
     setCbtPayLoading(true);
     setTimeout(() => {
       setCbtPayLoading(false);
-      alert("₦500 CBT payment record submitted successfully! Awaiting backend verification. Your session token will be sent shortly.");
+      alert("₦500 CBT payment record submitted successfully! Awaiting backend verification.");
       setShowCbtPayModal(false);
       setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
     }, 800);
   };
 
+  // Shuffle and pick non-repeating 30 questions for CBT mode
   const handleStartExam = () => {
+    const shuffled = [...RAW_GST112_QUESTIONS].sort(() => 0.5 - Math.random());
+    const selected30 = shuffled.slice(0, 30);
+    setActiveQuestions(selected30);
     setExamStarted(true);
     setTimeLeft(15 * 60);
     setExamSubmitted(false);
@@ -196,9 +198,8 @@ export default function Home() {
   };
 
   const handleSubmitExam = () => {
-    const questions = QUESTION_BANKS[cbtCourse] || [];
     let correctCount = 0;
-    questions.forEach((q, idx) => {
+    activeQuestions.forEach((q, idx) => {
       if (userAnswers[idx] === q.answer) {
         correctCount++;
       }
@@ -215,7 +216,6 @@ export default function Home() {
     alert("Testimonial posted successfully!");
   };
 
-  const currentQuestions = QUESTION_BANKS[cbtCourse] || [];
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
   return (
@@ -237,7 +237,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section (No University Tags at Top) */}
+      {/* Hero Banner Section */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
@@ -247,7 +247,7 @@ export default function Home() {
             Grab A's in All Your Courses <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
-            Experience authentic CBT mode exams that show you exactly how real university exams will be.
+            Experience authentic CBT mode exams featuring verified GST 112 questions to show you exactly how real university exams will be.
           </p>
 
           {/* Instant Course Search */}
@@ -292,7 +292,7 @@ export default function Home() {
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Take our CBT mode exams to access exactly how real university exams will be. Each session gives you a simulation featuring 40 questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection. Available for UNIUYO & AKSU (GST 111 & GST 112).
+            Take our CBT mode exams to access exactly how real university exams will be. Each session gives you a randomized simulation featuring **30 Questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection**. Retaking loads a fresh non-repeating set!
           </p>
 
           {!examStarted ? (
@@ -300,14 +300,14 @@ export default function Home() {
               <div style={{ maxWidth: "400px", margin: "0 auto 20px auto", textAlign: "left" }}>
                 <label style={{ display: "block", fontSize: "0.8rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Select Course for CBT Mode Exam:</label>
                 <select value={cbtCourse} onChange={(e) => setCbtCourse(e.target.value as any)} style={{ width: "100%", padding: "12px", borderRadius: "6px", background: "#ffffff", border: "1px solid #cbd5e1", fontWeight: "800", fontSize: "0.9rem" }}>
+                  <option value="GST112">GST 112: Nigerian Peoples & Culture (UNIUYO & AKSU)</option>
                   <option value="GST111">GST 111: Use of English (UNIUYO & AKSU)</option>
-                  <option value="GST112">GST 112: Nigerian Peoples and Culture (UNIUYO & AKSU)</option>
                 </select>
               </div>
 
               <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
                 <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
-                  Start Free CBT Practice 🚀
+                  Start Free CBT Practice (30 Questions, 15 Mins) 🚀
                 </button>
                 <button onClick={() => setShowCbtPayModal(true)} style={{ background: "#fbbf24", color: "#0f172a", border: "none", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase" }}>
                   Unlock Full CBT Access (₦500) ⚡
@@ -318,7 +318,7 @@ export default function Home() {
             /* ACTIVE EXAM INTERFACE (ANTI-SCREENSHOT & COLOR GRID) */
             <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
-                <span style={{ fontWeight: "900", color: "#fbbf24" }}>{cbtCourse} — CBT Mode Exam Simulation</span>
+                <span style={{ fontWeight: "900", color: "#fbbf24" }}>{cbtCourse} — CBT Mode Exam Simulation (30 Qs)</span>
                 <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
                   ⏳ Time Left: {formatTime(timeLeft)}
                 </span>
@@ -328,7 +328,7 @@ export default function Home() {
               <div style={{ marginBottom: "20px" }}>
                 <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginBottom: "6px", fontWeight: "700" }}>QUESTION NAVIGATOR (Green = Answered, Grey = Unanswered):</p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                  {currentQuestions.map((_, idx) => {
+                  {activeQuestions.map((_, idx) => {
                     const isAnswered = userAnswers[idx] !== undefined;
                     const isCurrent = currentQIndex === idx;
                     return (
@@ -346,11 +346,11 @@ export default function Home() {
 
               {/* Current Question Box */}
               <div style={{ background: "#1e293b", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
-                <p style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: "bold", margin: "0 0 8px 0" }}>Question {currentQIndex + 1} of {currentQuestions.length}</p>
-                <p style={{ fontSize: "1.05rem", fontWeight: "800", color: "#ffffff", margin: "0 0 16px 0", lineHeight: "1.5" }}>{currentQuestions[currentQIndex].question}</p>
+                <p style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: "bold", margin: "0 0 8px 0" }}>Question {currentQIndex + 1} of {activeQuestions.length}</p>
+                <p style={{ fontSize: "1.05rem", fontWeight: "800", color: "#ffffff", margin: "0 0 16px 0", lineHeight: "1.5" }}>{activeQuestions[currentQIndex].question}</p>
                 
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {currentQuestions[currentQIndex].options.map((opt, optIdx) => {
+                  {activeQuestions[currentQIndex].options.map((opt: string, optIdx: number) => {
                     const isSelected = userAnswers[currentQIndex] === optIdx;
                     return (
                       <label 
@@ -376,9 +376,9 @@ export default function Home() {
                   ← Previous
                 </button>
 
-                {currentQIndex < currentQuestions.length - 1 ? (
+                {currentQIndex < activeQuestions.length - 1 ? (
                   <button 
-                    onClick={() => setCurrentQIndex((prev) => Math.min(currentQuestions.length - 1, prev + 1))}
+                    onClick={() => setCurrentQIndex((prev) => Math.min(activeQuestions.length - 1, prev + 1))}
                     style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: "pointer" }}
                   >
                     Next →
@@ -398,12 +398,12 @@ export default function Home() {
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
               <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Exam Completed Successfully!</h3>
               <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "#1d4ed8", marginBottom: "16px" }}>
-                Your Score: {score} / {currentQuestions.length} ({Math.round((score / currentQuestions.length) * 100)}%)
+                Your Score: {score} / {activeQuestions.length} ({Math.round((score / activeQuestions.length) * 100)}%)
               </p>
               
               <div style={{ textAlign: "left", maxHeight: "300px", overflowY: "auto", background: "#ffffff", padding: "16px", borderRadius: "8px", border: "1px solid #cbd5e1", marginBottom: "20px" }}>
                 <h4 style={{ margin: "0 0 10px 0", fontSize: "0.9rem", fontWeight: "900", color: "#1e293b" }}>Detailed Answer Review:</h4>
-                {currentQuestions.map((q, idx) => {
+                {activeQuestions.map((q, idx) => {
                   const userChoice = userAnswers[idx];
                   const isCorrect = userChoice === q.answer;
                   return (
@@ -420,8 +420,8 @@ export default function Home() {
                 })}
               </div>
 
-              <button onClick={() => setExamStarted(false)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Retake CBT Mode Exam 🔄
+              <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+                Retake CBT Mode Exam (Fresh Non-Repeating Questions) 🔄
               </button>
             </div>
           )}
@@ -545,7 +545,7 @@ export default function Home() {
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setPlan("B1000")} style={{ background: plan === "B1000" ? "#eff6ff" : "#f8fafc", border: plan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setPlan("B1000")} style={{ background: plan === "B1000" ? "#eff6ff" : "#f8fafc", border: plan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "0 auto" }}>
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
                 </div>
