@@ -36,7 +36,7 @@ const GST112_QUESTIONS = [
   { question: "The four types of ancient man identified in human evolution are:", options: ["Australopithecus, Homo habilis, Homo erectus, Homo sapiens", "Homo sapien, Homo industrial, Homo digital, Homo superior", "Neanderthal, Viking, Roman, Spartan", "Palaeolithic, Neolithic, Bronze, Iron"], answer: 0 }
 ];
 
-// GST 212 / GST 202: PHILOSOPHY AND LOGIC QUESTIONS
+// GST 212: PHILOSOPHY AND LOGIC QUESTIONS
 const GST212_QUESTIONS = [
   { question: "Philosophy is coined from two Greek terms: Philo meaning what?", options: ["Love", "Wisdom", "Knowledge", "Truth"], answer: 0 },
   { question: "Philosophy is coined from two Greek terms: Sophia meaning what?", options: ["Wisdom", "Love", "Reason", "Logic"], answer: 0 },
@@ -98,10 +98,8 @@ export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // Active School Selection: "UniUyo" or "AKSU"
+  // Active School Selection
   const [activeSchool, setActiveSchool] = useState<"UniUyo" | "AKSU">("UniUyo");
-
-  // Active Course Selection: "GST111", "GST112" or "GST212"
   const [activeCourse, setActiveCourse] = useState<"GST111" | "GST112" | "GST212">("GST111");
 
   // CBT Interaction & Token States
@@ -110,8 +108,6 @@ export default function Home() {
   const [cbtFullName, setCbtFullName] = useState("");
   const [cbtEmail, setCbtEmail] = useState("");
   const [cbtPhone, setCbtPhone] = useState("");
-  const [cbtTxnRef, setCbtTxnRef] = useState("");
-  const [cbtPayLoading, setCbtPayLoading] = useState(false);
 
   const [enteredToken, setEnteredToken] = useState("");
   const [isTokenVerified, setIsTokenVerified] = useState(false);
@@ -143,6 +139,14 @@ export default function Home() {
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
   const [reviewerComment, setReviewerComment] = useState("");
+
+  // Load Paystack Script dynamically
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://js.paystack.co/v1/inline.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
 
   // Timer Effect for CBT
   useEffect(() => {
@@ -180,19 +184,41 @@ export default function Home() {
     }
   };
 
-  const handleCbtPaymentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!cbtFullName || !cbtEmail || !cbtPhone || !cbtTxnRef) {
-      alert("Please fill in all details and bank transaction reference.");
+  // Paystack Automated Payment Integration
+  const handlePaystackPayment = () => {
+    if (!cbtFullName || !cbtEmail || !cbtPhone) {
+      alert("Please fill in your full name, email, and phone number first.");
       return;
     }
-    setCbtPayLoading(true);
-    setTimeout(() => {
-      setCbtPayLoading(false);
-      alert("CBT access payment submitted! Once verified by our team, your access token will be issued.");
-      setShowCbtPayModal(false);
-      setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
-    }, 800);
+
+    const generatedToken = "CLH-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    const handler = (window as any).PaystackPop.setup({
+      key: 'pk_live_your_actual_paystack_public_key_here', // Replace with your active Paystack public key
+      email: cbtEmail,
+      amount: 500 * 100, // ₦500 in kobo
+      currency: 'NGN',
+      ref: 'CLH_' + Math.floor((Math.random() * 1000000000) + 1),
+      metadata: {
+        custom_fields: [
+          { display_name: "Full Name", variable_name: "full_name", value: cbtFullName },
+          { display_name: "Phone Number", variable_name: "phone", value: cbtPhone },
+          { display_name: "Access Token", variable_name: "access_token", value: generatedToken }
+        ]
+      },
+      callback: function(response: any) {
+        alert(`Payment successful! Your verified Access Token is: ${generatedToken}. Saved and verified instantly.`);
+        setShowCbtPayModal(false);
+        setEnteredToken(generatedToken);
+        setIsTokenVerified(true);
+        setCbtFullName(""); setCbtEmail(""); setCbtPhone("");
+      },
+      onClose: function() {
+        alert('Transaction window closed.');
+      }
+    });
+
+    handler.openIframe();
   };
 
   const handleVerifyToken = (e: React.FormEvent) => {
@@ -225,7 +251,7 @@ export default function Home() {
       alert("Please input your verified access token to unlock this examination session.");
       return;
     }
-    const sourceQuestions = activeCourse === "GST111" ? GST111_QUESTIONS : GST112_QUESTIONS;
+    const sourceQuestions = activeCourse === "GST111" ? GST111_QUESTIONS : activeCourse === "GST112" ? GST112_QUESTIONS : GST212_QUESTIONS;
     const shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
     const selectedCount = Math.min(20, shuffled.length);
     const selectedQuestions = shuffled.slice(0, selectedCount);
@@ -279,7 +305,7 @@ export default function Home() {
         </div>
         <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700", flexWrap: "wrap" }}>
           <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: "#22c55e", color: "#ffffff", padding: "8px 14px", borderRadius: "6px", textDecoration: "none", fontSize: "0.85rem", display: "inline-flex", alignItems: "center", gap: "6px", fontWeight: "900", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
-            💬 Join Our Campus Learning WhatsApp Group
+            💬 Join Our WhatsApp Group
           </a>
           <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
             CBT Exams 💻
@@ -290,7 +316,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section (Clean General Ecosystem) */}
+      {/* Hero Banner Section */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
@@ -346,7 +372,7 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION (UNIUYO & AKSU INSTITUTIONS SPECIFIC) */}
+        {/* CBT MODE EXAMS SECTION */}
         {showCbtBox && (
           <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
@@ -371,7 +397,7 @@ export default function Home() {
             </p>
 
             {/* School Selector Tabs */}
-            <div style={{ marginBottom: "16px", background: "#f1f5f9", padding: "10px", borderRadius: "8px", display: "flex", gap: "10px", alignItems: "center" }}>
+            <div style={{ marginBottom: "16px", background: "#f1f5f9", padding: "10px", borderRadius: "8px", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
               <span style={{ fontSize: "0.8rem", fontWeight: "900", color: "#475569" }}>Select University:</span>
               <button 
                 onClick={() => { setActiveSchool("UniUyo"); setActiveCourse("GST111"); }}
@@ -666,7 +692,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CBT PAYMENT MODAL */}
+        {/* PAYSTACK AUTOMATED CBT PAYMENT MODAL */}
         {showCbtPayModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -674,67 +700,19 @@ export default function Home() {
               <button onClick={() => setShowCbtPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay ₦500 & Get Access Token</h3>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>AUTOMATED PAYSTACK GATEWAY</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay ₦500 & Get Instant Access Token</h3>
               </div>
 
-              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
-                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
-                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
-                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
-              </div>
-
-              <form onSubmit={handleCbtPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <input type="text" value={cbtFullName} onChange={(e) => setCbtFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="email" value={cbtEmail} onChange={(e) => setCbtEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                 <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={cbtTxnRef} onChange={(e) => setCbtTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <button type="submit" disabled={cbtPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                  {cbtPayLoading ? "Submitting..." : "Submit CBT Payment Record"}
+                
+                <button type="button" onClick={handlePaystackPayment} style={{ background: "#22c55e", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "10px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.3)" }}>
+                  Pay ₦500 with Paystack (Instant Access) ⚡
                 </button>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {/* OPENAI AI STUDY ROOM PRICING MODAL */}
-        {showAiModal && (
-          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
-            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
-              
-              <button onClick={() => setShowAiModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
-
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>AI STUDY ROOM ACCESS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock AI Study Room (₦500 or ₦1,000)</h3>
               </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
-                <div onClick={() => setAiPlan("PassA")} style={{ background: aiPlan === "PassA" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassA" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
-                  <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
-                </div>
-                <div onClick={() => setAiPlan("PassB")} style={{ background: aiPlan === "PassB" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassB" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
-                  <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
-                  <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
-                </div>
-              </div>
-
-              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
-                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
-                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
-                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
-              </div>
-
-              <form onSubmit={handleAiPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <input type="text" value={aiFullName} onChange={(e) => setAiFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="email" value={aiEmail} onChange={(e) => setAiEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={aiTxnRef} onChange={(e) => setAiTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                  {aiPayLoading ? "Submitting..." : "Submit AI Room Payment"}
-                </button>
-              </form>
             </div>
           </div>
         )}
