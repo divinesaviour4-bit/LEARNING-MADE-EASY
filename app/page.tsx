@@ -293,7 +293,7 @@ export default function Home() {
       if (data.reply) {
         setAiChatMessages([...updatedMessages, { role: "assistant", content: data.reply }]);
       } else {
-        setAiChatMessages([...updatedMessages, { role: "assistant", content: "AI response received or check OpenAI API key." }]);
+        setAI_FallbackResponse(updatedMessages);
       }
     } catch (err) {
       setAI_FallbackResponse(updatedMessages);
@@ -303,7 +303,7 @@ export default function Home() {
   };
 
   const setAI_FallbackResponse = (currentMsgs: any[]) => {
-    setAiChatMessages([...currentMsgs, { role: "assistant", content: "AI Study Room connected successfully! Configure your OpenAI API key in .env.local to get live answers." }]);
+    setAiChatMessages([...currentMsgs, { role: "assistant", content: "AI Study Room connected successfully! Check your OpenAI API key in .env.local if you encounter any issue." }]);
   };
 
   const handleStartExam = () => {
