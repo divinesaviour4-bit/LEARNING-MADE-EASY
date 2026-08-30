@@ -287,14 +287,14 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section with Updated Outstanding Grades Heading */}
+      {/* Hero Banner Section Restored */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
             ◆ Official University of Uyo (UniUyo) Portal — Achieve A&apos;s in All Your Courses
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 18px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Master Your UniUyo Coursework & <span style={{ color: "#fbbf24" }}>Outstanding Grades</span>
+            Master Your UniUyo Coursework & <span style={{ color: "#fbbf24" }}>Lasting Distinction</span>
           </h1>
           <p style={{ fontSize: "1.1rem", color: "#e2e8f0", lineHeight: "1.7", maxWidth: "780px", margin: "0 auto 24px auto" }}>
             Campus Learning Hub is your ultimate undergraduate academic companion at the <strong style={{ color: "#fbbf24" }}>University of Uyo (UniUyo)</strong>. Specially customized with verified past questions and course materials for essential university requirements including <strong style={{ color: "#fbbf24" }}>GST 111 (Communication in English)</strong> and <strong style={{ color: "#fbbf24" }}>GST 112 (Nigerian Peoples and Culture)</strong>. Prepare with absolute confidence, master difficult concepts effortlessly, and secure top grades throughout your university journey.
@@ -331,7 +331,7 @@ export default function Home() {
 
             {globalSearchResult && (
               <div style={{ marginTop: "12px", padding: "10px", borderRadius: "6px", background: globalSearchResult.found ? "#d1fae5" : "#fef3c7", border: `1px solid ${globalSearchResult.found ? "#10b981" : "#f59e0b"}`, textAlign: "left" }}>
-                <p style={{ fontSize: "0.8rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
+                <p style={{ fontSize: "0.80rem", fontWeight: "800", color: globalSearchResult.found ? "#065f46" : "#b45309", margin: "0 0 4px 0" }}>
                   {globalSearchResult.found ? `✅ ${globalSearchResult.courseName}` : `🔍 ${globalSearchResult.courseName}`}
                 </p>
                 <p style={{ fontSize: "0.75rem", color: "#334155", margin: 0 }}>{globalSearchResult.details}</p>
@@ -372,7 +372,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CBT MODE EXAMS SECTION (HIDDEN UNTIL USER CLICKS 'CBT Exams' OR 'Access CBT Center') */}
+        {/* CBT MODE EXAMS SECTION */}
         {showCbtBox && (
           <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
