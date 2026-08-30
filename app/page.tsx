@@ -36,8 +36,8 @@ const GST112_QUESTIONS = [
   { question: "The four types of ancient man identified in human evolution are:", options: ["Australopithecus, Homo habilis, Homo erectus, Homo sapiens", "Homo sapien, Homo industrial, Homo digital, Homo superior", "Neanderthal, Viking, Roman, Spartan", "Palaeolithic, Neolithic, Bronze, Iron"], answer: 0 }
 ];
 
-// GST 202: PHILOSOPHY AND LOGIC QUESTIONS
-const GST202_QUESTIONS = [
+// GST 212 / GST 202: PHILOSOPHY AND LOGIC QUESTIONS
+const GST212_QUESTIONS = [
   { question: "Philosophy is coined from two Greek terms: Philo meaning what?", options: ["Love", "Wisdom", "Knowledge", "Truth"], answer: 0 },
   { question: "Philosophy is coined from two Greek terms: Sophia meaning what?", options: ["Wisdom", "Love", "Reason", "Logic"], answer: 0 },
   { question: "An educated person who develops a mind which makes problem solving possible is called?", options: ["An intellectual", "A sophist", "A cosmologist", "A logician"], answer: 0 },
@@ -98,8 +98,11 @@ export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // Active Course Selection: "GST111", "GST112" or "GST202"
-  const [activeCourse, setActiveCourse] = useState<"GST111" | "GST112" | "GST202">("GST111");
+  // Active School Selection: "UniUyo" or "AKSU"
+  const [activeSchool, setActiveSchool] = useState<"UniUyo" | "AKSU">("UniUyo");
+
+  // Active Course Selection: "GST111", "GST112" or "GST212"
+  const [activeCourse, setActiveCourse] = useState<"GST111" | "GST112" | "GST212">("GST111");
 
   // CBT Interaction & Token States
   const [showCbtBox, setShowCbtBox] = useState(false);
@@ -169,9 +172,9 @@ export default function Home() {
     if (query.includes("gst 111") || query.includes("communication in english")) {
       setGlobalSearchResult({ found: true, courseName: "GST 111: Communication in English", details: "Available on Campus Learning Hub! CBT Mock ready." });
     } else if (query.includes("gst 112") || query.includes("nigerian peoples")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
-    } else if (query.includes("gst 202") || query.includes("philosophy") || query.includes("logic")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 202: Philosophy and Logic for Human Existence", details: "Available on Campus Learning Hub! Independent CBT Mock ready." });
+      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available for UniUyo & AKSU! CBT Mock ready." });
+    } else if (query.includes("gst 212") || query.includes("gst 202") || query.includes("philosophy") || query.includes("logic")) {
+      setGlobalSearchResult({ found: true, courseName: "GST 212 / GST 202: Philosophy and Logic", details: "Available for UniUyo & AKSU! CBT Mock ready." });
     } else {
       setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Campus Learning Hub course repository indexed successfully." });
     }
@@ -222,7 +225,7 @@ export default function Home() {
       alert("Please input your verified access token to unlock this examination session.");
       return;
     }
-    const sourceQuestions = activeCourse === "GST111" ? GST111_QUESTIONS : activeCourse === "GST112" ? GST112_QUESTIONS : GST202_QUESTIONS;
+    const sourceQuestions = activeCourse === "GST111" ? GST111_QUESTIONS : GST112_QUESTIONS;
     const shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
     const selectedCount = Math.min(20, shuffled.length);
     const selectedQuestions = shuffled.slice(0, selectedCount);
@@ -259,10 +262,10 @@ export default function Home() {
 
   const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 2);
 
-  const getCourseTitle = (code: "GST111" | "GST112" | "GST202") => {
-    if (code === "GST111") return "GST 111: Communication in English";
-    if (code === "GST112") return "GST 112: Nigerian Peoples and Culture";
-    return "GST 202: Philosophy and Logic";
+  const getCourseTitle = (code: "GST111" | "GST112" | "GST212") => {
+    if (code === "GST111") return `${activeSchool} — GST 111: Communication in English`;
+    if (code === "GST112") return `${activeSchool} — GST 112: Nigerian Peoples and Culture`;
+    return `${activeSchool} — GST 212: Philosophy, Logic and Human Existence`;
   };
 
   return (
@@ -287,7 +290,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Banner Section (General Ecosystem Clean) */}
+      {/* Hero Banner Section (Clean General Ecosystem) */}
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
@@ -321,7 +324,7 @@ export default function Home() {
                     setGlobalSearchResult(null);
                   }
                 }} 
-                placeholder="Search course (e.g. GST 111, GST 112, GST 202)..." 
+                placeholder="Search course (e.g. GST 111, GST 112, GST 212)..." 
                 style={{ flex: "1 1 260px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }}
               />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
@@ -343,13 +346,13 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION (UNIUYO SPECIFIC IS CONFINED HERE ONLY) */}
+        {/* CBT MODE EXAMS SECTION (UNIUYO & AKSU INSTITUTIONS SPECIFIC) */}
         {showCbtBox && (
           <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
               <div>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>UNIVERSITY OF UYO (UNIUYO) CBT PORTAL</span>
-                <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>UniUyo GST 111 & GST 112 Exam Center</h2>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>INSTITUTIONAL CBT PORTAL</span>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Select Your Institution & Exam Center</h2>
               </div>
               <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 {!isTokenVerified && (
@@ -364,31 +367,50 @@ export default function Home() {
             </div>
 
             <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-              Passing General Studies courses with high scores is compulsory for stellar GPA standing at the University of Uyo. Practice official UniUyo standards for GST 111 and GST 112 below.
+              Select your university and practice official institutional standards for General Studies requirements.
             </p>
+
+            {/* School Selector Tabs */}
+            <div style={{ marginBottom: "16px", background: "#f1f5f9", padding: "10px", borderRadius: "8px", display: "flex", gap: "10px", alignItems: "center" }}>
+              <span style={{ fontSize: "0.8rem", fontWeight: "900", color: "#475569" }}>Select University:</span>
+              <button 
+                onClick={() => { setActiveSchool("UniUyo"); setActiveCourse("GST111"); }}
+                style={{ padding: "8px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeSchool === "UniUyo" ? "#1d4ed8" : "#ffffff", color: activeSchool === "UniUyo" ? "#ffffff" : "#1e293b", border: "1px solid #cbd5e1" }}
+              >
+                University of Uyo (UniUyo)
+              </button>
+              <button 
+                onClick={() => { setActiveSchool("AKSU"); setActiveCourse("GST112"); }}
+                style={{ padding: "8px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeSchool === "AKSU" ? "#1d4ed8" : "#ffffff", color: activeSchool === "AKSU" ? "#ffffff" : "#1e293b", border: "1px solid #cbd5e1" }}
+              >
+                Akwa Ibom State University (AKSU)
+              </button>
+            </div>
 
             {/* Course Selector Tabs inside CBT */}
             {!examStarted && (
               <div style={{ marginBottom: "20px", background: "#f8fafc", padding: "14px", borderRadius: "10px", border: "1px solid #cbd5e1" }}>
-                <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course:</p>
+                <p style={{ fontSize: "0.85rem", fontWeight: "900", color: "#1e293b", marginBottom: "10px" }}>Select Examination Course ({activeSchool}):</p>
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                  <button 
-                    onClick={() => setActiveCourse("GST111")}
-                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST111" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST111" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
-                  >
-                    📖 GST 111: Communication in English (UniUyo)
-                  </button>
+                  {activeSchool === "UniUyo" && (
+                    <button 
+                      onClick={() => setActiveCourse("GST111")}
+                      style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST111" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST111" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
+                    >
+                      📖 GST 111: Communication in English
+                    </button>
+                  )}
                   <button 
                     onClick={() => setActiveCourse("GST112")}
                     style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST112" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST112" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
                   >
-                    📚 GST 112: Nigerian Peoples & Culture (UniUyo)
+                    📚 GST 112: Nigerian Peoples & Culture
                   </button>
                   <button 
-                    onClick={() => setActiveCourse("GST202")}
-                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST202" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST202" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
+                    onClick={() => setActiveCourse("GST212")}
+                    style={{ padding: "10px 16px", borderRadius: "6px", fontWeight: "900", fontSize: "0.85rem", cursor: "pointer", background: activeCourse === "GST212" ? "#1d4ed8" : "#ffffff", color: activeCourse === "GST212" ? "#ffffff" : "#1e293b", border: "1px solid #1d4ed8" }}
                   >
-                    🧠 GST 202: Philosophy & Logic
+                    🧠 GST 212: Philosophy, Logic & Human Existence
                   </button>
                 </div>
               </div>
@@ -551,7 +573,7 @@ export default function Home() {
             <div onClick={() => setShowCbtBox(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
               <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center ↗</h4>
-              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for GST 111, GST 112 & GST 202.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations for UniUyo and AKSU general courses.</p>
             </div>
 
             <div onClick={() => setShowAiModal(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
@@ -575,7 +597,7 @@ export default function Home() {
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Empowering Undergraduate Success</h3>
           </div>
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.7", textAlign: "center", maxWidth: "750px", margin: "0 auto" }}>
-            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 111, GST 112, and GST 202 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
+            Campus Learning Hub is an advanced digital learning ecosystem built specifically for university undergraduates. Our mission is to bridge the gap between complex lecture materials and academic excellence. By integrating realistic Computer-Based Test (CBT) simulations for general studies courses like GST 111, GST 112, and GST 212 with intelligent AI-powered study assistance, we equip students with the tools, practice environment, and confidence needed to secure top grades and graduate with distinction.
           </p>
         </div>
 
