@@ -196,7 +196,7 @@ export default function Home() {
     }
   };
 
-  // Paystack Automated Payment & Instant Access Trigger
+  // Live Paystack Automated Payment Integration
   const handlePaystackPayment = () => {
     if (!cbtFullName || !cbtEmail || !cbtPhone) {
       alert("Please fill in your full name, email, and phone number first.");
@@ -206,7 +206,7 @@ export default function Home() {
     const generatedToken = "CLH-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const handler = (window as any).PaystackPop.setup({
-      key: 'pk_live_your_actual_paystack_public_key_here',
+      key: 'Pk_live_46af751280a7a8c388a4ed2e90d2b3ed9d84c548',
       email: cbtEmail,
       amount: 500 * 100, // ₦500 in kobo
       currency: 'NGN',
