@@ -281,26 +281,26 @@ export default function Home() {
           <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
             CBT Exams 💻
           </button>
-          <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+          <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.80rem" }}>
             AI Study Room 🤖
           </button>
         </div>
       </nav>
 
-      {/* Hero Banner Section */}
-      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+      {/* Hero Banner Section with Rich Expanded Write-up */}
+      <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "70px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
+        <div style={{ maxWidth: "850px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Achieve A's in Your Courses
+            ◆ The Premier Academic Success Ecosystem
           </span>
-          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Master Your Coursework & <span style={{ color: "#fbbf24" }}>Achieve Distinction</span>
+          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 18px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
+            Master Your University Coursework & <span style={{ color: "#fbbf24" }}>Achieve Lasting Distinction</span>
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 20px auto" }}>
-            Campus Learning Hub bridges the traditional gap between complex coursework and distinction-level achievement by combining realistic examination simulations with intelligent academic tools.
+          <p style={{ fontSize: "1.1rem", color: "#e2e8f0", lineHeight: "1.7", maxWidth: "780px", margin: "0 auto 24px auto" }}>
+            Campus Learning Hub is your ultimate undergraduate academic companion, engineered to bridge the traditional gap between complex lecture materials and distinction-level achievement. We combine rigorous, timed Computer-Based Test (CBT) simulations for essential general studies courses like GST 111, GST 112, and GST 202 with intelligent AI-powered study rooms. Prepare with absolute confidence, master difficult concepts effortlessly, and secure top grades throughout your university journey.
           </p>
 
-          <div style={{ marginBottom: "30px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+          <div style={{ marginBottom: "35px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
             <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ background: "#22c55e", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.9rem", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.4)" }}>
               💬 Join Our WhatsApp Group
             </a>
