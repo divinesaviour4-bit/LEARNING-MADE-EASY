@@ -396,8 +396,11 @@ export default function Home() {
             <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(251, 191, 36, 0.4)" }}>
               💻 Access CBT Center
             </button>
-            <button onClick={() => setShowAiChatDrawer(true)} style={{ background: "#10b981", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(16, 185, 129, 0.4)" }}>
-              🤖 Open AI Chat Room 💬
+            <button onClick={() => setShowAiModal(true)} style={{ background: "#10b981", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(16, 185, 129, 0.4)" }}>
+              🤖 AI Study Room Pass 💬
+            </button>
+            <button onClick={() => setShowAiChatDrawer(true)} style={{ background: "#059669", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(5, 150, 105, 0.4)" }}>
+              💬 Open Live AI Chat
             </button>
           </div>
 
