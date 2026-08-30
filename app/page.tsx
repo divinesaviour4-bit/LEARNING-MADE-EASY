@@ -56,7 +56,7 @@ export default function Home() {
   const [aiFullName, setAiFullName] = useState("");
   const [aiEmail, setAiEmail] = useState("");
   const [aiPhone, setAiPhone] = useState("");
-  const [aiPlan, setAiPlan] = useState<"A500" | "B1000">("B1000");
+  const [aiPlan, setAiPlan] = useState<"PassA" | "PassB">("PassB");
   const [aiTxnRef, setAiTxnRef] = useState("");
   const [aiPayLoading, setAiPayLoading] = useState(false);
 
@@ -117,7 +117,7 @@ export default function Home() {
     setCbtPayLoading(true);
     setTimeout(() => {
       setCbtPayLoading(false);
-      alert("₦500 CBT payment submitted! Once verified by our team, your access token will be issued.");
+      alert("CBT access payment submitted! Once verified by our team, your access token will be issued.");
       setShowCbtPayModal(false);
       setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
     }, 800);
@@ -198,9 +198,9 @@ export default function Home() {
           <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
         <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Exams (₦500) 💻</a>
+          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Exams 💻</a>
           <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
-            AI Study Room (₦500 / ₦1000) 🤖
+            AI Study Room 🤖
           </button>
         </div>
       </nav>
@@ -256,7 +256,7 @@ export default function Home() {
             </div>
             {!isTokenVerified && (
               <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Pay ₦500 for CBT Access ⚡
+                Get CBT Mode Access ⚡
               </button>
             )}
           </div>
@@ -268,7 +268,7 @@ export default function Home() {
           {!isTokenVerified ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
               <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
-              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your verified access token below to unlock your examination simulation session.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session.</p>
               
               <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
                 <input 
@@ -285,7 +285,7 @@ export default function Home() {
               </form>
 
               <button onClick={() => setShowCbtPayModal(true)} style={{ background: "transparent", border: "none", color: "#1d4ed8", fontSize: "0.8rem", fontWeight: "800", cursor: "pointer", textDecoration: "underline" }}>
-                Don't have a token yet? Click here to pay ₦500 ↗
+                Don't have an access token? Click here to get CBT Mode Access ↗
               </button>
             </div>
           ) : !examStarted ? (
@@ -501,7 +501,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ₦500 CBT PAYMENT & TOKEN MODAL */}
+        {/* CBT PAYMENT MODAL (AMOUNT ONLY VISIBLE HERE WHEN CLICKED) */}
         {showCbtPayModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
@@ -509,8 +509,8 @@ export default function Home() {
               <button onClick={() => setShowCbtPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS (₦500)</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Submit Payment & Request Access Token</h3>
+                <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay ₦500 & Get Access Token</h3>
               </div>
 
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
@@ -545,11 +545,11 @@ export default function Home() {
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
-                <div onClick={() => setAiPlan("A500")} style={{ background: aiPlan === "A500" ? "#eff6ff" : "#f8fafc", border: aiPlan === "A500" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setAiPlan("PassA")} style={{ background: aiPlan === "PassA" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassA" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setAiPlan("B1000")} style={{ background: aiPlan === "B1000" ? "#eff6ff" : "#f8fafc", border: aiPlan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setAiPlan("PassB")} style={{ background: aiPlan === "PassB" ? "#eff6ff" : "#f8fafc", border: aiPlan === "PassB" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
                 </div>
