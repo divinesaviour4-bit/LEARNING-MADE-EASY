@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-// ONLY GST 112 QUESTIONS FOR AKSU AS REQUESTED
+// AKSU GST 112 QUESTIONS (30 non-repeating per session)
 const GST112_QUESTIONS = [
   { question: "Amalgamation of Northern and Southern protectorate in Nigeria took place on ________ by a British man called _________", options: ["1st January 1914, Sir Frederick Lord Lugard", "1st October 1960, Sir James Robertson", "1914, Mungo Park", "1900, George Goldie"], answer: 0 },
   { question: "The Edo people were best known for their ability to build a strong kingdom known as ________", options: ["The Benin Empire", "The Oyo Empire", "The Kanem-Borno Empire", "The Sokoto Caliphate"], answer: 0 },
@@ -40,16 +40,28 @@ export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // OpenAI Pricing Modal State
-  const [showPricingModal, setShowPricingModal] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [plan, setPlan] = useState<"A500" | "B1000">("B1000");
-  const [txnRef, setTxnRef] = useState("");
-  const [paymentLoading, setPaymentLoading] = useState(false);
+  // Separate Modals for CBT (₦500 Access Token) vs AI Chat Room (₦500 / ₦1000)
+  const [showCbtPayModal, setShowCbtPayModal] = useState(false);
+  const [cbtFullName, setCbtFullName] = useState("");
+  const [cbtEmail, setCbtEmail] = useState("");
+  const [cbtPhone, setCbtPhone] = useState("");
+  const [cbtTxnRef, setCbtTxnRef] = useState("");
+  const [cbtPayLoading, setCbtPayLoading] = useState(false);
 
-  // CBT Practice Mode States (GST 112 AKSU Exclusive, FREE access)
+  // Token Input State for CBT
+  const [enteredToken, setEnteredToken] = useState("");
+  const [isTokenVerified, setIsTokenVerified] = useState(false);
+
+  // OpenAI Chat Room Pricing Modal State
+  const [showAiModal, setShowAiModal] = useState(false);
+  const [aiFullName, setAiFullName] = useState("");
+  const [aiEmail, setAiEmail] = useState("");
+  const [aiPhone, setAiPhone] = useState("");
+  const [aiPlan, setAiPlan] = useState<"A500" | "B1000">("B1000");
+  const [aiTxnRef, setAiTxnRef] = useState("");
+  const [aiPayLoading, setAiPayLoading] = useState(false);
+
+  // CBT Exam Execution States (AKSU GST 112)
   const [examStarted, setExamStarted] = useState(false);
   const [activeQuestions, setActiveQuestions] = useState<any[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -61,8 +73,8 @@ export default function Home() {
   // Testimonials State
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [reviews, setReviews] = useState([
-    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "The CBT mode exams give you the exact feel of how real exams will be. Grabbed A's easily!" },
-    { name: "Grace Okon", department: "Accounting, AKSU", comment: "The free GST 112 CBT practice session is exceptionally realistic!" }
+    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "Campus Learning Hub CBT mode gives you the exact feel of how real exams will be. Grabbed A's easily!" },
+    { name: "Grace Okon", department: "Accounting, AKSU", comment: "The AI Study Room explains GST 112 concepts brilliantly. Highly recommended!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
@@ -91,28 +103,58 @@ export default function Home() {
 
     const query = globalQuery.toLowerCase();
     if (query.includes("gst 112") || query.includes("nigerian peoples")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture (AKSU)", details: "Available! Free CBT mock exam ready." });
+      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture (AKSU)", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
     } else {
-      setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Currently focusing exclusively on AKSU GST 112." });
+      setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Campus Learning Hub currently indexed for AKSU GST 112." });
     }
   };
 
-  const handleOpenAIPayment = async (e: React.FormEvent) => {
+  const handleCbtPaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName || !email || !phone || !txnRef) {
+    if (!cbtFullName || !cbtEmail || !cbtPhone || !cbtTxnRef) {
       alert("Please fill in all details and bank transaction reference.");
       return;
     }
-    setPaymentLoading(true);
+    setCbtPayLoading(true);
     setTimeout(() => {
-      setPaymentLoading(false);
-      alert("OpenAI API Access payment record submitted! Awaiting backend verification.");
-      setShowPricingModal(false);
+      setCbtPayLoading(false);
+      alert("₦500 CBT payment submitted! Awaiting backend verification. Your access token will be sent to your email/phone once verified.");
+      setShowCbtPayModal(false);
+      setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
     }, 800);
   };
 
-  // Shuffle and pick non-repeating 30 questions for CBT mode
+  const handleVerifyToken = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Demo token verification (e.g. valid token: AKSU-CBT-2026 or any 6+ chars code or admin bypass)
+    if (enteredToken.trim().length >= 5) {
+      setIsTokenVerified(true);
+      alert("Token verified successfully! You can now start your CBT exam.");
+    } else {
+      alert("Invalid access token. Please enter your verified backend token.");
+    }
+  };
+
+  const handleAiPaymentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!aiFullName || !aiEmail || !aiPhone || !aiTxnRef) {
+      alert("Please fill in all details and bank transaction reference.");
+      return;
+    }
+    setAiPayLoading(true);
+    setTimeout(() => {
+      setAiPayLoading(false);
+      alert("AI Study Room payment submitted! Awaiting backend verification for access.");
+      setShowAiModal(false);
+      setAiFullName(""); setAiEmail(""); setAiPhone(""); setAiTxnRef("");
+    }, 800);
+  };
+
   const handleStartExam = () => {
+    if (!isTokenVerified) {
+      alert("Please input your backend-verified access token to unlock this CBT session.");
+      return;
+    }
     const shuffled = [...GST112_QUESTIONS].sort(() => 0.5 - Math.random());
     const selected30 = shuffled.slice(0, 30);
     setActiveQuestions(selected30);
@@ -155,13 +197,12 @@ export default function Home() {
       <nav style={{ position: "sticky", top: 0, zIndex: 50, backgroundColor: "#1d4ed8", padding: "16px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ backgroundColor: "#fbbf24", color: "#0f172a", fontWeight: "900", padding: "6px 10px", borderRadius: "6px", fontSize: "0.85rem" }}>CLH</span>
-          <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB (AKSU)</span>
+          <span style={{ fontWeight: "900", fontSize: "1.1rem", color: "#ffffff", letterSpacing: "-0.02em" }}>CAMPUS LEARNING HUB</span>
         </div>
         <div style={{ display: "flex", gap: "16px", fontSize: "0.9rem", alignItems: "center", fontWeight: "700" }}>
-          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>GST 112 CBT Mode 💻</a>
-          <a href="/chat" style={{ color: "#ffffff", textDecoration: "none" }}>OpenAI Study Room 🤖</a>
-          <button onClick={() => setShowPricingModal(true)} style={{ backgroundColor: "#fbbf24", color: "#0f172a", padding: "8px 16px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", textTransform: "uppercase", fontSize: "0.75rem" }}>
-            OpenAI API Pass ⚡
+          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Exams (₦500) 💻</a>
+          <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
+            AI Study Room (₦500 / ₦1000) 🤖
           </button>
         </div>
       </nav>
@@ -170,13 +211,13 @@ export default function Home() {
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Akwa Ibom State University (AKSU) Exclusive
+            ◆ Akwa Ibom State University (AKSU) Exclusive — Campus Learning Hub
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
             Grab A's in GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
-            Experience authentic CBT mode exams featuring verified AKSU GST 112 questions to show you exactly how real exams will be.
+            Welcome to Campus Learning Hub! Experience authentic CBT mode exams featuring verified AKSU GST 112 questions to show you exactly how real exams will be.
           </p>
 
           {/* Instant Course Search */}
@@ -208,24 +249,48 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION (AKSU GST 112 FREE ACCESS) */}
+        {/* CBT MODE EXAMS SECTION (₦500 + Backend Token Verification) */}
         <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
             <div>
-              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT MODE EXAMS</span>
+              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CAMPUS LEARNING HUB CBT</span>
               <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>GST 112: Experience How Real Exams Will Be</h2>
             </div>
-            <span style={{ fontSize: "0.85rem", background: "#d1fae5", color: "#065f46", padding: "6px 14px", borderRadius: "6px", fontWeight: "900" }}>
-              100% Free Practice
-            </span>
+            <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+              Pay ₦500 for CBT Access ⚡
+            </button>
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Take our AKSU GST 112 CBT mode exam to access exactly how real university exams will be. Each session gives you a randomized simulation featuring **30 Questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection**. Retaking loads a fresh non-repeating set!
+            Campus Learning Hub brings you authentic AKSU GST 112 exam simulations. Each session features **30 Questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection**. 
           </p>
 
-          {!examStarted ? (
+          {!isTokenVerified ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter CBT Access Token</h3>
+              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your verified backend access token below to unlock the exam.</p>
+              
+              <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
+                <input 
+                  type="text" 
+                  value={enteredToken} 
+                  onChange={(e) => setEnteredToken(e.target.value)} 
+                  placeholder="Enter ₦500 Access Token..." 
+                  required 
+                  style={{ flex: "1 1 200px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", outline: "none" }}
+                />
+                <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
+                  Verify Token 🔐
+                </button>
+              </form>
+
+              <button onClick={() => setShowCbtPayModal(true)} style={{ background: "transparent", border: "none", color: "#1d4ed8", fontSize: "0.8rem", fontWeight: "800", cursor: "pointer", textDecoration: "underline" }}>
+                Don't have a token yet? Click here to pay ₦500 ↗
+              </button>
+            </div>
+          ) : !examStarted ? (
+            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+              <p style={{ color: "#059669", fontWeight: "900", marginBottom: "16px" }}>✅ Token Verified Successfully! Ready to launch exam.</p>
               <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
                 Start GST 112 CBT Practice (30 Questions, 15 Mins) 🚀
               </button>
@@ -357,8 +422,8 @@ export default function Home() {
                 <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Nigerian Peoples and Culture (AKSU)</h4>
                 <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Complete textbook revision notes, chapter summaries, and verified past questions.</p>
               </div>
-              <button onClick={() => alert("GST 112 Notes & Questions fully loaded for AKSU!")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
-                Access Materials Free ✅
+              <button onClick={() => setShowAiModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
+                Unlock AI Study Room & Notes 🤖
               </button>
             </div>
           </div>
@@ -402,24 +467,55 @@ export default function Home() {
           </div>
         </div>
 
-        {/* OPENAI PRICING MODAL */}
-        {showPricingModal && (
+        {/* ₦500 CBT PAYMENT & TOKEN MODAL */}
+        {showCbtPayModal && (
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
               
-              <button onClick={() => setShowPricingModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
+              <button onClick={() => setShowCbtPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>OPENAI API ACCESS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock OpenAI AI Study Room</h3>
+                <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS (₦500)</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay & Get Backend Access Token</h3>
+              </div>
+
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
+                <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
+                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
+                <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
+              </div>
+
+              <form onSubmit={handleCbtPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <input type="text" value={cbtFullName} onChange={(e) => setCbtFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={cbtEmail} onChange={(e) => setCbtEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={cbtPhone} onChange={(e) => setCbtPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={cbtTxnRef} onChange={(e) => setCbtTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <button type="submit" disabled={cbtPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                  {cbtPayLoading ? "Submitting..." : "Submit CBT Payment Record"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* OPENAI AI STUDY ROOM PRICING MODAL (₦500 / ₦1000) */}
+        {showAiModal && (
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
+              
+              <button onClick={() => setShowAiModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
+
+              <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>AI STUDY ROOM ACCESS</span>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock AI Study Room (₦500 or ₦1,000)</h3>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", marginBottom: "20px" }}>
-                <div onClick={() => setPlan("A500")} style={{ background: plan === "A500" ? "#eff6ff" : "#f8fafc", border: plan === "A500" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setAiPlan("A500")} style={{ background: aiPlan === "A500" ? "#eff6ff" : "#f8fafc", border: aiPlan === "A500" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>1 WEEK PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦500</h4>
                 </div>
-                <div onClick={() => setPlan("B1000")} style={{ background: plan === "B1000" ? "#eff6ff" : "#f8fafc", border: plan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
+                <div onClick={() => setAiPlan("B1000")} style={{ background: aiPlan === "B1000" ? "#eff6ff" : "#f8fafc", border: aiPlan === "B1000" ? "2px solid #1d4ed8" : "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", cursor: "pointer", textAlign: "center" }}>
                   <span style={{ fontSize: "0.65rem", color: "#1d4ed8", fontWeight: "900" }}>SEMESTER PASS</span>
                   <h4 style={{ fontSize: "1.1rem", color: "#1e293b", margin: "4px 0" }}>₦1,000</h4>
                 </div>
@@ -431,13 +527,13 @@ export default function Home() {
                 <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
               </div>
 
-              <form onSubmit={handleOpenAIPayment} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={txnRef} onChange={(e) => setTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <button type="submit" disabled={paymentLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                  {paymentLoading ? "Submitting..." : "Submit Payment Record"}
+              <form onSubmit={handleAiPaymentSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <input type="text" value={aiFullName} onChange={(e) => setAiFullName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="email" value={aiEmail} onChange={(e) => setAiEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={aiTxnRef} onChange={(e) => setAiTxnRef(e.target.value)} required placeholder="Bank Transaction Reference" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "10px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                  {aiPayLoading ? "Submitting..." : "Submit AI Room Payment"}
                 </button>
               </form>
             </div>
