@@ -40,7 +40,7 @@ export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // Separate Modals for CBT (₦500 Access Token) vs AI Chat Room (₦500 / ₦1000)
+  // CBT Payment & Token States
   const [showCbtPayModal, setShowCbtPayModal] = useState(false);
   const [cbtFullName, setCbtFullName] = useState("");
   const [cbtEmail, setCbtEmail] = useState("");
@@ -48,11 +48,10 @@ export default function Home() {
   const [cbtTxnRef, setCbtTxnRef] = useState("");
   const [cbtPayLoading, setCbtPayLoading] = useState(false);
 
-  // Token Input State for CBT
   const [enteredToken, setEnteredToken] = useState("");
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
-  // OpenAI Chat Room Pricing Modal State
+  // AI Study Room Modal States
   const [showAiModal, setShowAiModal] = useState(false);
   const [aiFullName, setAiFullName] = useState("");
   const [aiEmail, setAiEmail] = useState("");
@@ -126,7 +125,6 @@ export default function Home() {
 
   const handleVerifyToken = (e: React.FormEvent) => {
     e.preventDefault();
-    // Demo token verification (e.g. valid token: AKSU-CBT-2026 or any 6+ chars code or admin bypass)
     if (enteredToken.trim().length >= 5) {
       setIsTokenVerified(true);
       alert("Token verified successfully! You can now start your CBT exam.");
@@ -211,7 +209,7 @@ export default function Home() {
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Akwa Ibom State University (AKSU) Exclusive — Campus Learning Hub
+            ◆ Official Academic Success Companion
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
             Grab A's in GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
@@ -249,7 +247,7 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION (₦500 + Backend Token Verification) */}
+        {/* CBT MODE EXAMS SECTION */}
         <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
             <div>
@@ -262,13 +260,13 @@ export default function Home() {
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Campus Learning Hub brings you authentic AKSU GST 112 exam simulations. Each session features **30 Questions, a strict 15-minute countdown timer, instant scoring, complete answer reviews, and screenshot protection**. 
+            Campus Learning Hub brings you authentic AKSU GST 112 exam simulations. Pay ₦500, verify your token in the backend, and unlock your exam session!
           </p>
 
           {!isTokenVerified ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
               <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter CBT Access Token</h3>
-              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your verified backend access token below to unlock the exam.</p>
+              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your backend-verified access token below to unlock your exam session.</p>
               
               <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
                 <input 
@@ -290,13 +288,14 @@ export default function Home() {
             </div>
           ) : !examStarted ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <p style={{ color: "#059669", fontWeight: "900", marginBottom: "16px" }}>✅ Token Verified Successfully! Ready to launch exam.</p>
+              <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
+              <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Your session is ready: 30 Questions, 15 Minutes Timer, Instant Scoring & Review.</p>
               <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
-                Start GST 112 CBT Practice (30 Questions, 15 Mins) 🚀
+                Start GST 112 CBT Exam Now 🚀
               </button>
             </div>
           ) : !examSubmitted ? (
-            /* ACTIVE EXAM INTERFACE (ANTI-SCREENSHOT & COLOR GRID) */
+            /* ACTIVE EXAM INTERFACE (NO MENTION OF SCREENSHOT RESTRICTION) */
             <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
                 <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112 (AKSU) — CBT Mode Exam Simulation (30 Qs)</span>
