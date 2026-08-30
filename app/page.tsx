@@ -29,7 +29,7 @@ const GST112_QUESTIONS = [
   { question: "Igbo-Ukwu specialized in ______", options: ["Bronze work", "Iron smelting", "Pottery", "Wood carving"], answer: 0 },
   { question: "______ are rules or patterns of behavior.", options: ["Norms", "Values", "Institutions", "Mores"], answer: 0 },
   { question: "There are two approaches to the definition of norms namely:", options: ["The idealist approach and the behaviourist approach", "The legal and spiritual approach", "The traditional and modern approach", "The political and economic approach"], answer: 0 },
-  { question: "According to the Tiv people of Benue State, the first man to live on Earth was ______ and his brother was ______", options: ["Takuruku, A'ondo the sky god", "Oduduwa, Ogun", "Bayajidda, Bawo", "Uthman, Danfodio"], answer: 0 },
+  { question: "According to the Tiv people of Benue State, the first man to live on Earth was Earth's maker and his brother was ______", options: ["Takuruku, A'ondo the sky god", "Oduduwa, Ogun", "Bayajidda, Bawo", "Uthman, Danfodio"], answer: 0 },
   { question: "Central to belief systems is ____", options: ["Religion", "Politics", "Commerce", "Agriculture"], answer: 0 },
   { question: "_______ are attributes and standards of judgment about what things are important, desirable and right.", options: ["Values", "Norms", "Laws", "Taboos"], answer: 0 },
   { question: "The scientific version of the origin of man was stated by an English biologist called_____", options: ["Charles Robert Darwin", "Thurstan Shaw", "Lord Lugard", "Mary Slessor"], answer: 0 },
@@ -587,7 +587,7 @@ export default function Home() {
 
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
                 <p style={{ margin: "0 0 3px 0" }}>Bank: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Fidelity Bank</span></p>
-                <p style={{ margin: "0 0 3px 0" }}>Account Number: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
+                <p style={{ margin: "0 0 3px 0" }}>AccountNumber: <span style={{ fontFamily: "monospace", fontSize: "0.9rem", fontWeight: "800" }}>4568971753</span></p>
                 <p style={{ margin: 0 }}>Account Name: <span style={{ color: "#1d4ed8", fontWeight: "800" }}>Asuquo Deborah</span></p>
               </div>
 
