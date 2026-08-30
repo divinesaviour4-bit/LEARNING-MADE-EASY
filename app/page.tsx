@@ -60,7 +60,7 @@ export default function Home() {
   const [aiTxnRef, setAiTxnRef] = useState("");
   const [aiPayLoading, setAiPayLoading] = useState(false);
 
-  // CBT Exam Execution States (AKSU GST 112)
+  // CBT Exam Execution States
   const [examStarted, setExamStarted] = useState(false);
   const [activeQuestions, setActiveQuestions] = useState<any[]>([]);
   const [currentQIndex, setCurrentQIndex] = useState(0);
@@ -72,8 +72,8 @@ export default function Home() {
   // Testimonials State
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [reviews, setReviews] = useState([
-    { name: "Saviour Bassey", department: "Electrical Engineering, AKSU", comment: "Campus Learning Hub CBT mode gives you the exact feel of how real exams will be. Grabbed A's easily!" },
-    { name: "Grace Okon", department: "Accounting, AKSU", comment: "The AI Study Room explains GST 112 concepts brilliantly. Highly recommended!" }
+    { name: "Saviour Bassey", department: "Electrical Engineering", comment: "Campus Learning Hub CBT mode gives you the exact feel of how real exams will be. Grabbed A's easily!" },
+    { name: "Grace Okon", department: "Accounting", comment: "The AI Study Room explains complex university concepts brilliantly. Highly recommended!" }
   ]);
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerDept, setReviewerDept] = useState("");
@@ -102,9 +102,9 @@ export default function Home() {
 
     const query = globalQuery.toLowerCase();
     if (query.includes("gst 112") || query.includes("nigerian peoples")) {
-      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture (AKSU)", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
+      setGlobalSearchResult({ found: true, courseName: "GST 112: Nigerian Peoples and Culture", details: "Available on Campus Learning Hub! CBT Mock & AI Study Room ready." });
     } else {
-      setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Campus Learning Hub currently indexed for AKSU GST 112." });
+      setGlobalSearchResult({ found: false, courseName: globalQuery.toUpperCase(), details: "Campus Learning Hub course repository indexed successfully." });
     }
   };
 
@@ -117,7 +117,7 @@ export default function Home() {
     setCbtPayLoading(true);
     setTimeout(() => {
       setCbtPayLoading(false);
-      alert("₦500 CBT payment submitted! Awaiting backend verification. Your access token will be sent to your email/phone once verified.");
+      alert("₦500 CBT payment submitted! Once verified by our team, your access token will be issued.");
       setShowCbtPayModal(false);
       setCbtFullName(""); setCbtEmail(""); setCbtPhone(""); setCbtTxnRef("");
     }, 800);
@@ -127,9 +127,9 @@ export default function Home() {
     e.preventDefault();
     if (enteredToken.trim().length >= 5) {
       setIsTokenVerified(true);
-      alert("Token verified successfully! You can now start your CBT exam.");
+      alert("Token verified successfully! You can now start your examination simulation.");
     } else {
-      alert("Invalid access token. Please enter your verified backend token.");
+      alert("Invalid access token. Please enter your verified access token.");
     }
   };
 
@@ -142,7 +142,7 @@ export default function Home() {
     setAiPayLoading(true);
     setTimeout(() => {
       setAiPayLoading(false);
-      alert("AI Study Room payment submitted! Awaiting backend verification for access.");
+      alert("AI Study Room access pass request submitted! Awaiting verification.");
       setShowAiModal(false);
       setAiFullName(""); setAiEmail(""); setAiPhone(""); setAiTxnRef("");
     }, 800);
@@ -150,7 +150,7 @@ export default function Home() {
 
   const handleStartExam = () => {
     if (!isTokenVerified) {
-      alert("Please input your backend-verified access token to unlock this CBT session.");
+      alert("Please input your verified access token to unlock this examination session.");
       return;
     }
     const shuffled = [...GST112_QUESTIONS].sort(() => 0.5 - Math.random());
@@ -181,7 +181,7 @@ export default function Home() {
   const handleAddReview = (e: React.FormEvent) => {
     e.preventDefault();
     if (!reviewerName || !reviewerComment) return;
-    setReviews([{ name: reviewerName, department: reviewerDept || "AKSU Student", comment: reviewerComment }, ...reviews]);
+    setReviews([{ name: reviewerName, department: reviewerDept || "Undergraduate Student", comment: reviewerComment }, ...reviews]);
     setReviewerName(""); setReviewerDept(""); setReviewerComment("");
     alert("Testimonial posted successfully!");
   };
@@ -209,13 +209,13 @@ export default function Home() {
       <div style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)", color: "#ffffff", padding: "60px 20px", textAlign: "center", borderBottom: "4px solid #fbbf24" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
           <span style={{ background: "#fbbf24", color: "#1d4ed8", padding: "6px 14px", borderRadius: "20px", fontSize: "0.75rem", fontWeight: "900", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-block", marginBottom: "16px" }}>
-            ◆ Official Academic Success Companion
+            ◆ Premier Digital Academic Success Platform
           </span>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)", fontWeight: "900", margin: "0 0 16px 0", letterSpacing: "-0.03em", lineHeight: "1.1" }}>
-            Grab A's in GST 112 <span style={{ color: "#fbbf24" }}>Without Stress</span>
+            Master Your Coursework & <span style={{ color: "#fbbf24" }}>Achieve Distinction</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#e2e8f0", lineHeight: "1.6", maxWidth: "700px", margin: "0 auto 30px auto" }}>
-            Welcome to Campus Learning Hub! Experience authentic CBT mode exams featuring verified AKSU GST 112 questions to show you exactly how real exams will be.
+            Campus Learning Hub bridges the traditional gap between complex coursework and distinction-level achievement by combining realistic examination simulations with intelligent academic tools.
           </p>
 
           {/* Instant Course Search */}
@@ -251,8 +251,8 @@ export default function Home() {
         <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
             <div>
-              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CAMPUS LEARNING HUB CBT</span>
-              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>GST 112: Experience How Real Exams Will Be</h2>
+              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SIMULATED CBT CENTER</span>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience Authentic Examination Conditions</h2>
             </div>
             <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
               Pay ₦500 for CBT Access ⚡
@@ -260,20 +260,20 @@ export default function Home() {
           </div>
 
           <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Campus Learning Hub brings you authentic AKSU GST 112 exam simulations. Pay ₦500, verify your token in the backend, and unlock your exam session!
+            Access authentic, timed examination simulations that replicate official university testing environments, complete with structured navigation and immediate performance analytics.
           </p>
 
           {!isTokenVerified ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter CBT Access Token</h3>
-              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your backend-verified access token below to unlock your exam session.</p>
+              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
+              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Paid ₦500? Enter your verified access token below to unlock your examination simulation session.</p>
               
               <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
                 <input 
                   type="text" 
                   value={enteredToken} 
                   onChange={(e) => setEnteredToken(e.target.value)} 
-                  placeholder="Enter ₦500 Access Token..." 
+                  placeholder="Enter Access Token..." 
                   required 
                   style={{ flex: "1 1 200px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", outline: "none" }}
                 />
@@ -289,16 +289,16 @@ export default function Home() {
           ) : !examStarted ? (
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
               <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
-              <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Your session is ready: 30 Questions, 15 Minutes Timer, Instant Scoring & Review.</p>
+              <p style={{ color: "#475569", fontSize: "0.85rem", marginBottom: "16px" }}>Your session is ready: 30 Questions, 15-Minute Timer, Instant Scoring & Review.</p>
               <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
-                Start GST 112 CBT Exam Now 🚀
+                Start Examination Simulation 🚀
               </button>
             </div>
           ) : !examSubmitted ? (
-            /* ACTIVE EXAM INTERFACE (NO MENTION OF SCREENSHOT RESTRICTION) */
+            /* ACTIVE EXAM INTERFACE */
             <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
-                <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112 (AKSU) — CBT Mode Exam Simulation (30 Qs)</span>
+                <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112: Nigerian Peoples and Culture — Simulation (30 Qs)</span>
                 <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
                   ⏳ Time Left: {formatTime(timeLeft)}
                 </span>
@@ -376,7 +376,7 @@ export default function Home() {
           ) : (
             /* EXAM SUBMISSION & SCORE REVIEW */
             <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Exam Completed Successfully!</h3>
+              <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Simulation Completed Successfully!</h3>
               <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "#1d4ed8", marginBottom: "16px" }}>
                 Your Score: {score} / {activeQuestions.length} ({Math.round((score / activeQuestions.length) * 100)}%)
               </p>
@@ -401,29 +401,63 @@ export default function Home() {
               </div>
 
               <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Retake CBT Mode Exam (Fresh Non-Repeating Questions) 🔄
+                Retake Simulation (Fresh Non-Repeating Questions) 🔄
               </button>
             </div>
           )}
         </div>
 
-        {/* AKSU GST 112 COURSE MATERIALS SECTION */}
-        <div id="courses" style={{ marginBottom: "50px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: 0, textTransform: "uppercase" }}>AKSU Course Materials</h3>
-            <span style={{ fontSize: "0.8rem", background: "#dbeafe", color: "#1d4ed8", padding: "6px 12px", borderRadius: "6px", fontWeight: "800" }}>Verified Curriculum</span>
+        {/* CORE PILLARS SECTION */}
+        <div style={{ marginBottom: "50px" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
+            <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>PLATFORM ECOSYSTEM</span>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Our Core Pillars</h3>
           </div>
-          
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-            <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "24px", borderRadius: "12px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-              <div>
-                <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.75rem", fontWeight: "900" }}>GST 112</span>
-                <h4 style={{ margin: "12px 0 8px 0", fontSize: "1.1rem", color: "#1e293b", fontWeight: "900" }}>Nigerian Peoples and Culture (AKSU)</h4>
-                <p style={{ margin: "0 0 16px 0", fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Complete textbook revision notes, chapter summaries, and verified past questions.</p>
-              </div>
-              <button onClick={() => setShowAiModal(true)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 16px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "900", cursor: "pointer", textTransform: "uppercase", width: "100%" }}>
-                Unlock AI Study Room & Notes 🤖
-              </button>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+              <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations that replicate official university testing environments.</p>
+            </div>
+
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+              <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>🤖</div>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Intelligent AI Companion</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Engage with a dedicated virtual study room providing clear contextual breakdowns and conceptual explanations.</p>
+            </div>
+
+            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+              <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>📚</div>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Academic Repository</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Explore curated course materials, foundational textbook revision notes, and verified past examination questions.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* WHY CHOOSE US SECTION */}
+        <div style={{ marginBottom: "50px", background: "#eff6ff", border: "1px solid #bfdbfe", padding: "30px", borderRadius: "14px" }}>
+          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+            <span style={{ background: "#1d4ed8", color: "#ffffff", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>EXCELLENCE ASSURED</span>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0", textTransform: "uppercase" }}>Why Choose Us</h3>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px" }}>
+            <div style={{ background: "#ffffff", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
+              <h4 style={{ fontSize: "0.95rem", fontWeight: "900", color: "#1d4ed8", margin: "0 0 6px 0" }}>🎯 Authentic Examination Simulation</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", margin: 0, lineHeight: "1.5" }}>Gain realistic practice that mirrors official testing conditions, building confidence and eliminating exam-day anxiety.</p>
+            </div>
+            <div style={{ background: "#ffffff", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
+              <h4 style={{ fontSize: "0.95rem", fontWeight: "900", color: "#1d4ed8", margin: "0 0 6px 0" }}>🤖 Intelligent Academic Support</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", margin: 0, lineHeight: "1.5" }}>Leverage advanced AI-assisted study tools designed to break down complex coursework into digestible explanations.</p>
+            </div>
+            <div style={{ background: "#ffffff", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
+              <h4 style={{ fontSize: "0.95rem", fontWeight: "900", color: "#1d4ed8", margin: "0 0 6px 0" }}>📚 Curated Course Materials</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", margin: 0, lineHeight: "1.5" }}>Access reliable, verified revision notes and past questions organized by subject matter experts to streamline revision.</p>
+            </div>
+            <div style={{ background: "#ffffff", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
+              <h4 style={{ fontSize: "0.95rem", fontWeight: "900", color: "#1d4ed8", margin: "0 0 6px 0" }}>⚡ Seamless & Secure Access</h4>
+              <p style={{ fontSize: "0.85rem", color: "#475569", margin: 0, lineHeight: "1.5" }}>Enjoy a user-friendly platform with streamlined access passes, moving effortlessly from revision to mock exams.</p>
             </div>
           </div>
         </div>
@@ -432,7 +466,7 @@ export default function Home() {
         <div style={{ marginBottom: "50px" }}>
           <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <h3 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", marginBottom: "6px", textTransform: "uppercase" }}>Student Stories</h3>
-            <p style={{ color: "#475569", fontSize: "0.9rem" }}>See what AKSU students are saying about Campus Learning Hub.</p>
+            <p style={{ color: "#475569", fontSize: "0.9rem" }}>See what undergraduates are saying about Campus Learning Hub.</p>
           </div>
           
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "20px" }}>
@@ -456,7 +490,7 @@ export default function Home() {
             <form onSubmit={handleAddReview} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px" }}>
                 <input type="text" value={reviewerName} onChange={(e) => setReviewerName(e.target.value)} placeholder="Your Full Name" required style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Department (e.g. Electrical Eng, AKSU)" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
+                <input type="text" value={reviewerDept} onChange={(e) => setReviewerDept(e.target.value)} placeholder="Department / Institution" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
               </div>
               <textarea value={reviewerComment} onChange={(e) => setReviewerComment(e.target.value)} placeholder="Write your story here..." required rows={3} style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none", resize: "vertical" }} />
               <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
@@ -475,7 +509,7 @@ export default function Home() {
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>CBT ACCESS PASS (₦500)</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Pay & Get Backend Access Token</h3>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Submit Payment & Request Access Token</h3>
               </div>
 
               <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "14px", borderRadius: "8px", marginBottom: "16px", fontSize: "0.8rem", color: "#1e293b" }}>
@@ -543,8 +577,8 @@ export default function Home() {
         <footer style={{ borderTop: "2px solid #cbd5e1", paddingTop: "24px", marginTop: "50px", color: "#475569", fontSize: "0.85rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "15px" }}>
             <div>
-              <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub (AKSU)</span>
-              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for Akwa Ibom State University students.</p>
+              <span style={{ fontWeight: "900", color: "#1e293b", fontSize: "0.95rem" }}>Campus Learning Hub</span>
+              <p style={{ margin: "4px 0 0 0" }}>Digital learning & academic success platform for undergraduate students.</p>
             </div>
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
