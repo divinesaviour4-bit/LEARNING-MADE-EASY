@@ -40,7 +40,8 @@ export default function Home() {
   const [globalQuery, setGlobalQuery] = useState("");
   const [globalSearchResult, setGlobalSearchResult] = useState<null | { found: boolean; courseName?: string; details?: string }>(null);
 
-  // CBT Payment & Token States
+  // CBT Interaction & Token States
+  const [showCbtBox, setShowCbtBox] = useState(false);
   const [showCbtPayModal, setShowCbtPayModal] = useState(false);
   const [cbtFullName, setCbtFullName] = useState("");
   const [cbtEmail, setCbtEmail] = useState("");
@@ -204,7 +205,9 @@ export default function Home() {
           <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ backgroundColor: "#22c55e", color: "#ffffff", padding: "8px 14px", borderRadius: "6px", textDecoration: "none", fontSize: "0.85rem", display: "inline-flex", alignItems: "center", gap: "6px", fontWeight: "900", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
             💬 Join Our Campus Learning WhatsApp Group
           </a>
-          <a href="#cbt-section" style={{ color: "#fbbf24", textDecoration: "none" }}>CBT Exams 💻</a>
+          <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
+            CBT Exams 💻
+          </button>
           <button onClick={() => setShowAiModal(true)} style={{ background: "transparent", border: "1px solid #fbbf24", color: "#fbbf24", padding: "6px 12px", borderRadius: "6px", fontWeight: "800", cursor: "pointer", fontSize: "0.8rem" }}>
             AI Study Room 🤖
           </button>
@@ -224,10 +227,13 @@ export default function Home() {
             Campus Learning Hub bridges the traditional gap between complex coursework and distinction-level achievement by combining realistic examination simulations with intelligent academic tools.
           </p>
 
-          <div style={{ marginBottom: "30px" }}>
-            <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ background: "#22c55e", color: "#ffffff", padding: "14px 28px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.95rem", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.4)" }}>
-              💬 Join Our Campus Learning WhatsApp Group
+          <div style={{ marginBottom: "30px", display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+            <a href="https://chat.whatsapp.com/JXNLa8oI8mZ3ysovdLgD3f?s=cl&p=a&ilr=1" target="_blank" rel="noopener noreferrer" style={{ background: "#22c55e", color: "#ffffff", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", textDecoration: "none", fontSize: "0.9rem", display: "inline-flex", alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.4)" }}>
+              💬 Join Our WhatsApp Group
             </a>
+            <button onClick={() => setShowCbtBox(true)} style={{ background: "#fbbf24", color: "#1d4ed8", padding: "12px 24px", borderRadius: "8px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.9rem", boxShadow: "0 4px 12px rgba(251, 191, 36, 0.4)" }}>
+              💻 Access CBT Center
+            </button>
           </div>
 
           {/* Instant Course Search */}
@@ -264,166 +270,173 @@ export default function Home() {
 
       <div style={{ maxWidth: "900px", margin: "0 auto", padding: "40px 16px", boxSizing: "border-box" }}>
         
-        {/* CBT MODE EXAMS SECTION (HIDDEN UNTIL TOKEN IS VERIFIED) */}
-        <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
-            <div>
-              <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SIMULATED CBT CENTER</span>
-              <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience Authentic Examination Conditions</h2>
-            </div>
-            {!isTokenVerified && (
-              <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Get CBT Mode Access ⚡
-              </button>
-            )}
-          </div>
-
-          <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-            Access authentic, timed examination simulations that replicate official university testing environments, complete with structured navigation and immediate performance analytics.
-          </p>
-
-          {!isTokenVerified ? (
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
-              <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session.</p>
-              
-              <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
-                <input 
-                  type="text" 
-                  value={enteredToken} 
-                  onChange={(e) => setEnteredToken(e.target.value)} 
-                  placeholder="Enter Access Token..." 
-                  required 
-                  style={{ flex: "1 1 200px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", outline: "none" }}
-                />
-                <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
-                  Verify Token 🔐
-                </button>
-              </form>
-
-              <button onClick={() => setShowCbtPayModal(true)} style={{ background: "transparent", border: "none", color: "#1d4ed8", fontSize: "0.8rem", fontWeight: "800", cursor: "pointer", textDecoration: "underline" }}>
-                Don't have an access token? Click here to get CBT Mode Access ↗
-              </button>
-            </div>
-          ) : !examStarted ? (
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
-              <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
-                Start Examination Simulation 🚀
-              </button>
-            </div>
-          ) : !examSubmitted ? (
-            /* ACTIVE EXAM INTERFACE */
-            <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
-                <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112: Nigerian Peoples and Culture — Simulation (30 Qs)</span>
-                <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
-                  ⏳ Time Left: {formatTime(timeLeft)}
-                </span>
+        {/* CBT MODE EXAMS SECTION (HIDDEN UNTIL USER CLICKS 'CBT Exams' OR 'Access CBT Center') */}
+        {showCbtBox && (
+          <div id="cbt-section" style={{ marginBottom: "50px", background: "#ffffff", border: "2px solid #1d4ed8", borderRadius: "14px", padding: "28px", boxShadow: "0 10px 25px rgba(29, 78, 216, 0.1)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+              <div>
+                <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SIMULATED CBT CENTER</span>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: "900", color: "#1e293b", margin: "6px 0 0 0" }}>Experience Authentic Examination Conditions</h2>
               </div>
-
-              {/* Question Status Grid */}
-              <div style={{ marginBottom: "20px" }}>
-                <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginBottom: "6px", fontWeight: "700" }}>QUESTION NAVIGATOR (Green = Answered, Grey = Unanswered):</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                  {activeQuestions.map((_, idx) => {
-                    const isAnswered = userAnswers[idx] !== undefined;
-                    const isCurrent = currentQIndex === idx;
-                    return (
-                      <button 
-                        key={idx}
-                        onClick={() => setCurrentQIndex(idx)}
-                        style={{ width: "32px", height: "32px", borderRadius: "4px", border: isCurrent ? "2px solid #ffffff" : "none", background: isAnswered ? "#10b981" : "#334155", color: "#ffffff", fontWeight: "800", fontSize: "0.75rem", cursor: "pointer" }}
-                      >
-                        {idx + 1}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Current Question Box */}
-              <div style={{ background: "#1e293b", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
-                <p style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: "bold", margin: "0 0 8px 0" }}>Question {currentQIndex + 1} of {activeQuestions.length}</p>
-                <p style={{ fontSize: "1.05rem", fontWeight: "800", color: "#ffffff", margin: "0 0 16px 0", lineHeight: "1.5" }}>{activeQuestions[currentQIndex].question}</p>
-                
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {activeQuestions[currentQIndex].options.map((opt: string, optIdx: number) => {
-                    const isSelected = userAnswers[currentQIndex] === optIdx;
-                    return (
-                      <label 
-                        key={optIdx} 
-                        onClick={() => handleSelectOption(currentQIndex, optIdx)}
-                        style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px", borderRadius: "6px", background: isSelected ? "#1d4ed8" : "#0f172a", border: isSelected ? "1px solid #fbbf24" : "1px solid #334155", cursor: "pointer", fontSize: "0.9rem" }}
-                      >
-                        <input type="radio" name={`q-${currentQIndex}`} checked={isSelected} onChange={() => {}} style={{ accentColor: "#fbbf24" }} />
-                        <span>{opt}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Navigation Controls */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <button 
-                  disabled={currentQIndex === 0} 
-                  onClick={() => setCurrentQIndex((prev) => Math.max(0, prev - 1))}
-                  style={{ background: "#334155", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: currentQIndex === 0 ? "not-allowed" : "pointer", opacity: currentQIndex === 0 ? 0.5 : 1 }}
-                >
-                  ← Previous
-                </button>
-
-                {currentQIndex < activeQuestions.length - 1 ? (
-                  <button 
-                    onClick={() => setCurrentQIndex((prev) => Math.min(activeQuestions.length - 1, prev + 1))}
-                    style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: "pointer" }}
-                  >
-                    Next →
-                  </button>
-                ) : (
-                  <button 
-                    onClick={handleSubmitExam}
-                    style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}
-                  >
-                    Submit Exam 🏁
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                {!isTokenVerified && (
+                  <button onClick={() => setShowCbtPayModal(true)} style={{ fontSize: "0.85rem", background: "#fef3c7", color: "#b45309", border: "1px solid #f59e0b", padding: "6px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+                    Get CBT Mode Access ⚡
                   </button>
                 )}
+                <button onClick={() => setShowCbtBox(false)} style={{ background: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontWeight: "bold", cursor: "pointer", fontSize: "0.8rem" }}>
+                  Close ✕
+                </button>
               </div>
             </div>
-          ) : (
-            /* EXAM SUBMISSION & SCORE REVIEW */
-            <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Simulation Completed Successfully!</h3>
-              <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "#1d4ed8", marginBottom: "16px" }}>
-                Your Score: {score} / {activeQuestions.length} ({Math.round((score / activeQuestions.length) * 100)}%)
-              </p>
-              
-              <div style={{ textAlign: "left", maxHeight: "300px", overflowY: "auto", background: "#ffffff", padding: "16px", borderRadius: "8px", border: "1px solid #cbd5e1", marginBottom: "20px" }}>
-                <h4 style={{ margin: "0 0 10px 0", fontSize: "0.9rem", fontWeight: "900", color: "#1e293b" }}>Detailed Answer Review:</h4>
-                {activeQuestions.map((q, idx) => {
-                  const userChoice = userAnswers[idx];
-                  const isCorrect = userChoice === q.answer;
-                  return (
-                    <div key={idx} style={{ marginBottom: "12px", paddingBottom: "10px", borderBottom: "1px solid #f1f5f9", fontSize: "0.85rem" }}>
-                      <p style={{ fontWeight: "800", margin: "0 0 4px 0", color: "#1e293b" }}>{idx + 1}. {q.question}</p>
-                      <p style={{ margin: "0 0 2px 0", color: isCorrect ? "#059669" : "#dc2626" }}>
-                        Your Answer: {userChoice !== undefined ? q.options[userChoice] : "Not Answered"} {isCorrect ? "✅" : "❌"}
-                      </p>
-                      {!isCorrect && (
-                        <p style={{ margin: 0, color: "#059669", fontWeight: "700" }}>Correct Answer: {q.options[q.answer]}</p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
 
-              <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
-                Retake Simulation (Fresh Non-Repeating Questions) 🔄
-              </button>
-            </div>
-          )}
-        </div>
+            <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
+              Access authentic, timed examination simulations that replicate official university testing environments, complete with structured navigation and immediate performance analytics.
+            </p>
+
+            {!isTokenVerified ? (
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+                <h3 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Enter Examination Access Token</h3>
+                <p style={{ fontSize: "0.85rem", color: "#475569", marginBottom: "16px" }}>Have your access token? Enter it below to unlock your examination simulation session.</p>
+                
+                <form onSubmit={handleVerifyToken} style={{ display: "flex", gap: "10px", maxWidth: "400px", margin: "0 auto 12px auto", flexWrap: "wrap" }}>
+                  <input 
+                    type="text" 
+                    value={enteredToken} 
+                    onChange={(e) => setEnteredToken(e.target.value)} 
+                    placeholder="Enter Access Token..." 
+                    required 
+                    style={{ flex: "1 1 200px", padding: "10px 14px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", outline: "none" }}
+                  />
+                  <button type="submit" style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.8rem", textTransform: "uppercase" }}>
+                    Verify Token 🔐
+                  </button>
+                </form>
+
+                <button onClick={() => setShowCbtPayModal(true)} style={{ background: "transparent", border: "none", color: "#1d4ed8", fontSize: "0.8rem", fontWeight: "800", cursor: "pointer", textDecoration: "underline" }}>
+                  Don't have an access token? Click here to get CBT Mode Access ↗
+                </button>
+              </div>
+            ) : !examStarted ? (
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+                <p style={{ color: "#059669", fontWeight: "900", marginBottom: "8px" }}>✅ Token Verified Successfully!</p>
+                <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "14px 32px", borderRadius: "8px", fontWeight: "900", fontSize: "0.95rem", cursor: "pointer", textTransform: "uppercase", boxShadow: "0 4px 12px rgba(29,78,216,0.3)" }}>
+                  Start Examination Simulation 🚀
+                </button>
+              </div>
+            ) : !examSubmitted ? (
+              /* ACTIVE EXAM INTERFACE */
+              <div style={{ background: "#0f172a", color: "#ffffff", padding: "24px", borderRadius: "10px", border: "1px solid #334155" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px" }}>
+                  <span style={{ fontWeight: "900", color: "#fbbf24" }}>GST 112: Nigerian Peoples and Culture — Simulation (30 Qs)</span>
+                  <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
+                    ⏳ Time Left: {formatTime(timeLeft)}
+                  </span>
+                </div>
+
+                {/* Question Status Grid */}
+                <div style={{ marginBottom: "20px" }}>
+                  <p style={{ fontSize: "0.75rem", color: "#94a3b8", marginBottom: "6px", fontWeight: "700" }}>QUESTION NAVIGATOR (Green = Answered, Grey = Unanswered):</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                    {activeQuestions.map((_, idx) => {
+                      const isAnswered = userAnswers[idx] !== undefined;
+                      const isCurrent = currentQIndex === idx;
+                      return (
+                        <button 
+                          key={idx}
+                          onClick={() => setCurrentQIndex(idx)}
+                          style={{ width: "32px", height: "32px", borderRadius: "4px", border: isCurrent ? "2px solid #ffffff" : "none", background: isAnswered ? "#10b981" : "#334155", color: "#ffffff", fontWeight: "800", fontSize: "0.75rem", cursor: "pointer" }}
+                        >
+                          {idx + 1}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Current Question Box */}
+                <div style={{ background: "#1e293b", padding: "20px", borderRadius: "8px", marginBottom: "20px" }}>
+                  <p style={{ fontSize: "0.8rem", color: "#94a3b8", fontWeight: "bold", margin: "0 0 8px 0" }}>Question {currentQIndex + 1} of {activeQuestions.length}</p>
+                  <p style={{ fontSize: "1.05rem", fontWeight: "800", color: "#ffffff", margin: "0 0 16px 0", lineHeight: "1.5" }}>{activeQuestions[currentQIndex].question}</p>
+                  
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {activeQuestions[currentQIndex].options.map((opt: string, optIdx: number) => {
+                      const isSelected = userAnswers[currentQIndex] === optIdx;
+                      return (
+                        <label 
+                          key={optIdx} 
+                          onClick={() => handleSelectOption(currentQIndex, optIdx)}
+                          style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px", borderRadius: "6px", background: isSelected ? "#1d4ed8" : "#0f172a", border: isSelected ? "1px solid #fbbf24" : "1px solid #334155", cursor: "pointer", fontSize: "0.9rem" }}
+                        >
+                          <input type="radio" name={`q-${currentQIndex}`} checked={isSelected} onChange={() => {}} style={{ accentColor: "#fbbf24" }} />
+                          <span>{opt}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Navigation Controls */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <button 
+                    disabled={currentQIndex === 0} 
+                    onClick={() => setCurrentQIndex((prev) => Math.max(0, prev - 1))}
+                    style={{ background: "#334155", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: currentQIndex === 0 ? "not-allowed" : "pointer", opacity: currentQIndex === 0 ? 0.5 : 1 }}
+                  >
+                    ← Previous
+                  </button>
+
+                  {currentQIndex < activeQuestions.length - 1 ? (
+                    <button 
+                      onClick={() => setCurrentQIndex((prev) => Math.min(activeQuestions.length - 1, prev + 1))}
+                      style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 18px", borderRadius: "6px", fontWeight: "800", cursor: "pointer" }}
+                    >
+                      Next →
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={handleSubmitExam}
+                      style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", textTransform: "uppercase" }}
+                    >
+                      Submit Exam 🏁
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              /* EXAM SUBMISSION & SCORE REVIEW */
+              <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "10px", textAlign: "center" }}>
+                <h3 style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1e293b", marginBottom: "8px" }}>Simulation Completed Successfully!</h3>
+                <p style={{ fontSize: "1.2rem", fontWeight: "800", color: "#1d4ed8", marginBottom: "16px" }}>
+                  Your Score: {score} / {activeQuestions.length} ({Math.round((score / activeQuestions.length) * 100)}%)
+                </p>
+                
+                <div style={{ textAlign: "left", maxHeight: "300px", overflowY: "auto", background: "#ffffff", padding: "16px", borderRadius: "8px", border: "1px solid #cbd5e1", marginBottom: "20px" }}>
+                  <h4 style={{ margin: "0 0 10px 0", fontSize: "0.9rem", fontWeight: "900", color: "#1e293b" }}>Detailed Answer Review:</h4>
+                  {activeQuestions.map((q, idx) => {
+                    const userChoice = userAnswers[idx];
+                    const isCorrect = userChoice === q.answer;
+                    return (
+                      <div key={idx} style={{ marginBottom: "12px", paddingBottom: "10px", borderBottom: "1px solid #f1f5f9", fontSize: "0.85rem" }}>
+                        <p style={{ fontWeight: "800", margin: "0 0 4px 0", color: "#1e293b" }}>{idx + 1}. {q.question}</p>
+                        <p style={{ margin: "0 0 2px 0", color: isCorrect ? "#059669" : "#dc2626" }}>
+                          Your Answer: {userChoice !== undefined ? q.options[userChoice] : "Not Answered"} {isCorrect ? "✅" : "❌"}
+                        </p>
+                        {!isCorrect && (
+                          <p style={{ margin: 0, color: "#059669", fontWeight: "700" }}>Correct Answer: {q.options[q.answer]}</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <button onClick={handleStartExam} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "10px 20px", borderRadius: "6px", fontWeight: "900", cursor: "pointer" }}>
+                  Retake Simulation (Fresh Non-Repeating Questions) 🔄
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* CORE PILLARS SECTION */}
         <div style={{ marginBottom: "50px" }}>
@@ -433,15 +446,15 @@ export default function Home() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "20px" }}>
-            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+            <div onClick={() => setShowCbtBox(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>💻</div>
-              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center</h4>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Simulated CBT Center ↗</h4>
               <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Access authentic, timed examination simulations that replicate official university testing environments.</p>
             </div>
 
-            <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+            <div onClick={() => setShowAiModal(true)} style={{ background: "#ffffff", border: "1px solid #cbd5e1", padding: "24px", borderRadius: "12px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)", cursor: "pointer" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "10px" }}>🤖</div>
-              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Intelligent AI Companion</h4>
+              <h4 style={{ fontSize: "1.1rem", fontWeight: "900", color: "#1e293b", margin: "0 0 8px 0" }}>Intelligent AI Companion ↗</h4>
               <p style={{ fontSize: "0.85rem", color: "#475569", lineHeight: "1.5", margin: 0 }}>Engage with a dedicated virtual study room providing clear contextual breakdowns and conceptual explanations.</p>
             </div>
 
