@@ -106,26 +106,23 @@ export default function Home() {
       return;
     }
 
+    if (!(window as any).PaystackPop) {
+      alert("Paystack payment gateway is still loading. Please check your internet connection and try again.");
+      return;
+    }
+
     try {
-      const res = await fetch("https://learning-made-easy-backend.vercel.app/api/cbt/payment", {
+      // 1. Inform backend of payment intent
+      await fetch("https://learning-made-easy-backend.vercel.app/api/cbt/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ course: paymentCourse, name: payerName, email: payerEmail, phone: payerPhone })
       });
-      const data = await res.json();
     } catch (err) {
       console.log("Backend payment log initiated");
     }
 
     const generatedToken = "CLH-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-    if (!(window as any).PaystackPop) {
-      alert(`Payment successful! Your exclusive access token for ${paymentCourse} is: ${generatedToken}`);
-      setPaidCourses((prev) => ({ ...prev, [paymentCourse]: true }));
-      setShowPayModal(false);
-      setPayerName(""); setPayerEmail(""); setPayerPhone("");
-      return;
-    }
 
     try {
       const handler = (window as any).PaystackPop.setup({
@@ -143,20 +140,18 @@ export default function Home() {
             });
           } catch(e) {}
 
-          alert(`Payment Verified! Access granted exclusively for ${paymentCourse}. Token: ${generatedToken}`);
+          alert(`Payment Verified! Access granted exclusively for ${paymentCourse}. Your Access Token is: ${generatedToken}`);
           setPaidCourses((prev) => ({ ...prev, [paymentCourse]: true }));
           setShowPayModal(false);
           setPayerName(""); setPayerEmail(""); setPayerPhone("");
         },
         onClose: function() {
-          alert('Transaction window closed.');
+          alert('Transaction was not completed. Payment is required to unlock this course.');
         }
       });
       handler.openIframe();
     } catch (err) {
-      alert(`Access token generated for ${paymentCourse}: ${generatedToken}`);
-      setPaidCourses((prev) => ({ ...prev, [paymentCourse]: true }));
-      setShowPayModal(false);
+      alert("Unable to open Paystack checkout window. Please check your connection.");
     }
   };
 
@@ -169,11 +164,12 @@ export default function Home() {
     }
 
     try {
-      await fetch("https://learning-made-easy-backend.vercel.app/api/access/verify", {
+      const res = await fetch("https://learning-made-easy-backend.vercel.app/api/access/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: tokenVal, course: courseCode })
       });
+      const data = await res.json();
     } catch(e) {}
 
     setPaidCourses((prev) => ({ ...prev, [courseCode]: true }));
@@ -213,32 +209,57 @@ export default function Home() {
 
   const handleAiPaymentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!aiFullName || !aiEmail || !aiPhone || !aiTxnRef) {
-      alert("Please fill in all details and transaction reference.");
+    if (!aiFullName || !aiEmail || !aiPhone) {
+      alert("Please fill in your details.");
       return;
     }
+
+    if (!(window as any).PaystackPop) {
+      alert("Paystack payment gateway is loading. Please try again.");
+      return;
+    }
+
     setAiPayLoading(true);
+    const passAmount = aiPlan === "PlanA" ? 500 : 1000;
 
     try {
       await fetch("https://learning-made-easy-backend.vercel.app/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: aiFullName, email: aiEmail, phone: aiPhone, plan: aiPlan, reference: aiTxnRef })
+        body: JSON.stringify({ name: aiFullName, email: aiEmail, phone: aiPhone, plan: aiPlan })
       });
-      await fetch("https://learning-made-easy-backend.vercel.app/api/verify-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reference: aiTxnRef })
-      });
-    } catch(e) {}
 
-    setTimeout(() => {
+      const handler = (window as any).PaystackPop.setup({
+        key: 'Pk_live_46af751280a7a8c388a4ed2e90d2b3ed9d84c548',
+        email: aiEmail,
+        amount: passAmount * 100,
+        currency: 'NGN',
+        ref: 'AI_' + Math.floor((Math.random() * 1000000000) + 1),
+        callback: async function(response: any) {
+          try {
+            await fetch("https://learning-made-easy-backend.vercel.app/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ reference: response.reference })
+            });
+          } catch(e) {}
+
+          setAiPayLoading(false);
+          alert(`AI Study Room access pass (${aiPlan === "PlanA" ? "₦500 - 7 Days" : "₦1,000 - Semester Pass"}) verified! Opening AI Chat Room.`);
+          setShowAiModal(false);
+          setShowAiChatDrawer(true);
+          setAiFullName(""); setAiEmail(""); setAiPhone("");
+        },
+        onClose: function() {
+          setAiPayLoading(false);
+          alert('Transaction was closed. Payment is required to access the AI Study Room.');
+        }
+      });
+      handler.openIframe();
+    } catch (err) {
       setAiPayLoading(false);
-      alert(`AI Study Room access pass (${aiPlan === "PlanA" ? "ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 - 7 Days" : "ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦1,000 - Semester Pass"}) verified! Opening AI Chat Room.`);
-      setShowAiModal(false);
-      setShowAiChatDrawer(true);
-      setAiFullName(""); setAiEmail(""); setAiPhone(""); setAiTxnRef("");
-    }, 800);
+      alert("Payment gateway connection error.");
+    }
   };
 
   const handleSendAiMessage = async (e: React.FormEvent) => {
@@ -264,7 +285,7 @@ export default function Home() {
         setAiChatMessages([...updatedMessages, { role: "assistant", content: "Hello! As your AI study assistant for general coursework, I am here to help you ace your exams!" }]);
       }
     } catch (err) {
-      setAiChatMessages([...updatedMessages, { role: "assistant", content: "Connected to AI assistant successfully. Let's tackle your coursework!" }]);
+      setAiChatMessages([...updatedMessages, { role: "assistant", content: "Network error connecting to AI server." }]);
     } finally {
       setAiChatLoading(false);
     }
@@ -295,7 +316,7 @@ export default function Home() {
           <button onClick={() => { setActiveSchool("UniUyo"); setInExamRoom(false); }} style={{ background: activeSchool === "UniUyo" && !inExamRoom ? "#fbbf24" : "transparent", color: activeSchool === "UniUyo" && !inExamRoom ? "#1d4ed8" : "#ffffff", border: "1px solid #fbbf24", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
             CBT Exams
           </button>
-          <button onClick={() => { console.log("AI Study Room clicked"); setShowAiModal(true); }} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.80rem" }}>
+          <button onClick={() => setShowAiModal(true)} style={{ background: "#10b981", color: "#ffffff", border: "none", padding: "8px 14px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.80rem" }}>
             AI Study Room
           </button>
         </div>
@@ -360,7 +381,7 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #334155", paddingBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
               <div>
                 <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>PRACTICE ROOM</span>
-                <h2 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#fbbf24", margin: "4px 0 0 0" }}>{activeSchool} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â {selectedCourse} CBT Examination</h2>
+                <h2 style={{ fontSize: "1.3rem", fontWeight: "900", color: "#fbbf24", margin: "4px 0 0 0" }}>{activeSchool} — {selectedCourse} CBT Examination</h2>
               </div>
               <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                 <span style={{ background: timeLeft < 120 ? "#ef4444" : "#1e293b", color: "#ffffff", padding: "6px 12px", borderRadius: "6px", fontWeight: "900", fontFamily: "monospace" }}>
@@ -522,7 +543,7 @@ export default function Home() {
                         <span style={{ background: paidCourses["GST111"] ? "#d1fae5" : "#dbeafe", color: paidCourses["GST111"] ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
                           {paidCourses["GST111"] ? "UNLOCKED" : "COURSE MODULE"}
                         </span>
-                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GST 111: Communication in English</h3>
+                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo — GST 111: Communication in English</h3>
                         <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "0 0 16px 0" }}>Comprehensive grammar, sentence structures, and comprehension simulations.</p>
                       </div>
                       <div>
@@ -533,7 +554,7 @@ export default function Home() {
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <button onClick={() => handleStartExam("GST111")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                              Enter Practice Room
+                              Unlock & Pay (₦500)
                             </button>
                             <form onSubmit={(e) => handleVerifyTokenSubmit(e, "GST111")} style={{ display: "flex", gap: "6px" }}>
                               <input type="text" value={enteredTokens["GST111"] || ""} onChange={(e) => setEnteredTokens({ ...enteredTokens, GST111: e.target.value })} placeholder="Token..." style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.8rem", outline: "none" }} />
@@ -549,7 +570,7 @@ export default function Home() {
                         <span style={{ background: paidCourses["GST112"] ? "#d1fae5" : "#dbeafe", color: paidCourses["GST112"] ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
                           {paidCourses["GST112"] ? "UNLOCKED" : "COURSE MODULE"}
                         </span>
-                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GST 112: Nigerian Peoples & Culture</h3>
+                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo — GST 112: Nigerian Peoples & Culture</h3>
                         <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "0 0 16px 0" }}>Complete NPC Question Bank with randomized 40-question simulations.</p>
                       </div>
                       <div>
@@ -560,7 +581,7 @@ export default function Home() {
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <button onClick={() => handleStartExam("GST112")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                              Enter Practice Room
+                              Unlock & Pay (₦500)
                             </button>
                             <form onSubmit={(e) => handleVerifyTokenSubmit(e, "GST112")} style={{ display: "flex", gap: "6px" }}>
                               <input type="text" value={enteredTokens["GST112"] || ""} onChange={(e) => setEnteredTokens({ ...enteredTokens, GST112: e.target.value })} placeholder="Token..." style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.8rem", outline: "none" }} />
@@ -576,7 +597,7 @@ export default function Home() {
                         <span style={{ background: paidCourses["GST212"] ? "#d1fae5" : "#dbeafe", color: paidCourses["GST212"] ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
                           {paidCourses["GST212"] ? "UNLOCKED" : "COURSE MODULE"}
                         </span>
-                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GST 212: Philosophy & Logic</h3>
+                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>UniUyo — GST 212: Philosophy & Logic</h3>
                         <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "0 0 16px 0" }}>Logic, fallacies, metaphysics, epistemology, and historical philosophy.</p>
                       </div>
                       <div>
@@ -587,7 +608,7 @@ export default function Home() {
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <button onClick={() => handleStartExam("GST212")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                              Enter Practice Room
+                              Unlock & Pay (₦500)
                             </button>
                             <form onSubmit={(e) => handleVerifyTokenSubmit(e, "GST212")} style={{ display: "flex", gap: "6px" }}>
                               <input type="text" value={enteredTokens["GST212"] || ""} onChange={(e) => setEnteredTokens({ ...enteredTokens, GST212: e.target.value })} placeholder="Token..." style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.8rem", outline: "none" }} />
@@ -607,7 +628,7 @@ export default function Home() {
                         <span style={{ background: paidCourses["GST112"] ? "#d1fae5" : "#dbeafe", color: paidCourses["GST112"] ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
                           {paidCourses["GST112"] ? "UNLOCKED" : "COURSE MODULE"}
                         </span>
-                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>AKSU ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GST 112: Nigerian Peoples & Culture</h3>
+                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>AKSU — GST 112: Nigerian Peoples & Culture</h3>
                         <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "0 0 16px 0" }}>Complete NPC Question Bank with randomized 40-question simulations.</p>
                       </div>
                       <div>
@@ -618,7 +639,7 @@ export default function Home() {
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <button onClick={() => handleStartExam("GST112")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                              Enter Practice Room
+                              Unlock & Pay (₦500)
                             </button>
                             <form onSubmit={(e) => handleVerifyTokenSubmit(e, "GST112")} style={{ display: "flex", gap: "6px" }}>
                               <input type="text" value={enteredTokens["GST112"] || ""} onChange={(e) => setEnteredTokens({ ...enteredTokens, GST112: e.target.value })} placeholder="Token..." style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.8rem", outline: "none" }} />
@@ -634,7 +655,7 @@ export default function Home() {
                         <span style={{ background: paidCourses["GST212"] ? "#d1fae5" : "#dbeafe", color: paidCourses["GST212"] ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
                           {paidCourses["GST212"] ? "UNLOCKED" : "COURSE MODULE"}
                         </span>
-                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>AKSU ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â GST 212 / GST 202: Philosophy & Logic</h3>
+                        <h3 style={{ fontSize: "1.05rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>AKSU — GST 212 / GST 202: Philosophy & Logic</h3>
                         <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "0 0 16px 0" }}>Complete Philosophy & Logic Question Bank with randomized simulations.</p>
                       </div>
                       <div>
@@ -645,7 +666,7 @@ export default function Home() {
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <button onClick={() => handleStartExam("GST212")} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "12px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                              Enter Practice Room
+                              Unlock & Pay (₦500)
                             </button>
                             <form onSubmit={(e) => handleVerifyTokenSubmit(e, "GST212")} style={{ display: "flex", gap: "6px" }}>
                               <input type="text" value={enteredTokens["GST212"] || ""} onChange={(e) => setEnteredTokens({ ...enteredTokens, GST212: e.target.value })} placeholder="Token..." style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.8rem", outline: "none" }} />
@@ -710,7 +731,7 @@ export default function Home() {
           <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
             {(showAllFeedbacks ? feedbacks : feedbacks.slice(0, 2)).map((fb, idx) => (
               <div key={idx} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", padding: "14px 18px", borderRadius: "8px", fontSize: "0.9rem", color: "#334155", fontStyle: "italic" }}>
-                "{fb.text}" ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â <strong style={{ fontStyle: "normal", color: "#1d4ed8" }}>{fb.name}</strong>
+                "{fb.text}" — <strong style={{ fontStyle: "normal", color: "#1d4ed8" }}>{fb.name}</strong>
               </div>
             ))}
           </div>
@@ -718,7 +739,7 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "24px", flexWrap: "wrap" }}>
             {feedbacks.length > 2 && (
               <button onClick={() => setShowAllFeedbacks(!showAllFeedbacks)} style={{ background: "#1d4ed8", color: "#ffffff", border: "none", padding: "8px 18px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
-                {showAllFeedbacks ? "Show Less Feedbacks (ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â²)" : "See More Feedbacks (ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼)"}
+                {showAllFeedbacks ? "Show Less Feedbacks (▲)" : "See More Feedbacks (▼)"}
               </button>
             )}
           </div>
@@ -753,11 +774,11 @@ export default function Home() {
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #1d4ed8", padding: "28px 22px", borderRadius: "12px", maxWidth: "520px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
               
-              <button onClick={() => setShowPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
+              <button onClick={() => setShowPayModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <span style={{ background: "#dbeafe", color: "#1d4ed8", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>SECURE COURSE ACCESS</span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock {paymentCourse} (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)</h3>
+                <h3 style={{ fontSize: "1.3rem", fontWeight: "900", marginTop: "8px", color: "#1e293b" }}>Unlock {paymentCourse} (₦500)</h3>
               </div>
 
               <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "16px" }}>
@@ -768,7 +789,7 @@ export default function Home() {
                   <input type="text" value={payerPhone} onChange={(e) => setPayerPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
                   
                   <button type="button" onClick={handlePaystackPayment} style={{ background: "#22c55e", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "6px", boxShadow: "0 4px 12px rgba(34, 197, 94, 0.3)" }}>
-                    Pay ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 via Paystack (Instant Unlock)
+                    Pay ₦500 via Paystack (Instant Unlock)
                   </button>
                 </div>
               </div>
@@ -781,7 +802,7 @@ export default function Home() {
           <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(5px)", zIndex: 100, display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", overflowY: "auto" }}>
             <div style={{ background: "#ffffff", border: "1px solid #cbd5e1", borderTop: "4px solid #fbbf24", padding: "24px 20px", borderRadius: "12px", maxWidth: "500px", width: "100%", position: "relative", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
               
-              <button onClick={() => setShowAiModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
+              <button onClick={() => setShowAiModal(false)} style={{ position: "absolute", top: "16px", right: "16px", background: "transparent", border: "none", color: "#64748b", fontSize: "1.2rem", cursor: "pointer", fontWeight: "bold" }}>✕</button>
 
               <div style={{ textAlign: "center", marginBottom: "20px" }}>
                 <span style={{ background: "#fef3c7", color: "#b45309", padding: "4px 10px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>VIRTUAL AI STUDY ROOM</span>
@@ -795,16 +816,14 @@ export default function Home() {
                 
                 <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                   <label style={{ fontSize: "0.85rem", fontWeight: "800", color: "#1e293b" }}>Select Pass Tier:</label>
-                  <select value={aiPlan} onChange={(e) => setAiPlan(e.target.value as any)} style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "#f8fafc" }}>
-                    <option value="PlanA">Plan A ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 (7 Days)</option>
-                    <option value="PlanB">Plan B ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦1,000 (Semester Pass)</option>
+                  <select value={aiPlan} onChange={(e) => setAiPlan(e.target.value as any)} style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #cbd5e1", fontSize: "0.85rem", background: "#f8fafc", color: "#0f172a" }}>
+                    <option value="PlanA">Plan A - ₦500 (7 Days)</option>
+                    <option value="PlanB">Plan B - ₦1,000 (Semester Pass)</option>
                   </select>
                 </div>
 
-                <input type="text" value={aiTxnRef} onChange={(e) => setAiTxnRef(e.target.value)} required placeholder="Paystack Transaction Reference / Email" style={{ padding: "10px", borderRadius: "6px", background: "#f8fafc", border: "1px solid #cbd5e1", color: "#0f172a", fontSize: "0.85rem", outline: "none" }} />
-
                 <button type="submit" disabled={aiPayLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "10px" }}>
-                  {aiPayLoading ? "Verifying..." : "Verify Pass & Open AI Chat"}
+                  {aiPayLoading ? "Processing..." : "Pay with Paystack & Open AI Chat"}
                 </button>
               </form>
             </div>
@@ -819,7 +838,7 @@ export default function Home() {
               <div style={{ background: "#1e293b", padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #334155" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <span style={{ background: "#fbbf24", color: "#0f172a", padding: "4px 8px", borderRadius: "4px", fontWeight: "900", fontSize: "0.75rem" }}>AI</span>
-                  <h3 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: "900", margin: 0 }}>Campus Learning Hub ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â AI Study Room</h3>
+                  <h3 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: "900", margin: 0 }}>Campus Learning Hub — AI Study Room</h3>
                 </div>
                 <button onClick={() => setShowAiChatDrawer(false)} style={{ background: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontWeight: "bold", cursor: "pointer", fontSize: "0.8rem" }}>Close</button>
               </div>
@@ -871,7 +890,7 @@ export default function Home() {
             <p style={{ margin: 0, color: "#1d4ed8", fontWeight: "800" }}>newsglobal038@gmail.com</p>
           </div>
           <div style={{ textAlign: "center", borderTop: "1px solid #e2e8f0", paddingTop: "12px", color: "#64748b", fontSize: "0.8rem" }}>
-            Ãƒâ€šÃ‚Â© 2026 Campus Learning Hub. All rights reserved.
+            © 2026 Campus Learning Hub. All rights reserved.
           </div>
         </footer>
 
