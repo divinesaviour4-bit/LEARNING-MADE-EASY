@@ -281,8 +281,8 @@ export default function CampusLearningHub() {
                   <input type="email" value={aiEmail} onChange={(e) => setAiEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "12px", borderRadius: "6px", border: "1px solid #cbd5e1" }} />
                   <input type="text" value={aiPhone} onChange={(e) => setAiPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "12px", borderRadius: "6px", border: "1px solid #cbd5e1" }} />
                   <select value={aiPlan} onChange={(e) => setAiPlan(e.target.value as any)} style={{ padding: "12px", borderRadius: "6px", border: "1px solid #cbd5e1", background: "#f8fafc" }}>
-                    <option value="PlanA">Plan A - Ã¢â€šÂ¦500 (7 Days)</option>
-                    <option value="PlanB">Plan B - Ã¢â€šÂ¦1,000 (Semester Pass)</option>
+                    <option value="PlanA">Plan A - ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 (7 Days)</option>
+                    <option value="PlanB">Plan B - ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦1,000 (Semester Pass)</option>
                   </select>
                   <button type="submit" disabled={aiLoading} style={{ background: "#1d4ed8", color: "#ffffff", padding: "14px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer" }}>
                     {aiLoading ? "Processing..." : "Pay with Paystack & Unlock AI"}
@@ -340,12 +340,12 @@ export default function CampusLearningHub() {
                         <div key={course} style={{ background: "#f8fafc", border: `2px solid ${isUnlocked ? "#10b981" : "#cbd5e1"}`, borderRadius: "10px", padding: "16px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                           <div>
                             <span style={{ background: isUnlocked ? "#d1fae5" : "#dbeafe", color: isUnlocked ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
-                              {isUnlocked ? "UNLOCKED" : "LOCKED (Ã¢â€šÂ¦500)"}
+                              {isUnlocked ? "UNLOCKED" : "LOCKED (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)"}
                             </span>
                             <h3 style={{ fontSize: "1rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>{course} CBT Exam</h3>
                           </div>
                           <button onClick={() => handleStartExam(course)} style={{ background: isUnlocked ? "#10b981" : "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "12px" }}>
-                            {isUnlocked ? "Take CBT Exam" : "Unlock Course (Ã¢â€šÂ¦500)"}
+                            {isUnlocked ? "Take CBT Exam" : "Unlock Course (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)"}
                           </button>
                         </div>
                       );
@@ -361,12 +361,12 @@ export default function CampusLearningHub() {
                         <div key={course} style={{ background: "#f8fafc", border: `2px solid ${isUnlocked ? "#10b981" : "#cbd5e1"}`, borderRadius: "10px", padding: "16px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                           <div>
                             <span style={{ background: isUnlocked ? "#d1fae5" : "#dbeafe", color: isUnlocked ? "#065f46" : "#1d4ed8", padding: "4px 8px", borderRadius: "4px", fontSize: "0.7rem", fontWeight: "900" }}>
-                              {isUnlocked ? "UNLOCKED" : "LOCKED (Ã¢â€šÂ¦500)"}
+                              {isUnlocked ? "UNLOCKED" : "LOCKED (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)"}
                             </span>
                             <h3 style={{ fontSize: "1rem", fontWeight: "900", color: "#1e293b", margin: "10px 0 6px 0" }}>{course} CBT Exam</h3>
                           </div>
                           <button onClick={() => handleStartExam(course)} style={{ background: isUnlocked ? "#10b981" : "#1d4ed8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem", textTransform: "uppercase", marginTop: "12px" }}>
-                            {isUnlocked ? "Take CBT Exam" : "Unlock Course (Ã¢â€šÂ¦500)"}
+                            {isUnlocked ? "Take CBT Exam" : "Unlock Course (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)"}
                           </button>
                         </div>
                       );
@@ -412,7 +412,7 @@ export default function CampusLearningHub() {
                 </div>
                 <div style={{ background: "#f8fafc", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
                   <h4 style={{ margin: "0 0 8px 0", color: "#1d4ed8", fontWeight: "900" }}>Instant Pay-Per-Course Unlock</h4>
-                  <p style={{ margin: 0, fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Flexible Ã¢â€šÂ¦500 access per course via secure Paystack integration so you only pay for what you practice.</p>
+                  <p style={{ margin: 0, fontSize: "0.85rem", color: "#475569", lineHeight: "1.5" }}>Flexible ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 access per course via secure Paystack integration so you only pay for what you practice.</p>
                 </div>
                 <div style={{ background: "#f8fafc", padding: "18px", borderRadius: "8px", border: "1px solid #cbd5e1" }}>
                   <h4 style={{ margin: "0 0 8px 0", color: "#1d4ed8", fontWeight: "900" }}>24/7 Virtual AI Companion</h4>
@@ -430,14 +430,14 @@ export default function CampusLearningHub() {
                 {(showAllTestimonials ? testimonials : testimonials.slice(0, 2)).map((t, idx) => (
                   <div key={idx} style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "18px", borderRadius: "8px" }}>
                     <p style={{ margin: "0 0 10px 0", fontSize: "0.95rem", color: "#334155", fontStyle: "italic" }}>"{t.text}"</p>
-                    <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: "900", color: "#1d4ed8" }}>{t.name} Ã¢â‚¬â€ <span style={{ color: "#64748b", fontWeight: "700" }}>{t.dept}</span></p>
+                    <p style={{ margin: 0, fontSize: "0.85rem", fontWeight: "900", color: "#1d4ed8" }}>{t.name} ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â <span style={{ color: "#64748b", fontWeight: "700" }}>{t.dept}</span></p>
                   </div>
                 ))}
               </div>
 
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px", flexWrap: "wrap", gap: "10px" }}>
                 <button onClick={() => setShowAllTestimonials(!showAllTestimonials)} style={{ background: "#1e293b", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
-                  {showAllTestimonials ? "Show Less (Ã¢â€“Â²)" : "See More Testimonials (Ã¢â€“Â¼)"}
+                  {showAllTestimonials ? "Show Less (ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â²)" : "See More Testimonials (ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¼)"}
                 </button>
                 <button onClick={() => setActiveTab("feedback")} style={{ background: "#22c55e", color: "#ffffff", border: "none", padding: "8px 16px", borderRadius: "6px", fontWeight: "900", cursor: "pointer", fontSize: "0.85rem" }}>
                   Give Your Feedback
@@ -517,13 +517,13 @@ export default function CampusLearningHub() {
       {showPayModal && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.75)", display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", zIndex: 100 }}>
           <div style={{ background: "#ffffff", padding: "28px", borderRadius: "12px", maxWidth: "420px", width: "100%", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
-            <h3 style={{ fontSize: "1.2rem", fontWeight: "900", marginBottom: "14px", color: "#1e293b" }}>Unlock {paymentCourse} (Ã¢â€šÂ¦500)</h3>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: "900", marginBottom: "14px", color: "#1e293b" }}>Unlock {paymentCourse} (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500)</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               <input type="text" value={payerName} onChange={(e) => setPayerName(e.target.value)} required placeholder="Full Name" style={{ padding: "10px", borderRadius: "6px", border: "1px solid #cbd5e1" }} />
               <input type="email" value={payerEmail} onChange={(e) => setPayerEmail(e.target.value)} required placeholder="Email Address" style={{ padding: "10px", borderRadius: "6px", border: "1px solid #cbd5e1" }} />
               <input type="text" value={payerPhone} onChange={(e) => setPayerPhone(e.target.value)} required placeholder="Phone Number" style={{ padding: "10px", borderRadius: "6px", border: "1px solid #cbd5e1" }} />
               <button type="button" onClick={handleCbtPaystackPayment} style={{ background: "#22c55e", color: "#ffffff", padding: "12px", borderRadius: "6px", fontWeight: "900", border: "none", cursor: "pointer", marginTop: "8px" }}>
-                Pay Ã¢â€šÂ¦500 via Paystack
+                Pay ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¦500 via Paystack
               </button>
               <button type="button" onClick={() => setShowPayModal(false)} style={{ background: "#64748b", color: "#ffffff", padding: "8px", borderRadius: "6px", border: "none", cursor: "pointer" }}>
                 Cancel
@@ -541,7 +541,7 @@ export default function CampusLearningHub() {
           </a>
           Support Email: <a href="mailto:bsaviourokon@gmail.com" style={{ color: "#1d4ed8", fontWeight: "800", textDecoration: "none" }}>bsaviourokon@gmail.com</a>
         </p>
-        <p style={{ margin: 0, fontWeight: "700" }}>Ã‚Â© 2026 Campus Learning Hub. All rights reserved.</p>
+        <p style={{ margin: 0, fontWeight: "700" }}>Ãƒâ€šÃ‚Â© 2026 Campus Learning Hub. All rights reserved.</p>
       </footer>
 
     </div>
