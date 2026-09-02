@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GST111_QUESTIONS, GST112_QUESTIONS, GST212_QUESTIONS } from "../data/aksu_gst212";
+import { AKSU_GST212_QUESTIONS as GST212_QUESTIONS, AKSU_GST212_QUESTIONS as GST111_QUESTIONS, AKSU_GST212_QUESTIONS as GST112_QUESTIONS } from "../data/aksu_gst212";
 
 export default function CampusLearningHub() {
   const [activeTab, setActiveTab] = useState("home");
@@ -192,7 +192,7 @@ export default function CampusLearningHub() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-900/30 via-slate-950 to-slate-950 -z-10" />
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
-                  <span>✨ Achieve A's In All Your Courses</span>
+                  <span>âœ¨ Achieve A's In All Your Courses</span>
                 </div>
                 <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight max-w-4xl mx-auto leading-[1.1]">
                   Master Your University Exams with <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">AI & CBT Simulations</span>
@@ -215,17 +215,17 @@ export default function CampusLearningHub() {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-indigo-500/50 transition-all space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl font-bold">⚡</div>
+                  <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl font-bold">âš¡</div>
                   <h3 className="text-xl font-bold">Timed CBT Engines</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">Simulate exact school examination environments with automated countdown timers and instant score evaluation.</p>
                 </div>
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-violet-500/50 transition-all space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center text-xl font-bold">🤖</div>
+                  <div className="w-12 h-12 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center text-xl font-bold">ðŸ¤–</div>
                   <h3 className="text-xl font-bold">OpenAI Personal Tutor</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">Ask our integrated AI tutor for step-by-step breakdowns anytime.</p>
                 </div>
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-pink-500/50 transition-all space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl font-bold">🔒</div>
+                  <div className="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl font-bold">ðŸ”’</div>
                   <h3 className="text-xl font-bold">Instant Access Tokens</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">Secure automated access token distribution using Paystack integration.</p>
                 </div>
@@ -244,7 +244,7 @@ export default function CampusLearningHub() {
             {!isUnlocked && (
               <div className="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-amber-300 font-semibold text-sm">🔒 CBT practice exams are locked. Enter your Access Token or Pay to unlock.</span>
+                  <span className="text-amber-300 font-semibold text-sm">ðŸ”’ CBT practice exams are locked. Enter your Access Token or Pay to unlock.</span>
                   <button onClick={() => setActiveTab("pricing")} className="px-4 py-2 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400">
                     Pay NGN 500
                   </button>
@@ -467,7 +467,7 @@ export default function CampusLearningHub() {
       {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-900/40 py-10 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-          <div>© 2026 Campus Learning Hub. All rights reserved.</div>
+          <div>Â© 2026 Campus Learning Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>
