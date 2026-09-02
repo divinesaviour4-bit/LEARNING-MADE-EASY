@@ -26,7 +26,7 @@ export default function CampusLearningHub() {
 
   // Paystack / Payment state
   const [paymentEmail, setPaymentEmail] = useState("");
-  const [selectedPlan, setSelectedPlan] = useState({ name: "Full Semester Access", price: 2000, currency: "NGN" });
+  const [selectedPlan, setSelectedPlan] = useState({ name: "Plan A", price: 500, currency: "NGN" });
 
   useEffect(() => {
     let timer: any;
@@ -211,49 +211,23 @@ export default function CampusLearningHub() {
               </div>
             </section>
 
-            {/* Platform Statistics / Trust Bar */}
-            <section className="border-y border-slate-800/80 bg-slate-900/40 py-10">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                  <div className="text-3xl sm:text-4xl font-black text-indigo-400">10,000+</div>
-                  <div className="text-sm text-slate-400 mt-1">Questions Answered</div>
-                </div>
-                <div>
-                  <div className="text-3xl sm:text-4xl font-black text-violet-400">95%</div>
-                  <div className="text-sm text-slate-400 mt-1">Exam Pass Rate</div>
-                </div>
-                <div>
-                  <div className="text-3xl sm:text-4xl font-black text-pink-400">2 Unis</div>
-                  <div className="text-sm text-slate-400 mt-1">UniUyo & AKSU Coverage</div>
-                </div>
-                <div>
-                  <div className="text-3xl sm:text-4xl font-black text-emerald-400">24/7</div>
-                  <div className="text-sm text-slate-400 mt-1">AI Tutor Availability</div>
-                </div>
-              </div>
-            </section>
-
             {/* Key Features Overview */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center space-y-4 mb-16">
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Everything You Need to Graduate with Distinction</h2>
-                <p className="text-slate-400 max-w-xl mx-auto">Designed by high-achieving student engineers to tackle difficult general studies and departmental courses.</p>
-              </div>
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-indigo-500/50 transition-all space-y-4">
                   <div className="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl font-bold">⚡</div>
                   <h3 className="text-xl font-bold">Timed CBT Engines</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">Simulate exact school examination environments with automated countdown timers, randomized questions, and instant score evaluation.</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">Simulate exact school examination environments with automated countdown timers and instant score evaluation.</p>
                 </div>
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-violet-500/50 transition-all space-y-4">
                   <div className="w-12 h-12 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center text-xl font-bold">🤖</div>
                   <h3 className="text-xl font-bold">OpenAI Personal Tutor</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">Stuck on complex engineering, philosophy, or cultural concepts? Ask our integrated AI tutor for step-by-step breakdowns anytime.</p>
+                  <p className="text-slate-400 text-sm leading-relaxed">Ask our integrated AI tutor for step-by-step breakdowns anytime.</p>
                 </div>
                 <div className="p-8 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-pink-500/50 transition-all space-y-4">
                   <div className="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl font-bold">🔒</div>
-                  <h3 className="text-xl font-bold">Instant Paystack Access</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">Secure, automated access token distribution using Paystack integration so you can unlock premium semester materials instantly.</p>
+                  <h3 className="text-xl font-bold">Instant Access Tokens</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">Secure automated access token distribution using Paystack integration.</p>
                 </div>
               </div>
             </section>
@@ -272,7 +246,7 @@ export default function CampusLearningHub() {
                 <div className="flex items-center justify-between">
                   <span className="text-amber-300 font-semibold text-sm">🔒 CBT practice exams are locked. Enter your Access Token or Pay to unlock.</span>
                   <button onClick={() => setActiveTab("pricing")} className="px-4 py-2 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400">
-                    Pay NGN 2,000
+                    Pay NGN 500
                   </button>
                 </div>
                 <form onSubmit={handleTokenVerify} className="flex gap-3 pt-2 border-t border-slate-800">
@@ -309,14 +283,6 @@ export default function CampusLearningHub() {
                     </select>
                   </div>
                 </div>
-                <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm space-y-1">
-                  <div className="font-bold">Exam Rules:</div>
-                  <ul className="list-disc list-inside text-xs space-y-1 text-slate-300">
-                    <li>Duration: 15 Minutes</li>
-                    <li>Questions: Randomly generated from verified database</li>
-                    <li>Instant score feedback upon completion</li>
-                  </ul>
-                </div>
                 <button onClick={startCbtExam} className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-lg shadow-indigo-600/30 transition-all">
                   {isUnlocked ? "Start Examination" : "Unlock Course to Start Exam"}
                 </button>
@@ -326,10 +292,7 @@ export default function CampusLearningHub() {
                 <div className="w-20 h-20 mx-auto rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-3xl font-black">
                   {Math.round((score / getActiveQuestions().length) * 100)}%
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold">Exam Completed!</h3>
-                  <p className="text-slate-400 text-sm mt-1">You scored {score} out of {getActiveQuestions().length} questions correctly.</p>
-                </div>
+                <h3 className="text-2xl font-bold">Exam Completed!</h3>
                 <button onClick={() => setExamStarted(false)} className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-500 transition-all">
                   Try Another Exam
                 </button>
@@ -345,15 +308,18 @@ export default function CampusLearningHub() {
                 <div className="space-y-4">
                   <h4 className="text-lg font-semibold leading-relaxed">{getActiveQuestions()[currentQuestion].question}</h4>
                   <div className="space-y-3">
-                    {getActiveQuestions()[currentQuestion].options.map((option, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => handleAnswerSelect(option)}
-                        className={w-full text-left p-4 rounded-xl border transition-all text-sm }
-                      >
-                        {option}
-                      </button>
-                    ))}
+                    {getActiveQuestions()[currentQuestion].options.map((option, idx) => {
+                      const isSelected = selectedAnswers[currentQuestion] === option;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => handleAnswerSelect(option)}
+                          className={isSelected ? "w-full text-left p-4 rounded-xl border transition-all text-sm bg-indigo-600/20 border-indigo-500 text-white font-semibold" : "w-full text-left p-4 rounded-xl border transition-all text-sm bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-300"}
+                        >
+                          {option}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className="flex justify-between pt-4 border-t border-slate-800">
@@ -395,7 +361,7 @@ export default function CampusLearningHub() {
               <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {chatMessages.map((msg, idx) => (
                   <div key={idx} className={lex }>
-                    <div className={max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed }>
+                    <div className={msg.role === "user" ? "max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed bg-indigo-600 text-white rounded-br-none" : "max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed bg-slate-950 border border-slate-800 text-slate-200 rounded-bl-none"}>
                       {msg.content}
                     </div>
                   </div>
@@ -427,54 +393,45 @@ export default function CampusLearningHub() {
         {activeTab === "pricing" && (
           <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
             <div className="text-center space-y-3">
-              <h2 className="text-3xl font-extrabold">Full Semester Access Pass</h2>
+              <h2 className="text-3xl font-extrabold">AI Study Room Access Pass</h2>
               <p className="text-slate-400 text-sm">Secure your semester materials, AI study room, and unlimited CBT practice instantly.</p>
             </div>
             {generatedToken && (
               <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-2">
                 <div className="text-emerald-400 font-bold">Payment Successful! Your Generated Access Token:</div>
                 <div className="text-2xl font-mono font-black text-white">{generatedToken}</div>
-                <div className="text-xs text-slate-400">Save this token. It has been automatically applied to your session.</div>
               </div>
             )}
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
+            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 max-w-xl mx-auto space-y-6">
+              <form onSubmit={handlePaystackPayment} className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-bold">Semester Pass</h3>
-                  <p className="text-slate-400 text-sm mt-1">Full access to all course question banks and AI tutoring.</p>
+                  <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Student Email Address</label>
+                  <input
+                    type="email"
+                    required
+                    value={paymentEmail}
+                    onChange={(e) => setPaymentEmail(e.target.value)}
+                    placeholder="student@uniuyo.edu.ng"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100"
+                  />
                 </div>
-                <div className="text-4xl font-black text-indigo-400">NGN 2,000 (7 Days)</div>
-                <form onSubmit={handlePaystackPayment} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Student Email Address</label>
-                    <input
-                      type="email"
-                      required
-                      value={paymentEmail}
-                      onChange={(e) => setPaymentEmail(e.target.value)}
-                      placeholder="student@uniuyo.edu.ng"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100"
-                    />
-                  </div>
-                  <button type="submit" className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-white transition-all shadow-lg shadow-indigo-600/30">
-                    Pay with Paystack (NGN 2,000)
-                  </button>
-                </form>
-              </div>
-              <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6 flex flex-col justify-between">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold">What You Get</h3>
-                  <ul className="space-y-3 text-sm text-slate-300">
-                    <li className="flex items-center space-x-2"><span>✓</span><span>Complete UniUyo & AKSU Question Banks</span></li>
-                    <li className="flex items-center space-x-2"><span>✓</span><span>Unlimited Timed CBT Practice Exams</span></li>
-                    <li className="flex items-center space-x-2"><span>✓</span><span>24/7 Priority AI Tutor Access</span></li>
-                    <li className="flex items-center space-x-2"><span>✓</span><span>Automated Access Token Generation</span></li>
-                  </ul>
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Select Plan</label>
+                  <select
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value);
+                      setSelectedPlan(val === 1000 ? { name: "Plan B", price: 1000, currency: "NGN" } : { name: "Plan A", price: 500, currency: "NGN" });
+                    }}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100"
+                  >
+                    <option value="500">Plan A - NGN 500 (7 Days)</option>
+                    <option value="1000">Plan B - NGN 1,000 (Semester Pass)</option>
+                  </select>
                 </div>
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs text-center font-medium">
-                  Verified & Secured by Paystack Nigeria
-                </div>
-              </div>
+                <button type="submit" className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-white transition-all shadow-lg shadow-indigo-600/30">
+                  Pay with Paystack & Unlock AI
+                </button>
+              </form>
             </div>
           </div>
         )}
@@ -485,19 +442,6 @@ export default function CampusLearningHub() {
               <h2 className="text-3xl font-extrabold">Course Materials & Handouts</h2>
               <p className="text-slate-400 text-sm">Download verified semester notes and past questions.</p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {["GST 111 Course Handout & Summary", "GST 112 Logic & Philosophy Guide", "AKSU GST 212 Nigerian Peoples & Culture", "Engineering Mathematics Formula Sheet"].map((res, i) => (
-                <div key={i} className="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex justify-between items-center">
-                  <div>
-                    <h4 className="font-bold text-sm">{res}</h4>
-                    <p className="text-xs text-slate-500 mt-1">PDF Format • Verified Note</p>
-                  </div>
-                  <button onClick={() => alert("Downloading resource...")} className="px-4 py-2 rounded-xl bg-indigo-600/20 text-indigo-400 font-semibold text-xs hover:bg-indigo-600/30">
-                    Download
-                  </button>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
@@ -506,10 +450,6 @@ export default function CampusLearningHub() {
             <div className="text-center space-y-3">
               <h2 className="text-3xl font-extrabold">About Campus Learning Hub</h2>
               <p className="text-slate-400 text-sm">Empowering Nigerian undergraduates through modern technology.</p>
-            </div>
-            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6 text-slate-300 text-sm leading-relaxed">
-              <p>Campus Learning Hub was built by student engineers to solve the common struggles of examination preparation in Nigerian tertiary institutions like the University of Uyo (UniUyo) and Akwa Ibom State University (AKSU).</p>
-              <p>Our mission is to combine rigorous past question practice with artificial intelligence tutoring, making first-class academic performance accessible to every student.</p>
             </div>
           </div>
         )}
@@ -520,21 +460,6 @@ export default function CampusLearningHub() {
               <h2 className="text-3xl font-extrabold">Contact & Support</h2>
               <p className="text-slate-400 text-sm">Need help with your account or payment? Reach out to our team.</p>
             </div>
-            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Your Name</label>
-                  <input type="text" placeholder="Saviour Bassey" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500" />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Your Message</label>
-                  <textarea rows={4} placeholder="Describe your issue or feedback..." className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500"></textarea>
-                </div>
-                <button onClick={() => alert("Message sent successfully! We will get back to you shortly.")} className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-white transition-all">
-                  Send Support Message
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </main>
@@ -542,12 +467,7 @@ export default function CampusLearningHub() {
       {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-900/40 py-10 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-          <div>© 2026 Campus Learning Hub. Built for UniUyo & AKSU Undergraduates.</div>
-          <div className="flex space-x-6">
-            <button onClick={() => setActiveTab("about")} className="hover:text-white">About</button>
-            <button onClick={() => setActiveTab("pricing")} className="hover:text-white">Pricing</button>
-            <button onClick={() => setActiveTab("contact")} className="hover:text-white">Contact</button>
-          </div>
+          <div>© 2026 Campus Learning Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>
