@@ -46,20 +46,35 @@ export default function CampusLearningHub() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col font-sans">
-      <header className="bg-[#2563eb] text-white shadow-md">
+      <header className="bg-[#1d4ed8] text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="font-black text-lg tracking-wider cursor-pointer" onClick={() => setSelectedUni("")}>
-            CAMPUS LEARNING HUB - CBT CENTER
+          <div className="font-black text-base sm:text-lg tracking-wider cursor-pointer" onClick={() => setSelectedUni("")}>
+            CAMPUS LEARNING HUB
           </div>
-          <div className="text-xs bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded">
-            {selectedUni ? selectedUni + " CBT Environment" : "Select University Below"}
+          <div className="flex items-center space-x-2 text-xs font-bold">
+            <span className="px-3 py-1.5 rounded-md bg-[#22c55e] text-white">Join WhatsApp</span>
+            <span className="px-3 py-1.5 rounded-md bg-[#fbbf24] text-slate-950">AI Study Room</span>
+            <span className="px-3 py-1.5 rounded-md border border-white text-white">CBT Center</span>
           </div>
         </div>
       </header>
 
-      <main className="flex-grow max-w-4xl mx-auto px-4 w-full py-12">
+      {/* Hero Section */}
+      <div className="bg-[#1d4ed8] text-white py-12 px-4 text-center space-y-4 shadow-inner">
+        <div className="inline-block px-4 py-1 rounded-full bg-[#fbbf24] text-slate-950 font-bold text-xs uppercase tracking-wider">
+          WELCOME TO CAMPUS LEARNING HUB
+        </div>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
+          Achieve A's in Your General Courses
+        </h1>
+        <p className="max-w-2xl mx-auto text-sm sm:text-base text-blue-100">
+          Master your university general studies with intelligent AI tutoring and realistic timed CBT exam simulations tailored for UniUyo and AKSU undergraduates.
+        </p>
+      </div>
+
+      <main className="flex-grow max-w-4xl mx-auto px-4 w-full -mt-6 pb-20">
         {!selectedUni ? (
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center space-y-6">
+          <div className="bg-white rounded-2xl shadow-xl border-2 border-amber-400 p-8 text-center space-y-6">
             <h2 className="text-3xl font-black text-slate-900">Select Your University CBT Center</h2>
             <p className="text-slate-600 text-sm max-w-md mx-auto">
               Choose your institution to enter the dedicated examination environment and access course question banks.
@@ -80,7 +95,7 @@ export default function CampusLearningHub() {
             </div>
           </div>
         ) : !examStarted ? (
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center space-y-6">
+          <div className="bg-white rounded-2xl shadow-xl border-2 border-amber-400 p-8 text-center space-y-6">
             <button onClick={() => setSelectedUni("")} className="text-xs text-blue-600 font-bold hover:underline mb-2 block">
               ← Back to University Selection
             </button>
@@ -88,13 +103,13 @@ export default function CampusLearningHub() {
             <p className="text-slate-600 text-sm">Ready to begin your timed mock CBT simulation? Click start below.</p>
             <button
               onClick={() => setExamStarted(true)}
-              className="px-8 py-4 rounded-xl bg-[#2563eb] hover:bg-blue-700 text-white font-bold text-lg transition shadow-lg"
+              className="px-8 py-4 rounded-xl bg-[#1d4ed8] hover:bg-blue-700 text-white font-bold text-lg transition shadow-lg"
             >
               Start CBT Simulation Now
             </button>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 space-y-6">
+          <div className="bg-white rounded-2xl shadow-xl border-2 border-amber-400 p-8 space-y-6">
             <div className="flex justify-between items-center border-b border-slate-100 pb-4">
               <span className="font-bold text-sm text-slate-600">{selectedUni} - Question {currentQuestion + 1} of {sampleQuestions.length}</span>
               <button onClick={() => setExamStarted(false)} className="text-xs text-red-600 font-bold">Exit Exam</button>
@@ -128,7 +143,7 @@ export default function CampusLearningHub() {
               {currentQuestion < sampleQuestions.length - 1 ? (
                 <button
                   onClick={() => setCurrentQuestion(p => p + 1)}
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold"
+                  className="px-6 py-2.5 bg-[#1d4ed8] text-white rounded-xl text-sm font-bold"
                 >
                   Next
                 </button>
