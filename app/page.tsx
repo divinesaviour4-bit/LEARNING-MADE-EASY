@@ -9,7 +9,6 @@ export default function CampusLearningHub() {
   const [score, setScore] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
   
-  // Sample CBT Environment Questions for initial setup
   const sampleQuestions = [
     {
       question: "Which of the following is a core general studies requirement in Nigerian universities?",
@@ -53,7 +52,7 @@ export default function CampusLearningHub() {
             CAMPUS LEARNING HUB - CBT CENTER
           </div>
           <div className="text-xs bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded">
-            {selectedUni ? ${selectedUni} CBT Environment : "Select University Below"}
+            {selectedUni ? selectedUni + " CBT Environment" : "Select University Below"}
           </div>
         </div>
       </header>
@@ -85,7 +84,7 @@ export default function CampusLearningHub() {
             <button onClick={() => setSelectedUni("")} className="text-xs text-blue-600 font-bold hover:underline mb-2 block">
               ← Back to University Selection
             </button>
-            <h2 className="text-2xl font-black text-slate-900">{selectedUni} Examination Portal</h2>
+            <h2 className="text-2xl font-black text-slate-950">{selectedUni} Examination Portal</h2>
             <p className="text-slate-600 text-sm">Ready to begin your timed mock CBT simulation? Click start below.</p>
             <button
               onClick={() => setExamStarted(true)}
@@ -101,7 +100,7 @@ export default function CampusLearningHub() {
               <button onClick={() => setExamStarted(false)} className="text-xs text-red-600 font-bold">Exit Exam</button>
             </div>
             
-            <h4 className="font-semibold text-lg">{sampleQuestions[currentQuestion].question}</h4>
+            <h4 className="font-semibold text-lg text-slate-900">{sampleQuestions[currentQuestion].question}</h4>
             
             <div className="space-y-3">
               {sampleQuestions[currentQuestion].options.map((option, idx) => {
@@ -110,7 +109,7 @@ export default function CampusLearningHub() {
                   <button
                     key={idx}
                     onClick={() => handleAnswerSelect(option)}
-                    className={w-full text-left p-4 rounded-xl border text-sm font-medium transition }
+                    className={isSelected ? "w-full text-left p-4 rounded-xl border text-sm font-medium transition bg-blue-50 border-blue-600 text-blue-900 font-bold" : "w-full text-left p-4 rounded-xl border text-sm font-medium transition border-slate-200 hover:bg-slate-50 text-slate-800"}
                   >
                     {option}
                   </button>
@@ -122,7 +121,7 @@ export default function CampusLearningHub() {
               <button
                 disabled={currentQuestion === 0}
                 onClick={() => setCurrentQuestion(p => p - 1)}
-                className="px-6 py-2.5 bg-slate-200 rounded-xl text-sm font-bold disabled:opacity-50"
+                className="px-6 py-2.5 bg-slate-200 rounded-xl text-sm font-bold disabled:opacity-50 text-slate-800"
               >
                 Previous
               </button>
