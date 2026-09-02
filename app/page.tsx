@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { AKSU_GST212_QUESTIONS as GST212_QUESTIONS, AKSU_GST212_QUESTIONS as GST111_QUESTIONS, AKSU_GST212_QUESTIONS as GST112_QUESTIONS } from "../data/aksu_gst212";
+import { AKSU_GST212_QUESTIONS as GST212_QUESTIONS } from "../data/aksu_gst212";
 
 export default function CampusLearningHub() {
   const [activeTab, setActiveTab] = useState("home");
-  const [selectedUni, setSelectedUni] = useState("UniUyo");
-  const [selectedCourse, setSelectedCourse] = useState("GST 111");
   const [examStarted, setExamStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -261,7 +259,7 @@ export default function CampusLearningHub() {
             {!isUnlocked && (
               <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm flex items-center justify-between">
                 <span>🔒 CBT is locked. Enter token or buy access.</span>
-                <button onClick={() => setActiveTab("pricing")} className="px-4 py-2 rounded bg-amber-500 text-white font-bold text-xs">Unlock</button>
+                <button onClick={() => setActiveTab("home")} className="px-4 py-2 rounded bg-amber-500 text-white font-bold text-xs">Unlock</button>
               </div>
             )}
 
@@ -284,15 +282,21 @@ export default function CampusLearningHub() {
                 </div>
                 <h4 className="font-semibold text-lg">{getActiveQuestions()[currentQuestion].question}</h4>
                 <div className="space-y-2">
-                  {getActiveQuestions()[currentQuestion].options.map((option, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleAnswerSelect(option)}
-                      className={w-full text-left p-3 rounded-lg border text-sm }
-                    >
-                      {option}
-                    </button>
-                  ))}
+                  {getActiveQuestions()[currentQuestion].options.map((option, idx) => {
+                    const isSelected = selectedAnswers[currentQuestion] === option;
+                    const btnClass = isSelected 
+                      ? "w-full text-left p-3 rounded-lg border text-sm bg-blue-50 border-blue-600 font-semibold text-slate-900" 
+                      : "w-full text-left p-3 rounded-lg border text-sm border-slate-200 text-slate-800";
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleAnswerSelect(option)}
+                        className={btnClass}
+                      >
+                        {option}
+                      </button>
+                    );
+                  })}
                 </div>
                 <div className="flex justify-between pt-4">
                   <button disabled={currentQuestion === 0} onClick={() => setCurrentQuestion(p => p - 1)} className="px-4 py-2 bg-slate-200 rounded text-sm font-bold">Prev</button>
@@ -325,7 +329,7 @@ export default function CampusLearningHub() {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask any course question..."
-                className="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-600"
+                className="flex-1 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-600 text-slate-900"
               />
               <button type="submit" className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold text-sm">Send</button>
             </form>
