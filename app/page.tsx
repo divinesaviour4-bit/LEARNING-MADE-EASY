@@ -13,6 +13,7 @@ export default function CampusLearningHub() {
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
   const [timeLeft, setTimeLeft] = useState(900); // 15 mins
   const [examSubmitted, setExamSubmitted] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(false);
   
   // AI Chat state
   const [chatMessages, setChatMessages] = useState([
@@ -42,6 +43,10 @@ export default function CampusLearningHub() {
   };
 
   const startCbtExam = () => {
+    if (!isUnlocked) {
+      setActiveTab("pricing");
+      return;
+    }
     setExamStarted(true);
     setExamSubmitted(false);
     setCurrentQuestion(0);
@@ -107,7 +112,8 @@ export default function CampusLearningHub() {
       amount: selectedPlan.price * 100,
       currency: "NGN",
       callback: function (response: any) {
-        alert("Payment complete! Reference: " + response.reference);
+        alert("Payment successful! Reference: " + response.reference);
+        setIsUnlocked(true);
         setActiveTab("cbt");
       },
       onClose: function () {
@@ -220,36 +226,6 @@ export default function CampusLearningHub() {
                 </div>
               </div>
             </section>
-
-            {/* Testimonials / Success Stories */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-slate-900/20 py-16 rounded-3xl border border-slate-800/60">
-              <div className="text-center space-y-4 mb-12">
-                <h2 className="text-2xl sm:text-3xl font-bold">Trusted by Undergraduates Across Campuses</h2>
-                <p className="text-slate-400 text-sm">See how students are transforming their GPA.</p>
-              </div>
-              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-                  <p className="text-slate-300 italic text-sm">"The GST 212 question bank and AI explanations saved me during exams. Passed with flying colors without stress!"</p>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center">E</div>
-                    <div>
-                      <div className="text-sm font-bold">Emmanuel Effiong</div>
-                      <div className="text-xs text-slate-500">AKSU 300 Level</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-                  <p className="text-slate-300 italic text-sm">"The CBT practice interface feels just like the real computer center test. Highly recommended for every UniUyo student."</p>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-violet-500/20 text-violet-400 font-bold flex items-center justify-center">I</div>
-                    <div>
-                      <div className="text-sm font-bold">Idongesit Bassey</div>
-                      <div className="text-xs text-slate-500">UniUyo 200 Level</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
           </div>
         )}
 
@@ -259,6 +235,15 @@ export default function CampusLearningHub() {
               <h2 className="text-3xl font-extrabold">Computer-Based Test (CBT) Center</h2>
               <p className="text-slate-400 text-sm">Practice under simulated examination conditions with randomized question banks.</p>
             </div>
+
+            {!isUnlocked && (
+              <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-sm flex items-center justify-between">
+                <span>🔒 CBT practice exams are locked. Complete semester payment to unlock.</span>
+                <button onClick={() => setActiveTab("pricing")} className="px-4 py-2 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400">
+                  Unlock Now (₦2,000)
+                </button>
+              </div>
+            )}
 
             {!examStarted ? (
               <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
@@ -288,7 +273,7 @@ export default function CampusLearningHub() {
                   </ul>
                 </div>
                 <button onClick={startCbtExam} className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-lg shadow-indigo-600/30 transition-all">
-                  Start Examination
+                  {isUnlocked ? "Start Examination" : "Unlock Course to Start Exam"}
                 </button>
               </div>
             ) : examSubmitted ? (
@@ -490,7 +475,7 @@ export default function CampusLearningHub() {
                   <input type="text" placeholder="Saviour Bassey" className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500" />
                 </div>
                 <div>
-                  <label className="label block text-xs font-semibold uppercase text-slate-400 mb-2">Your Message</label>
+                  <label className="block text-xs font-semibold uppercase text-slate-400 mb-2">Your Message</label>
                   <textarea rows={4} placeholder="Describe your issue or feedback..." className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500"></textarea>
                 </div>
                 <button onClick={() => alert("Message sent successfully! We will get back to you shortly.")} className="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-white transition-all">
